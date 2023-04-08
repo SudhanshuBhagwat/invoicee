@@ -1,32 +1,46 @@
 "use client";
 
-import { database } from "@/utils/firebase";
+import React, { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { format } from "date-fns"
-import React from "react";
+import { database } from "@/utils/firebase";
+import Spinner from "@/components/Spinner";
 
 const QUOTATION_DATABASE = "quotation"
 
 export default function QuotationForm() {
+  const [isSaving, setIsSaving] = useState(false);
+
   async function createQuotation(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const target = event.target;
+    const target = event.currentTarget;
+    setIsSaving(true);
 
-    await addDoc(collection(database, QUOTATION_DATABASE), {
-      owner: {
-        name: target.ownerName.value,
-        address: target.ownerAddress.value,
-        mobile: target.ownerMobile.value,
-        email: target.ownerEmail.value
-      },
-      to: {
-        name: target.clientName.value,
-        address: target.clientAddress.value,
-        mobile: target.clientMobile.value,
-        email: target.clientEmail.value
-      },
-      date: format(new Date(), "dd-MM-yyyy")
-    });
+    try {
+      await Promise.allSettled([
+        await addDoc(collection(database, QUOTATION_DATABASE), {
+          owner: {
+            name: target.ownerName.value,
+            address: target.ownerAddress.value,
+            mobile: target.ownerMobile.value,
+            email: target.ownerEmail.value
+          },
+          to: {
+            name: target.clientName.value,
+            address: target.clientAddress.value,
+            mobile: target.clientMobile.value,
+            email: target.clientEmail.value
+          },
+          date: format(new Date(), "dd-MM-yyyy")
+        }),
+        new Promise((resolve) => setTimeout(resolve, 800))
+      ])
+    } catch (e) {
+      setIsSaving(false)
+      console.error("Something went wrong");
+    }
+
+    setIsSaving(false);
   }
 
   return (
@@ -61,7 +75,7 @@ export default function QuotationForm() {
             <input id="clientEmail" name="clientEmail" className="ml-2 border rounded-md px-4 py-2" />
           </label>
         </fieldset>
-        <button type="submit" className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-md">Save Quotation</button>
+        <button type="submit" className="px-4 py-2 mt-4 bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center">{isSaving ? <Spinner /> : "Save Quotation"}</button>
       </form>
     </div>
   )
