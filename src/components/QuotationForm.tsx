@@ -96,17 +96,17 @@ export default function QuotationForm() {
           <div className="grid grid-cols-2 gap-6">
             <fieldset className="flex flex-col gap-1">
               <h2 className="text-xl font-semibold mb-3">From:</h2>
-              <DetailsInput label="Name" id="ownerName" onChange={handleChange} value={details.ownerName} />
-              <DetailsInput label="Company Name" id="ownerCompany" onChange={handleChange} value={details.ownerCompany} />
-              <DetailsInput label="Mobile No" id="ownerMobile" onChange={handleChange} value={details.ownerMobile} />
-              <DetailsInput label="Email Address" id="ownerEmail" onChange={handleChange} value={details.ownerEmail} />
+              <DetailsInput label="Name" id="ownerName" onInputChange={handleChange} value={details.ownerName} />
+              <DetailsInput label="Company Name" id="ownerCompany" onInputChange={handleChange} value={details.ownerCompany} />
+              <DetailsInput label="Mobile No" id="ownerMobile" onInputChange={handleChange} value={details.ownerMobile} />
+              <DetailsInput label="Email Address" id="ownerEmail" onInputChange={handleChange} value={details.ownerEmail} />
             </fieldset>
             <fieldset className="flex flex-col gap-1">
               <h2 className="text-xl font-semibold mb-3">Quotation To:</h2>
-              <DetailsInput label="Name" id="clientName" onChange={handleChange} value={details.clientName} />
-              <DetailsInput label="Company Name" id="clientCompany" onChange={handleChange} value={details.clientCompany} />
-              <DetailsInput label="Mobile No" id="clientMobile" onChange={handleChange} value={details.clientMobile} />
-              <DetailsInput label="Email Address" id="clientEmail" onChange={handleChange} value={details.clientEmail} />
+              <DetailsInput label="Name" id="clientName" onInputChange={handleChange} value={details.clientName} />
+              <DetailsInput label="Company Name" id="clientCompany" onInputChange={handleChange} value={details.clientCompany} />
+              <DetailsInput label="Mobile No" id="clientMobile" onInputChange={handleChange} value={details.clientMobile} />
+              <DetailsInput label="Email Address" id="clientEmail" onInputChange={handleChange} value={details.clientEmail} />
             </fieldset>
           </div>
         </form>
