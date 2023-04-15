@@ -44,7 +44,7 @@ const store = create<Store>((set, get) => ({
     const snapshot = await getCountFromServer(coll);
     const count = snapshot.data().count;
 
-    const id = count === 0 ? "Q-" + `${1}`.padStart(5, "0") : "Q-" + `${count}`.padStart(5, "0");
+    const id = count === 0 ? "Q-" + `${1}`.padStart(5, "0") : "Q-" + `${count + 1}`.padStart(5, "0");
     set({
       quotation: {
         ...get().quotation,
