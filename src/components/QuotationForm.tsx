@@ -195,7 +195,10 @@ interface Props {
 function InvoiceItemForm({ items }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
   const addItem = store(state => state.addItem);
+  const removeItem = store(state => state.removeItem);
+  const updateItem = store(state => state.updateItem);
   const [categories, setCategories] = useState<OptionWithValue<Value>[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   function removeOption(category: Value) {
     const newOptions = Array.from(categories).filter(
@@ -215,7 +218,7 @@ function InvoiceItemForm({ items }: Props) {
     event.preventDefault();
     const { title, description, amount } = event?.currentTarget;
 
-    const item: IItem = {
+    let item: IItem = {
       id: v4(),
       // @ts-ignore
       name: title.value,
@@ -224,9 +227,34 @@ function InvoiceItemForm({ items }: Props) {
       categories
     }
 
-    addItem(item);
+    if (editingId) {
+      updateItem(item, editingId);
+      setEditingId(null);
+    } else {
+      addItem(item);
+    }
     setCategories([]);
     formRef.current?.reset();
+  }
+
+  function editItem(item: IItem) {
+    if (formRef.current) {
+      const elements = formRef.current.elements as HTMLFormControlsCollection;
+      const title = (elements.namedItem("title") as HTMLInputElement);
+      const description = (elements.namedItem("description") as HTMLInputElement);
+      const price = (elements.namedItem("amount") as HTMLInputElement);
+
+      title.value = item.name;
+      description.value = item.description;
+      if (typeof item.amount === 'object') {
+        price.value = String(item.amount.value);
+      } else {
+        price.value = String(item.amount);
+      }
+      setCategories(item.categories);
+      setEditingId(item.id);
+      removeItem(item);
+    }
   }
 
   return (
@@ -234,7 +262,7 @@ function InvoiceItemForm({ items }: Props) {
       <form ref={formRef} onSubmit={addInvoiceItem} className="space-y-4">
         <div className="flex justify-between">
           <h2 className="text-xl font-semibold">Items:</h2>
-          <button type="submit" className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center">Add Item</button>
+          <button type="submit" className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center">{editingId ? 'Update Item' : 'Add Item'}</button>
         </div>
         <label className="flex flex-col gap-2 text-lg">Title<input required id="title" name="title" placeholder="Enter a title" className="text-sm w-full border rounded-md px-4 py-2" /></label>
         <label className="flex flex-col gap-2">Description
@@ -317,10 +345,10 @@ function InvoiceItemForm({ items }: Props) {
                             {typeof item.amount === "object" ? item.amount.value : `${item.amount}₹`}
                           </td>
                           <td className="text-center space-x-4 py-4 pl-3 pr-4 text-sm font-medium whitespace-nowrap sm:pr-6">
-                            <button>
+                            <button onClick={() => editItem(item)}>
                               <PencilIcon className="w-4 h-4" />
                             </button>
-                            <button>
+                            <button onClick={() => removeItem(item)}>
                               <XMarkIcon className="w-5 h-5" />
                             </button>
                           </td>

@@ -35,6 +35,8 @@ interface Store {
   addCategory(category: Value): void,
   removeCategory(category: Value): void,
   addItem(item: IItem): void
+  removeItem(item: IItem): void
+  updateItem(item: IItem, id: string): void;
 }
 
 const store = create<Store>((set, get) => ({
@@ -137,7 +139,28 @@ const store = create<Store>((set, get) => ({
         ]
       })
     )
-  )
+  ),
+  removeItem: (item: IItem) => {
+    const newItems = get().quotation.items.filter(i => i.id !== item.id)
+    set({
+      quotation: {
+        ...get().quotation,
+        items: newItems
+      }
+    })
+  },
+  updateItem: (item: IItem, id: string) => {
+    const newItems = get().quotation.items.filter(i => i.id !== id)
+    set({
+      quotation: {
+        ...get().quotation,
+        items: [
+          ...newItems,
+          item
+        ]
+      }
+    })
+  }
 }));
 
 export default store;
