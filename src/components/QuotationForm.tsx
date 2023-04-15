@@ -225,6 +225,7 @@ function InvoiceItemForm({ items }: Props) {
     }
 
     addItem(item);
+    setCategories([]);
     formRef.current?.reset();
   }
 

@@ -90,6 +90,13 @@ const store = create<Store>((set, get) => ({
       })
     )
   ),
+  clearServices: () => (
+    set(
+      produce((state) => {
+        state.quotation.services = []
+      })
+    )
+  ),
   addCategory: (category: Value) => {
     const found = get().quotation.categories.find((s: Value) => s.value === category.value);
     const quotation = get().quotation;
@@ -111,6 +118,13 @@ const store = create<Store>((set, get) => ({
           (option) => option.value !== category.value
         );
         state.quotation.services = newCategories
+      })
+    )
+  ),
+  clearCategories: () => (
+    set(
+      produce((state) => {
+        state.quotation.clearCategories = []
       })
     )
   ),

@@ -15,9 +15,9 @@ export default function Preview() {
   const totalAmount: number = quotation.items
     .map(item => {
       if (typeof item.amount === "object") {
-        return item.amount.value
+        return Number(item.amount.value)
       }
-      return item.amount;
+      return Number(item.amount);
     })
     .reduce((acc, item) => {
       return acc + item;
