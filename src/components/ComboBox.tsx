@@ -4,6 +4,7 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
 export type OptionWithValue<TOption> = {
   value: string;
+  description?: string;
 } & TOption;
 
 interface Props<TOption> {
@@ -19,7 +20,7 @@ export default function ComboBox<TOption>({
   placeholder,
   children,
 }: Props<TOption>) {
-  const [selected, setSelected] = useState<OptionWithValue<TOption>>(null);
+  const [selected, setSelected] = useState<OptionWithValue<TOption> | null>(null);
   const [query, setQuery] = useState('');
 
   const filteredOptions =
