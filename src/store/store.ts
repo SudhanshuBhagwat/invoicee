@@ -4,6 +4,7 @@ import produce from 'immer'
 import { OptionWithValue } from "@/components/ComboBox"
 import { collection, getCountFromServer } from "firebase/firestore"
 import { database } from "@/utils/firebase"
+import { format } from "date-fns"
 
 const INITIAL_STATE: IQuotation = {
   id: "",
@@ -17,7 +18,7 @@ const INITIAL_STATE: IQuotation = {
     clientMobile: "",
     clientEmail: ""
   },
-  date: "",
+  date: format(new Date(), "yyyy-MM-dd"),
   services: [],
   categories: [],
   note: [],
@@ -37,6 +38,7 @@ interface Store {
   addItem(item: IItem): void
   removeItem(item: IItem): void
   updateItem(item: IItem, id: string): void;
+  clearItems(): void;
 }
 
 const store = create<Store>((set, get) => ({
@@ -158,6 +160,14 @@ const store = create<Store>((set, get) => ({
           ...newItems,
           item
         ]
+      }
+    })
+  },
+  clearItems: () => {
+    set({
+      quotation: {
+        ...get().quotation,
+        items: []
       }
     })
   }

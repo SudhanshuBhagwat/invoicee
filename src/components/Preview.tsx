@@ -1,7 +1,6 @@
 "use client";
 
 import store from '@/store/store';
-import { format } from 'date-fns';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
@@ -33,7 +32,7 @@ export default function Preview() {
     <div ref={componentRef} className="w-full bg-white overflow-auto px-10 pb-6 pt-10">
       <div className="text-right">
         <p className="font-bold">Quote No: <span className="font-normal">{quotation.id}</span></p>
-        <p className="font-bold">Date: <span className="font-normal">{format(new Date(), 'yyyy-MM-dd')}</span></p>
+        <p className="font-bold">Date: <span className="font-normal">{quotation.date}</span></p>
       </div>
       <div className="flex justify-between mt-10">
         <div className="space-y-1">

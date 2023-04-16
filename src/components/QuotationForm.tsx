@@ -2,7 +2,6 @@
 
 import React, { useRef, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
-import { format } from "date-fns"
 import { database } from "@/utils/firebase";
 import { PencilIcon, XMarkIcon } from "@heroicons/react/20/solid"
 import { v4 } from "uuid"
@@ -90,7 +89,7 @@ export default function QuotationForm() {
       <div className="space-y-4 pb-6">
         <div className="text-right mb-8">
           <p className="text-lg font-bold">Quote No: <span className="font-medium">{quotation.id}</span></p>
-          <p className="text-lg font-bold">Date: <span className="font-medium">{format(new Date(), "yyyy-MM-dd")}</span></p>
+          <p className="text-lg font-bold">Date: <span className="font-medium">{quotation.date}</span></p>
         </div>
         <form id="details" onSubmit={createQuotation} ref={formRef} className="space-y-4">
           <div className="grid grid-cols-2 gap-6">
