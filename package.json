@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "firebase": "firebase emulators:start"
+    "firebase": "firebase emulators:start --only auth,firestore --import firebase-export --export-on-exit"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.13",
