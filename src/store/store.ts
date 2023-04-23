@@ -28,7 +28,6 @@ const INITIAL_STATE: IQuotation = {
 
 interface Store {
   quotation: IQuotation,
-  quotations: any[],
   setState: (quotation: IQuotation | string | null) => void,
   fetchInVoiceCount: () => void,
   updateDetails(id: string, value: string): void,
@@ -42,12 +41,10 @@ interface Store {
   removeItem(item: IItem): void
   updateItem(item: IItem, id: string): void;
   clearItems(): void;
-  getQuotations(): void
 }
 
 const store = create<Store>((set, get) => ({
   quotation: INITIAL_STATE,
-  quotations: [],
   setState: (initialState: IQuotation | string | null) => {
     if (typeof initialState === "string") {
       set({
@@ -191,22 +188,6 @@ const store = create<Store>((set, get) => ({
       }
     })
   },
-  getQuotations: async () => {
-    const collections = collection(database, QUOTATION_DATABASE);
-    const querySnapshot = await getDocs(collections);
-    let quotations = [];
-    querySnapshot.forEach((doc) => {
-      quotations.push({
-        id: doc.id,
-        ...doc.data()
-      })
-    });
-
-    set({
-      quotation: get().quotation,
-      quotations
-    })
-  }
 }));
 
 export default store;
