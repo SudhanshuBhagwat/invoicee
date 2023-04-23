@@ -1,7 +1,7 @@
 import { IItem, IQuotation, QUOTATION_DATABASE, Value } from "../components/Form"
 import { create } from "zustand"
 import produce from 'immer'
-import { OptionWithValue } from "@/components/ComboBox"
+import { OptionWithValue } from "@/components/ui/ComboBox"
 import { collection, getCountFromServer, getDocs } from "firebase/firestore"
 import { database } from "@/utils/firebase"
 import { format } from "date-fns"
