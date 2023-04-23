@@ -11,7 +11,11 @@ async function fetchQuotation(id: string) {
   return redirect("/quotation");
 }
 
-export default async function Page({ params }) {
+interface Props {
+  params: { id: string };
+}
+
+export default async function Page({ params }: Props) {
   const quotation = await fetchQuotation(params.id);
 
   return <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
