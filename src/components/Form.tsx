@@ -1,16 +1,16 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { database } from "@/utils/firebase";
 import { PencilIcon, XMarkIcon } from "@heroicons/react/20/solid"
 import { v4 } from "uuid"
 import store from "@/store/store";
 
-import ComboBox, { OptionWithValue } from "./ComboBox";
-import Pill from "./Pill";
+import ComboBox, { OptionWithValue } from "@/components/ui/ComboBox";
+import Pill from "@/components/ui/Pill";
+import Spinner from "@/components/ui/Spinner";
 import DetailsInput from "./DetailsInput";
-import Spinner from "./Spinner";
 
 export const QUOTATION_DATABASE = "quotation"
 
@@ -45,10 +45,18 @@ export type IQuotation = {
   date: string,
   services: OptionWithValue<Value>[],
   categories: OptionWithValue<Value>[],
-  note: Array<string>
+  note: Array<string>,
+  amount: number
 }
 
-export default function QuotationForm() {
+interface FormProps {
+  type: "Quotation" | "Invoice"
+  initial: IQuotation | string | null;
+}
+
+export default function Form({ type, initial }: FormProps) {
+  const setState = store(state => state.setState);
+
   const [isSaving, setIsSaving] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const quotation = store(state => state.quotation);
@@ -56,17 +64,33 @@ export default function QuotationForm() {
   const items = store(state => state.quotation.items);
   const updateDetails = store(state => state.updateDetails);
 
+  const formType = type === "Quotation" ? "Q" : "I";
+
+  useEffect(() => {
+    setState(initial);
+  }, []);
+
   async function createQuotation(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSaving(true);
+    const totalAmount: number = items
+      .map(item => {
+        if (typeof item.amount === "object") {
+          return Number(item.amount.value)
+        }
+        return Number(item.amount);
+      })
+      .reduce((acc, item) => {
+        return acc + item;
+      }, 0);
     try {
       await Promise.allSettled([
-        await setDoc(doc(database, QUOTATION_DATABASE, quotation.id), {
-          ...quotation
+        await setDoc(doc(database, QUOTATION_DATABASE, `${formType}-${quotation.id}`), {
+          ...quotation,
+          amount: totalAmount
         }),
         new Promise((resolve) => setTimeout(resolve, 800))
       ])
-      console.log(quotation);
     } catch (e) {
       setIsSaving(false)
       console.error("Something went wrong");
@@ -83,12 +107,12 @@ export default function QuotationForm() {
     <div className="p-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">
-          Editor <span className="text-base font-normal text-gray-500">(Start typing to see the changes in effect)</span>
+          {type} Editor <span className="text-base font-normal text-gray-500">(Start typing to see the changes in effect)</span>
         </h2>
       </div>
       <div className="space-y-4 pb-6">
         <div className="text-right mb-8">
-          <p className="text-lg font-bold">Quote No: <span className="font-medium">{quotation.id}</span></p>
+          <p className="text-lg font-bold">{type === "Quotation" ? "Quote" : "Invoice"} No: <span className="font-medium">{quotation.id}</span></p>
           <p className="text-lg font-bold">Date: <span className="font-medium">{quotation.date}</span></p>
         </div>
         <form id="details" onSubmit={createQuotation} ref={formRef} className="space-y-4">
@@ -101,7 +125,7 @@ export default function QuotationForm() {
               <DetailsInput label="Email Address" id="ownerEmail" onInputChange={handleChange} value={details.ownerEmail} />
             </fieldset>
             <fieldset className="flex flex-col gap-1">
-              <h2 className="text-xl font-semibold mb-3">Quotation To:</h2>
+              <h2 className="text-xl font-semibold mb-3">{type} To:</h2>
               <DetailsInput label="Name" id="clientName" onInputChange={handleChange} value={details.clientName} />
               <DetailsInput label="Company Name" id="clientCompany" onInputChange={handleChange} value={details.clientCompany} />
               <DetailsInput label="Mobile No" id="clientMobile" onInputChange={handleChange} value={details.clientMobile} />
@@ -111,7 +135,7 @@ export default function QuotationForm() {
         </form>
         <ServicesForm />
         <InvoiceItemForm items={items} />
-        <button type="submit" form="details" className="px-4 py-2 mt-4 w-full bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center">{isSaving ? <Spinner /> : "Save Quotation"}</button>
+        <button type="submit" form="details" className="px-4 py-2 mt-4 w-full bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center">{isSaving ? <Spinner /> : `Save ${type}`}</button>
       </div>
     </div>
   )

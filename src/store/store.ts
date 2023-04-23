@@ -1,8 +1,8 @@
-import { IItem, IQuotation, QUOTATION_DATABASE, Value } from "../components/QuotationForm"
+import { IItem, IQuotation, QUOTATION_DATABASE, Value } from "../components/Form"
 import { create } from "zustand"
 import produce from 'immer'
 import { OptionWithValue } from "@/components/ComboBox"
-import { collection, getCountFromServer } from "firebase/firestore"
+import { collection, getCountFromServer, getDocs } from "firebase/firestore"
 import { database } from "@/utils/firebase"
 import { format } from "date-fns"
 
@@ -23,10 +23,13 @@ const INITIAL_STATE: IQuotation = {
   categories: [],
   note: [],
   items: [],
+  amount: 0,
 }
 
 interface Store {
   quotation: IQuotation,
+  quotations: any[],
+  setState: (quotation: IQuotation | string | null) => void,
   fetchInVoiceCount: () => void,
   updateDetails(id: string, value: string): void,
   addItem(item: IItem): void,
@@ -39,16 +42,33 @@ interface Store {
   removeItem(item: IItem): void
   updateItem(item: IItem, id: string): void;
   clearItems(): void;
+  getQuotations(): void
 }
 
 const store = create<Store>((set, get) => ({
   quotation: INITIAL_STATE,
+  quotations: [],
+  setState: (initialState: IQuotation | string | null) => {
+    if (typeof initialState === "string") {
+      set({
+        quotation: {
+          ...INITIAL_STATE,
+          id: String(initialState)
+        }
+      })
+    } else {
+      const state = initialState ? initialState : INITIAL_STATE;
+      set({
+        quotation: state
+      })
+    }
+  },
   fetchInVoiceCount: async () => {
     const coll = collection(database, QUOTATION_DATABASE);
     const snapshot = await getCountFromServer(coll);
     const count = snapshot.data().count;
 
-    const id = count === 0 ? "Q-" + `${1}`.padStart(5, "0") : "Q-" + `${count + 1}`.padStart(5, "0");
+    const id = count === 0 ? `${1}`.padStart(5, "0") : `${count + 1}`.padStart(5, "0");
     set({
       quotation: {
         ...get().quotation,
@@ -56,13 +76,13 @@ const store = create<Store>((set, get) => ({
       }
     })
   },
-  updateDetails: (id: string, value: string) => (
+  updateDetails: (id: string, value: string) => {
     set(
       produce((state) => {
         state.quotation.details[id] = value;
       })
     )
-  ),
+  },
   updateDate: (date: string) => (
     set(
       produce((state) => {
@@ -169,6 +189,22 @@ const store = create<Store>((set, get) => ({
         ...get().quotation,
         items: []
       }
+    })
+  },
+  getQuotations: async () => {
+    const collections = collection(database, QUOTATION_DATABASE);
+    const querySnapshot = await getDocs(collections);
+    let quotations = [];
+    querySnapshot.forEach((doc) => {
+      quotations.push({
+        id: doc.id,
+        ...doc.data()
+      })
+    });
+
+    set({
+      quotation: get().quotation,
+      quotations
     })
   }
 }));
