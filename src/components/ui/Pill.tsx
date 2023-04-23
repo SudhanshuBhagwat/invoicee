@@ -1,5 +1,5 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import { Value } from './QuotationForm';
+import { Value } from '@/components/Form';
 import { OptionWithValue } from './ComboBox';
 
 interface Props {
