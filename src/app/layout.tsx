@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="h-screen">
         <nav className="px-6 py-4 shadow flex items-center justify-between">
           <h1 className="text-3xl font-bold">Invoicee</h1>
           <ul>
