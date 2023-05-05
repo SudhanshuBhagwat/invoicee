@@ -1,4 +1,3 @@
-import 'server-only';
 import * as admin from 'firebase-admin';
 
 if (process.env.NODE_ENV === "development") {
@@ -17,4 +16,4 @@ if (!admin.apps.length) {
 }
 
 export const firestore = admin.firestore();
-
+export const firebaseAuth = admin.auth();

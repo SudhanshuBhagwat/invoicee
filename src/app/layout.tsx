@@ -1,31 +1,32 @@
-import NavLink from '@/components/ui/NavLink'
-import 'tailwindcss/tailwind.css'
+import Navbar from "@/components/Navbar";
+import SupabaseProvider from "@/utils/supabase-provider";
+import "../styles/globals.css";
+import { Metadata } from "next";
+import { createServerClient } from "@/utils/supabase-server";
 
-export const metadata = {
-  title: 'Invoicee',
-  description: 'Invoice and Quotation Generator',
-}
+export const metadata: Metadata = {
+  title: "Invoicee",
+  description: "A simple Invoicing application for all businesses.",
+};
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
+  const supabase = createServerClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
   return (
     <html lang="en">
       <body className="h-screen">
-        <nav className="px-6 py-4 shadow flex items-center justify-between">
-          <h1 className="text-3xl font-bold">Invoicee</h1>
-          <ul>
-            <li>
-              <NavLink href="/">Dashboard</NavLink>
-            </li>
-          </ul>
-        </nav>
-        <main className="px-6 py-4 overflow-auto">
-          {children}
-        </main>
+        <SupabaseProvider>
+          {session && <Navbar />}
+          <main className="">{children}</main>
+        </SupabaseProvider>
       </body>
-    </html >
-  )
+    </html>
+  );
 }
