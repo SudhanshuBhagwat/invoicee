@@ -31,7 +31,6 @@ specifiers:
   tailwindcss-animate: ^1.0.5
   typescript: 5.0.3
   uuid: ^9.0.0
-  valtio: ^1.10.4
   zustand: ^4.3.7
 
 dependencies:
@@ -64,7 +63,6 @@ dependencies:
   tailwindcss-animate: 1.0.5_tailwindcss@3.3.1
   typescript: 5.0.3
   uuid: 9.0.0
-  valtio: 1.10.4_react@18.2.0
   zustand: 4.3.7_immer@9.0.21+react@18.2.0
 
 devDependencies:
@@ -3901,10 +3899,6 @@ packages:
       long: 5.2.1
     dev: false
 
-  /proxy-compare/2.5.0:
-    resolution: {integrity: sha512-f1us0OsVAJ3tdIMXGQx2lmseYS4YXe4W+sKF5g5ww/jV+5ogMadPt+sIZ+88Ga9kvMJsrRNWzCrKPpr6pMWYbA==}
-    dev: false
-
   /pseudomap/1.0.2:
     resolution: {integrity: sha512-b/YwNhb8lk1Zz2+bXXpS/LK9OisiZZ1SNsSLxN1x2OXVEhW2Ckr/7mWE5vrC1ZTiJlD9g19jWszTmJsB+oEpFQ==}
     dev: false
@@ -4450,20 +4444,6 @@ packages:
   /uuid/9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
-    dev: false
-
-  /valtio/1.10.4_react@18.2.0:
-    resolution: {integrity: sha512-gqGWh0DjtDMAy8Jaui8ufFoxlQB1k1NiA/QHrpKoTUk9EeY331WKeYhvtGn1u703RcefrDCez7PT+qeCu9lWEw==}
-    engines: {node: '>=12.20.0'}
-    peerDependencies:
-      react: '>=16.8'
-    peerDependenciesMeta:
-      react:
-        optional: true
-    dependencies:
-      proxy-compare: 2.5.0
-      react: 18.2.0
-      use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
   /webidl-conversions/3.0.1:

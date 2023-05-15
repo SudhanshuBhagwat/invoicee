@@ -1,19 +1,55 @@
-import Form from "@/components/Form";
+import Form, { IQuotation } from "@/components/Form";
 import Preview from "@/components/Preview";
-import { firestore } from "@/utils/firebase-admin";
-
-async function fetchQuotationCount() {
-  const result = await firestore.collection("quotation").count().get();
-  const count = result.data().count;
-
-  return count === 0 ? `${1}`.padStart(5, "0") : `${Number(count) + 1}`.padStart(5, "0");
-}
+import InvoiceItemForm from "@/components/invoice-item-form";
+import TableEditor from "@/components/table-form";
+import { getEntityNumber, getServices, getUser } from "@/services/database";
+import { INITIAL_STATE } from "@/store/store";
+import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { headers, cookies } from "next/headers";
 
 export default async function Page() {
-  const count = await fetchQuotationCount();
+  const supabase = createServerComponentSupabaseClient({
+    headers,
+    cookies,
+  });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  return <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
-    <Form type="Quotation" initial={count} />
-    <Preview />
-  </div>
+  const { services, categories } = await getServices(
+    supabase,
+    session?.user.id!
+  );
+
+  const quotationCount = await getEntityNumber(
+    supabase,
+    "Quotations",
+    session?.user.id!
+  );
+
+  const userData = await getUser(supabase, session?.user.id!);
+
+  const initialData: IQuotation = {
+    ...INITIAL_STATE,
+    details: {
+      ...INITIAL_STATE.details,
+      ownerName: userData?.name,
+      ownerCompany: userData?.company,
+      ownerEmail: userData?.email,
+      ownerMobile: userData?.mobile,
+    },
+    id: `${Number(quotationCount) + 1}`.padStart(5, "0"),
+  };
+
+  const type = "Quotation";
+
+  return (
+    <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
+      <Form initial={initialData} type="Quotation">
+        {/* <InvoiceItemForm categories={[...services, ...categories]} /> */}
+        <TableEditor />
+      </Form>
+      <Preview />
+    </div>
+  );
 }

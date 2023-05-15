@@ -1,6 +1,6 @@
-import { XMarkIcon } from '@heroicons/react/20/solid';
-import { Value } from '@/components/Form';
-import { OptionWithValue } from './ComboBox';
+import { XMarkIcon } from "@heroicons/react/20/solid";
+import { Value } from "@/components/Form";
+import { OptionWithValue } from "./ComboBox";
 
 interface Props {
   item: Value;
@@ -19,4 +19,3 @@ export default function Pill({ item, onRemove }: Props) {
     </p>
   );
 }
-

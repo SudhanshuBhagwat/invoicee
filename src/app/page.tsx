@@ -1,11 +1,13 @@
 import Dashboard from "@/components/Dashboard";
 import { firestore } from "@/utils/firebase-admin";
-import { createServerClient } from "@/utils/supabase-server";
+import { headers, cookies } from "next/headers";
+import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { redirect } from "next/navigation";
+import { getDashboardQuotations, getServices } from "@/services/database";
 
 export interface Quotation {
-  number: string;
-  name: string;
+  quote_number: string;
+  client_name: string;
   date: string;
   amount: number;
 }
@@ -15,8 +17,8 @@ async function getQuotations() {
   const results = await firestore.collection("quotation").get();
   results.forEach((result) => {
     quotationsList.push({
-      number: result.id,
-      name: result.data().details.clientName,
+      quote_number: result.id,
+      client_name: result.data().details.clientName,
       date: result.data().date,
       amount: result.data().amount,
     });
@@ -30,8 +32,8 @@ async function getInvoices() {
   const results = await firestore.collection("invoices").get();
   results.forEach((result) => {
     quotationsList.push({
-      number: result.id,
-      name: result.data().details.clientName,
+      quote_number: result.id,
+      client_name: result.data().details.clientName,
       date: result.data().date,
       amount: result.data().amount,
     });
@@ -43,22 +45,32 @@ async function getInvoices() {
 export default async function Page() {
   // const quotations = await getQuotations();
   // const invoices = await getInvoices();
-  const quotations: Quotation[] = [];
   const invoices: Quotation[] = [];
-  const supabase = createServerClient();
+  const supabase = createServerComponentSupabaseClient({
+    headers,
+    cookies,
+  });
   const {
     data: { session },
-    error,
   } = await supabase.auth.getSession();
 
   if (!session) {
     redirect("/auth");
   }
 
+  let { data: quotations, error } = await getDashboardQuotations(
+    supabase,
+    session.user.id
+  );
+
+  // let { data: service_pricing } = await supabase
+  //   .from("service_pricing")
+  //   .select(`*, services(*, services(*)), quotations(*)`);
+
   return (
     <main className="antialiased p-6">
       <h1 className="text-2xl font-bold">Dashboard</h1>
-      <Dashboard quotations={quotations} invoices={invoices} />
+      <Dashboard quotations={quotations ?? []} invoices={invoices} />
     </main>
   );
 }

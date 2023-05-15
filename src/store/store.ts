@@ -1,12 +1,17 @@
-import { IItem, IQuotation, QUOTATION_DATABASE, Value } from "../components/Form"
-import { create } from "zustand"
-import produce from 'immer'
-import { OptionWithValue } from "@/components/ui/ComboBox"
-import { collection, getCountFromServer, getDocs } from "firebase/firestore"
-import { database } from "@/utils/firebase"
-import { format } from "date-fns"
+import {
+  IItem,
+  IQuotation,
+  QUOTATION_DATABASE,
+  Value,
+} from "../components/Form";
+import { create } from "zustand";
+import produce from "immer";
+import { OptionWithValue } from "@/components/ui/ComboBox";
+import { collection, getCountFromServer, getDocs } from "firebase/firestore";
+import { database } from "@/utils/firebase";
+import { format } from "date-fns";
 
-const INITIAL_STATE: IQuotation = {
+export const INITIAL_STATE: IQuotation = {
   id: "",
   details: {
     ownerName: "",
@@ -16,7 +21,7 @@ const INITIAL_STATE: IQuotation = {
     clientName: "",
     clientCompany: "",
     clientMobile: "",
-    clientEmail: ""
+    clientEmail: "",
   },
   date: format(new Date(), "yyyy-MM-dd"),
   services: [],
@@ -24,40 +29,48 @@ const INITIAL_STATE: IQuotation = {
   note: [],
   items: [],
   amount: 0,
-}
+};
 
 interface Store {
-  quotation: IQuotation,
-  setState: (quotation: IQuotation | string | null) => void,
-  fetchInVoiceCount: () => void,
-  updateDetails(id: string, value: string): void,
-  addItem(item: IItem): void,
-  updateDate(date: string): void,
-  addService(service: Value): void,
-  removeService(service: Value): void,
-  addCategory(category: Value): void,
-  removeCategory(category: Value): void,
-  addItem(item: IItem): void
-  removeItem(item: IItem): void
+  quotation: IQuotation;
+  setId: (id: string) => void;
+  setState: (quotation: IQuotation | string | null) => void;
+  fetchInVoiceCount: () => void;
+  updateField(id: string, value: string): void;
+  addItem(item: IItem): void;
+  updateDate(date: string): void;
+  addService(service: Value): void;
+  removeService(service: Value): void;
+  addCategory(category: Value): void;
+  removeCategory(category: Value): void;
+  removeItem(item: IItem): void;
   updateItem(item: IItem, id: string): void;
   clearItems(): void;
 }
 
 const store = create<Store>((set, get) => ({
   quotation: INITIAL_STATE,
+  setId: (id: string) => {
+    set({
+      quotation: {
+        ...get().quotation,
+        id: `${Number(id) + 1}`.padStart(5, "0"),
+      },
+    });
+  },
   setState: (initialState: IQuotation | string | null) => {
     if (typeof initialState === "string") {
       set({
         quotation: {
           ...INITIAL_STATE,
-          id: String(initialState)
-        }
-      })
+          id: String(initialState),
+        },
+      });
     } else {
       const state = initialState ? initialState : INITIAL_STATE;
       set({
-        quotation: state
-      })
+        quotation: state,
+      });
     }
   },
   fetchInVoiceCount: async () => {
@@ -65,30 +78,32 @@ const store = create<Store>((set, get) => ({
     const snapshot = await getCountFromServer(coll);
     const count = snapshot.data().count;
 
-    const id = count === 0 ? `${1}`.padStart(5, "0") : `${count + 1}`.padStart(5, "0");
+    const id =
+      count === 0 ? `${1}`.padStart(5, "0") : `${count + 1}`.padStart(5, "0");
     set({
       quotation: {
         ...get().quotation,
-        id
-      }
-    })
+        id,
+      },
+    });
   },
-  updateDetails: (id: string, value: string) => {
+  updateField: (id: string, value: string) => {
     set(
       produce((state) => {
         state.quotation.details[id] = value;
       })
-    )
+    );
   },
-  updateDate: (date: string) => (
+  updateDate: (date: string) =>
     set(
       produce((state) => {
         state.date = date;
       })
-    )
-  ),
+    ),
   addService: (service: Value) => {
-    const found = get().quotation.services.find((s: Value) => s.value === service.value);
+    const found = get().quotation.services.find(
+      (s: Value) => s.value === service.value
+    );
     const quotation = get().quotation;
     let services = get().quotation.services;
     if (!found) {
@@ -96,30 +111,30 @@ const store = create<Store>((set, get) => ({
       set({
         quotation: {
           ...quotation,
-          services
-        }
-      })
+          services,
+        },
+      });
     }
   },
-  removeService: (service: Value) => (
+  removeService: (service: Value) =>
     set(
       produce((state) => {
-        const newServices = Array.from(state.quotation.services as OptionWithValue<Value>[]).filter(
-          (option) => option.value !== service.value
-        );
-        state.quotation.services = newServices
+        const newServices = Array.from(
+          state.quotation.services as OptionWithValue<Value>[]
+        ).filter((option) => option.value !== service.value);
+        state.quotation.services = newServices;
       })
-    )
-  ),
-  clearServices: () => (
+    ),
+  clearServices: () =>
     set(
       produce((state) => {
-        state.quotation.services = []
+        state.quotation.services = [];
       })
-    )
-  ),
+    ),
   addCategory: (category: Value) => {
-    const found = get().quotation.categories.find((s: Value) => s.value === category.value);
+    const found = get().quotation.categories.find(
+      (s: Value) => s.value === category.value
+    );
     const quotation = get().quotation;
     let categories = get().quotation.categories;
     if (!found) {
@@ -127,66 +142,57 @@ const store = create<Store>((set, get) => ({
       set({
         quotation: {
           ...quotation,
-          categories
-        }
-      })
+          categories,
+        },
+      });
     }
   },
-  removeCategory: (category: Value) => (
+  removeCategory: (category: Value) =>
     set(
       produce((state) => {
-        const newCategories = Array.from(state.quotation.categories as OptionWithValue<Value>[]).filter(
-          (option) => option.value !== category.value
-        );
-        state.quotation.services = newCategories
+        const newCategories = Array.from(
+          state.quotation.categories as OptionWithValue<Value>[]
+        ).filter((option) => option.value !== category.value);
+        state.quotation.categories = newCategories;
       })
-    )
-  ),
-  clearCategories: () => (
+    ),
+  clearCategories: () =>
     set(
       produce((state) => {
-        state.quotation.clearCategories = []
+        state.quotation.clearCategories = [];
       })
-    )
-  ),
-  addItem: (item: IItem) => (
+    ),
+  addItem: (item: IItem) =>
     set(
       produce((state) => {
-        state.quotation.items = [
-          ...state.quotation.items,
-          item
-        ]
+        state.quotation.items = [...state.quotation.items, item];
       })
-    )
-  ),
+    ),
   removeItem: (item: IItem) => {
-    const newItems = get().quotation.items.filter(i => i.id !== item.id)
+    const newItems = get().quotation.items.filter((i) => i.id !== item.id);
     set({
       quotation: {
         ...get().quotation,
-        items: newItems
-      }
-    })
+        items: newItems,
+      },
+    });
   },
   updateItem: (item: IItem, id: string) => {
-    const newItems = get().quotation.items.filter(i => i.id !== id)
+    const newItems = get().quotation.items.filter((i) => i.id !== id);
     set({
       quotation: {
         ...get().quotation,
-        items: [
-          ...newItems,
-          item
-        ]
-      }
-    })
+        items: [...newItems, item],
+      },
+    });
   },
   clearItems: () => {
     set({
       quotation: {
         ...get().quotation,
-        items: []
-      }
-    })
+        items: [],
+      },
+    });
   },
 }));
 

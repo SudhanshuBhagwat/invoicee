@@ -16,10 +16,12 @@ interface Props {
 }
 
 export default async function Page({ params }: Props) {
-  const quotation = await fetchQuotation(params.id);
+  // const quotation = await fetchQuotation(params.id);
 
-  return <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
-    <Form type="Quotation" initial={quotation} />
-    <Preview />
-  </div>
+  return (
+    <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
+      <Form type="Quotation" />
+      <Preview />
+    </div>
+  );
 }
