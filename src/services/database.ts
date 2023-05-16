@@ -1,9 +1,11 @@
 import { Quotation } from "@/app/page";
 import { IQuotation, Value } from "@/components/Form";
+import { Item } from "@/components/table-form";
 import { PostgrestSingleResponse, SupabaseClient } from "@supabase/supabase-js";
 
 const QUOTATIONS: string = "quotations";
 const USERS: string = "users";
+const SERVICES: string = "services";
 
 export async function getEntityNumber(
   supabase: SupabaseClient,
@@ -59,6 +61,21 @@ export async function createQuotation(
     created_by: userId,
     items: quotation.items,
   });
+
+  return data;
+}
+
+export default async function updateQuotationCount(
+  supabase: SupabaseClient,
+  quotationCount: number,
+  userId: string
+) {
+  const { data } = await supabase
+    .from(USERS)
+    .update({
+      quotations: quotationCount,
+    })
+    .eq("id", userId);
 
   return data;
 }

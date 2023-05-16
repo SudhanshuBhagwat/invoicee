@@ -1,5 +1,4 @@
 import Dashboard from "@/components/Dashboard";
-import { firestore } from "@/utils/firebase-admin";
 import { headers, cookies } from "next/headers";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { redirect } from "next/navigation";

@@ -4,7 +4,7 @@ import store from "@/store/store";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 import Spinner from "@/components/ui/Spinner";
-import { createQuotation } from "@/services/database";
+import updateQuotationCount, { createQuotation } from "@/services/database";
 import { useSupabase } from "@/utils/supabase-provider";
 import DetailsInput from "./DetailsInput";
 import { Item } from "./table-form";
@@ -81,6 +81,7 @@ export default function Form({ type, initial, children }: FormProps) {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
+    const quotationCount = Number(quotation.id.substring(2));
     try {
       await Promise.allSettled([
         await createQuotation(
@@ -91,7 +92,8 @@ export default function Form({ type, initial, children }: FormProps) {
           },
           user!.id
         ),
-        new Promise((resolve) => setTimeout(resolve, 5000)),
+        await updateQuotationCount(supabase, quotationCount, user!.id),
+        new Promise((resolve) => setTimeout(resolve, 1000)),
       ]);
     } catch (e) {
       setIsLoading(false);
