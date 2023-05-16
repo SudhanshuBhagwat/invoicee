@@ -29,7 +29,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         // @ts-ignore
         redirectTo:
           process.env.NODE_ENV === "development"
-            ? "https://localhost:3000"
+            ? "http://localhost:3000"
             : process.env.VERCEL_URL,
       },
     });
