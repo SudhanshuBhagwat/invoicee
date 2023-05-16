@@ -3,6 +3,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import store from "@/store/store";
 import { ChangeEvent, InputHTMLAttributes } from "react";
+import { v4 } from "uuid";
 
 export interface SubItem {
   id: string;
@@ -37,7 +38,7 @@ export default function TableForm() {
 
   function renderNestedItems(items: Item) {
     return items.category.map((category, index) => (
-      <tr key={`${category}-${index}`}>
+      <tr key={`${v4()}`}>
         {index === 0 && (
           <td rowSpan={items.category.length + 1} className="border">
             <FormInput
@@ -98,7 +99,7 @@ export default function TableForm() {
               return (
                 <>
                   {renderNestedItems(d)}
-                  <tr key={`${d.name}-${d.id}-ADD`}>
+                  <tr key={`${v4()}-ADD`}>
                     <td colSpan={2} className="border">
                       <button
                         onClick={() => addCategory(d.id)}
