@@ -8,20 +8,13 @@ import Spinner from "@/components/ui/Spinner";
 import { createQuotation } from "@/services/database";
 import { useSupabase } from "@/utils/supabase-provider";
 import DetailsInput from "./DetailsInput";
+import { Item } from "./table-form";
 
 export const QUOTATION_DATABASE = "quotation";
 
 export type IAmount = {
   value: number;
   description: string;
-};
-
-export type IItem = {
-  id: string;
-  name: string;
-  description: string;
-  categories: OptionWithValue<Value>[];
-  amount: number | IAmount;
 };
 
 export type IDetails = {
@@ -44,7 +37,7 @@ export type Value = {
 export type IQuotation = {
   id: string;
   details: IDetails;
-  items: IItem[];
+  items: Item[];
   date: string;
   services: OptionWithValue<Value>[];
   categories: OptionWithValue<Value>[];
@@ -73,12 +66,12 @@ export default function Form({ type, initial, children }: FormProps) {
     setState(initial);
   }, []);
 
-  const totalAmount: number = items
+  const totalAmount: number = quotation.items
     .map((item) => {
-      if (typeof item.amount === "object") {
-        return Number(item.amount.value);
-      }
-      return Number(item.amount);
+      return item.amount.reduce(
+        (acc, subItem) => acc + Number(subItem.value),
+        0
+      );
     })
     .reduce((acc, item) => {
       return acc + item;
@@ -120,6 +113,13 @@ export default function Form({ type, initial, children }: FormProps) {
             (Start typing to see the changes in effect)
           </span>
         </h2>
+        <button
+          type="submit"
+          form="details"
+          className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center"
+        >
+          {isLoading ? <Spinner /> : "Save"}
+        </button>
       </div>
       <div className="space-y-4 pb-6">
         <div className="text-right mb-8">
@@ -195,13 +195,6 @@ export default function Form({ type, initial, children }: FormProps) {
         </form>
         {children}
       </div>
-      <button
-        type="submit"
-        form="details"
-        className="px-4 py-2 mt-4 w-full bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center"
-      >
-        {isLoading ? <Spinner /> : `Save ${type}`}
-      </button>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import store from "@/store/store";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import { Item } from "./table-form";
 
 export default function Preview() {
   const componentRef = useRef<HTMLDivElement>(null);
@@ -13,10 +14,10 @@ export default function Preview() {
   });
   const totalAmount: number = quotation.items
     .map((item) => {
-      if (typeof item.amount === "object") {
-        return Number(item.amount.value);
-      }
-      return Number(item.amount);
+      return item.amount.reduce(
+        (acc, subItem) => acc + Number(subItem.value),
+        0
+      );
     })
     .reduce((acc, item) => {
       return acc + item;
@@ -61,27 +62,6 @@ export default function Preview() {
             <p>{quotation.details.clientEmail}</p>
           </div>
         </div>
-        <div className="mt-6 flex gap-10">
-          <div>
-            <h2 className="text-lg font-bold">Services:</h2>
-            <ul className="ml-4 list-disc">
-              {quotation.services.map((service) => (
-                <li key={service.value}>{service.value}</li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2 className="text-lg font-bold">Categories:</h2>
-            <ul className="ml-4 list-disc">
-              {quotation.categories.map((category) => (
-                <li>
-                  {category.value}{" "}
-                  <span className="text-slate-600">{category.description}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
         <div className="overflow-x-auto mt-6 sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
             <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5">
@@ -109,35 +89,43 @@ export default function Preview() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {quotation.items.map((item, idx) => (
-                    <tr key={idx}>
-                      <td className="py-4 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6">
-                        {item.name}
-                        <span className="text-sm mt-2 text-gray-600">
-                          {item.description}
-                        </span>
-                      </td>
-                      <td className="px-3 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        <ul className="list-disc">
-                          {item.categories.map((category) => (
-                            <li key={category.value}>{category.value}</li>
-                          ))}
-                        </ul>
-                      </td>
-                      <td className="px-3 py-4 text-sm text-gray-800 whitespace-nowrap">
-                        {typeof item.amount === "object"
-                          ? item.amount.value
-                          : `${item.amount}₹`}
-                      </td>
-                    </tr>
-                  ))}
+                  {quotation.items.map((item: Item, idx: number) => {
+                    return item.category.map((category, index) => (
+                      <tr key={`${category}-${index}`}>
+                        {index === 0 && (
+                          <td
+                            className="text-xl p-3 pl-4 pr-3 border-r border-gray-200 font-medium text-gray-900 whitespace-nowrap sm:pl-6"
+                            rowSpan={item.category.length}
+                          >
+                            {item.name}
+                          </td>
+                        )}
+                        <td className="p-2 text-sm text-gray-800 whitespace-nowrap border-r border-gray-200">
+                          {category.value}
+                        </td>
+                        <td className="p-2 text-sm text-gray-800 whitespace-nowrap">
+                          {new Intl.NumberFormat("en-IN", {
+                            maximumFractionDigits: 2,
+                            style: "currency",
+                            currency: "INR",
+                          }).format(
+                            Number(quotation.items[idx].amount[index].value)
+                          )}
+                        </td>
+                      </tr>
+                    ));
+                  })}
                   <tr>
-                    <td className="py-4 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
-                    <td className="px-3 py-4 text-md font-bold text-gray-800 whitespace-nowrap">
+                    <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
+                    <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
                       Total:
                     </td>
-                    <td className="px-3 py-4 text-md font-bold text-gray-800 whitespace-nowrap">
-                      {totalAmount}₹
+                    <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                      {new Intl.NumberFormat("en-IN", {
+                        maximumFractionDigits: 2,
+                        style: "currency",
+                        currency: "INR",
+                      }).format(Number(totalAmount))}
                     </td>
                   </tr>
                 </tbody>

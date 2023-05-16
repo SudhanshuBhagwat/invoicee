@@ -1,6 +1,5 @@
 import Form, { IQuotation } from "@/components/Form";
 import Preview from "@/components/Preview";
-import InvoiceItemForm from "@/components/invoice-item-form";
 import TableEditor from "@/components/table-form";
 import { getEntityNumber, getServices, getUser } from "@/services/database";
 import { INITIAL_STATE } from "@/store/store";
@@ -46,7 +45,6 @@ export default async function Page() {
   return (
     <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
       <Form initial={initialData} type="Quotation">
-        {/* <InvoiceItemForm categories={[...services, ...categories]} /> */}
         <TableEditor />
       </Form>
       <Preview />
