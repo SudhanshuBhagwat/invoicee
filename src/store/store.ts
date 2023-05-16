@@ -23,6 +23,7 @@ export const INITIAL_STATE: IQuotation = {
   note: [],
   items: [],
   amount: 0,
+  number: "",
 };
 
 interface Store {
@@ -43,7 +44,7 @@ const store = create<Store>((set, get) => ({
     set({
       quotation: {
         ...get().quotation,
-        id: `${Number(id) + 1}`.padStart(5, "0"),
+        id,
       },
     });
   },
@@ -58,7 +59,10 @@ const store = create<Store>((set, get) => ({
     } else {
       const state = initialState ? initialState : INITIAL_STATE;
       set({
-        quotation: state,
+        quotation: {
+          ...state,
+          items: [],
+        },
       });
     }
   },

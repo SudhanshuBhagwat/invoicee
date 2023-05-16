@@ -36,7 +36,7 @@ export async function getDashboardQuotations(
 ) {
   const { data, error } = (await supabase
     .from(QUOTATIONS)
-    .select("client_name, quote_number, date, amount")
+    .select("id, client_name, quote_number, date, amount")
     .eq("created_by", userId)) as PostgrestSingleResponse<Quotation[]>;
 
   return {
@@ -45,27 +45,48 @@ export async function getDashboardQuotations(
   };
 }
 
+export async function getQuotation(
+  supabase: SupabaseClient,
+  quotationId: string,
+  userId: string
+) {
+  const { data, error } = await supabase
+    .from(QUOTATIONS)
+    .select()
+    .filter("id", "eq", quotationId)
+    .filter("created_by", "eq", userId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data[0];
+}
+
 export async function createQuotation(
   supabase: SupabaseClient,
   quotation: IQuotation,
   userId: string
 ) {
-  const { data } = await supabase.from(QUOTATIONS).insert({
-    client_name: quotation.details.clientName,
-    client_mobile: quotation.details.clientMobile,
-    client_email: quotation.details.clientEmail,
-    client_company: quotation.details.clientCompany,
-    date: quotation.date,
-    amount: quotation.amount,
-    quote_number: Number(quotation.id.substring(2)),
-    created_by: userId,
-    items: quotation.items,
-  });
+  const { data } = await supabase
+    .from(QUOTATIONS)
+    .insert({
+      client_name: quotation.details.clientName,
+      client_mobile: quotation.details.clientMobile,
+      client_email: quotation.details.clientEmail,
+      client_company: quotation.details.clientCompany,
+      date: quotation.date,
+      amount: quotation.amount,
+      quote_number: Number(quotation.id.substring(2)),
+      created_by: userId,
+      items: quotation.items,
+    })
+    .select("id");
 
   return data;
 }
 
-export default async function updateQuotationCount(
+export async function updateQuotationCount(
   supabase: SupabaseClient,
   quotationCount: number,
   userId: string

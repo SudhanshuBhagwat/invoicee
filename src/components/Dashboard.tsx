@@ -85,14 +85,14 @@ export default function Dashboard({ quotations, invoices }: Props) {
                     <td className="px-6 py-4">{quotation.amount}₹</td>
                     <td className="px-6 py-4 space-x-2">
                       <Link
-                        href={`/quotation/${quotation.quote_number}`}
+                        href={`/quotation/${quotation.id}`}
                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                       >
                         Edit
                       </Link>
                       <button
                         onClick={() => {
-                          setId(quotation.quote_number);
+                          setId(quotation.id);
                           setShowModal(true);
                         }}
                         className="font-medium text-red-600 dark:text-red-500 hover:underline"
@@ -164,14 +164,14 @@ export default function Dashboard({ quotations, invoices }: Props) {
                     <td className="px-6 py-4">{invoice.amount}₹</td>
                     <td className="px-6 py-4 space-x-2">
                       <Link
-                        href={`/invoice/${invoice.quote_number}`}
+                        href={`/invoice/${invoice.id}`}
                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                       >
                         Edit
                       </Link>
                       <button
                         onClick={() => {
-                          setId(invoice.quote_number);
+                          setId(invoice.id);
                           setShowModal(true);
                         }}
                         className="font-medium text-red-600 dark:text-red-500 hover:underline"

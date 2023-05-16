@@ -32,10 +32,8 @@ export default async function Page() {
       ownerEmail: userData?.email,
       ownerMobile: userData?.mobile,
     },
-    id: `${Number(quotationCount) + 1}`.padStart(5, "0"),
+    number: `${Number(quotationCount) + 1}`.padStart(5, "0"),
   };
-
-  const type = "Quotation";
 
   return (
     <div className={`grid grid-cols-2 gap-4 divide-x-2`}>

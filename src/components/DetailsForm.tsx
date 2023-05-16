@@ -14,22 +14,24 @@ export default function DetailsForm({ type }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
   const details = store((state) => state.quotation.details);
   const quotation = store((state) => state.quotation);
-  const items = store((state) => state.quotation.items);
   const updateField = store((state) => state.updateField);
   const [isLoading, setIsLoading] = useState(false);
 
   const { supabase, user } = useSupabase();
 
-  const totalAmount: number = items
-    .map((item) => {
-      if (typeof item.amount === "object") {
-        return Number(item.amount.value);
-      }
-      return Number(item.amount);
-    })
-    .reduce((acc, item) => {
-      return acc + item;
-    }, 0);
+  const totalAmount: number =
+    quotation.items.length > 0
+      ? quotation.items
+          .map((item) => {
+            return item.amount.reduce(
+              (acc, subItem) => acc + Number(subItem.value),
+              0
+            );
+          })
+          .reduce((acc, item) => {
+            return acc + item;
+          }, 0)
+      : 0;
 
   function handleFieldChange(value: string, id: string) {
     updateField(id, value);

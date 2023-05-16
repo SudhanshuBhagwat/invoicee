@@ -12,16 +12,19 @@ export default function Preview() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const totalAmount: number = quotation.items
-    .map((item) => {
-      return item.amount.reduce(
-        (acc, subItem) => acc + Number(subItem.value),
-        0
-      );
-    })
-    .reduce((acc, item) => {
-      return acc + item;
-    }, 0);
+  const totalAmount: number =
+    quotation.items.length > 0
+      ? quotation.items
+          .map((item) => {
+            return item.amount.reduce(
+              (acc, subItem) => acc + Number(subItem.value),
+              0
+            );
+          })
+          .reduce((acc, item) => {
+            return acc + item;
+          }, 0)
+      : 0;
 
   return (
     <div className="h-full bg-slate-100 p-4">
@@ -40,7 +43,7 @@ export default function Preview() {
       >
         <div className="text-right">
           <p className="font-bold">
-            Quote No: <span className="font-normal">{quotation.id}</span>
+            Quote No: <span className="font-normal">{quotation.number}</span>
           </p>
           <p className="font-bold">
             Date: <span className="font-normal">{quotation.date}</span>

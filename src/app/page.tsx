@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { getDashboardQuotations } from "@/services/database";
 
 export interface Quotation {
+  id: string;
   quote_number: string;
   client_name: string;
   date: string;

@@ -4,10 +4,11 @@ import store from "@/store/store";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 import Spinner from "@/components/ui/Spinner";
-import updateQuotationCount, { createQuotation } from "@/services/database";
+import { createQuotation, updateQuotationCount } from "@/services/database";
 import { useSupabase } from "@/utils/supabase-provider";
 import DetailsInput from "./DetailsInput";
 import { Item } from "./table-form";
+import { useRouter } from "next/navigation";
 
 export const QUOTATION_DATABASE = "quotation";
 
@@ -40,6 +41,7 @@ export type IQuotation = {
   date: string;
   note: Array<string>;
   amount: number;
+  number: string;
 };
 
 interface FormProps {
@@ -54,8 +56,8 @@ export default function Form({ type, initial, children }: FormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const details = store((state) => state.quotation.details);
-  const items = store((state) => state.quotation.items);
   const updateField = store((state) => state.updateField);
+  const navigate = useRouter();
 
   const { supabase, user } = useSupabase();
 
@@ -63,16 +65,19 @@ export default function Form({ type, initial, children }: FormProps) {
     setState(initial);
   }, []);
 
-  const totalAmount: number = items
-    .map((item) => {
-      return item.amount.reduce(
-        (acc, subItem) => acc + Number(subItem.value),
-        0
-      );
-    })
-    .reduce((acc, item) => {
-      return acc + item;
-    }, 0);
+  const totalAmount: number =
+    quotation.items.length > 0
+      ? quotation.items
+          .map((item) => {
+            return item.amount.reduce(
+              (acc, subItem) => acc + Number(subItem.value),
+              0
+            );
+          })
+          .reduce((acc, item) => {
+            return acc + item;
+          }, 0)
+      : 0;
 
   function handleFieldChange(value: string, id: string) {
     updateField(id, value);
@@ -83,7 +88,7 @@ export default function Form({ type, initial, children }: FormProps) {
     setIsLoading(true);
     const quotationCount = Number(quotation.id.substring(2));
     try {
-      await Promise.allSettled([
+      const data = await Promise.allSettled([
         await createQuotation(
           supabase,
           {
@@ -95,6 +100,10 @@ export default function Form({ type, initial, children }: FormProps) {
         await updateQuotationCount(supabase, quotationCount, user!.id),
         new Promise((resolve) => setTimeout(resolve, 1000)),
       ]);
+      // @ts-ignore
+      const id = data[0].value[0].id;
+
+      navigate.replace(`/quotations/${id}`);
     } catch (e) {
       setIsLoading(false);
       console.error("Something went wrong");
@@ -123,7 +132,7 @@ export default function Form({ type, initial, children }: FormProps) {
       <div className="space-y-4 pb-6">
         <div className="text-right mb-8">
           <p className="text-lg font-bold">
-            {type} No: <span className="font-medium">{quotation.id}</span>
+            {type} No: <span className="font-medium">{quotation.number}</span>
           </p>
           <p className="text-lg font-bold">
             Date: <span className="font-medium">{quotation.date}</span>
