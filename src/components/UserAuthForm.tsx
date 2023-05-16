@@ -26,6 +26,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           access_type: "offline",
           prompt: "consent",
         },
+        // @ts-ignore
+        redirectTo:
+          process.env.NODE_ENV === "development"
+            ? "https://localhost:3000"
+            : process.env.VERCEL_URL,
       },
     });
 
