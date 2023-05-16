@@ -3,7 +3,6 @@
 import store from "@/store/store";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
-import { OptionWithValue } from "@/components/ui/ComboBox";
 import Spinner from "@/components/ui/Spinner";
 import { createQuotation } from "@/services/database";
 import { useSupabase } from "@/utils/supabase-provider";
@@ -39,8 +38,6 @@ export type IQuotation = {
   details: IDetails;
   items: Item[];
   date: string;
-  services: OptionWithValue<Value>[];
-  categories: OptionWithValue<Value>[];
   note: Array<string>;
   amount: number;
 };
@@ -66,7 +63,7 @@ export default function Form({ type, initial, children }: FormProps) {
     setState(initial);
   }, []);
 
-  const totalAmount: number = quotation.items
+  const totalAmount: number = items
     .map((item) => {
       return item.amount.reduce(
         (acc, subItem) => acc + Number(subItem.value),

@@ -32,7 +32,7 @@ function FormInput({ value, handleChange, ...rest }: FormInputProps) {
   );
 }
 
-export default function TableEditor() {
+export default function TableForm() {
   const { quotation, addItem, addCategory, updateItem } = store();
 
   function renderNestedItems(items: Item) {

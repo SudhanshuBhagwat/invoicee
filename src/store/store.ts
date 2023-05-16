@@ -20,8 +20,6 @@ export const INITIAL_STATE: IQuotation = {
     clientEmail: "",
   },
   date: format(new Date(), "yyyy-MM-dd"),
-  services: [],
-  categories: [],
   note: [],
   items: [],
   amount: 0,

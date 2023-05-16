@@ -1,4 +1,4 @@
-import Form, { IQuotation } from "@/components/Form";
+import { IQuotation } from "@/components/Form";
 import Preview from "@/components/Preview";
 import { firestore } from "@/utils/firebase-admin";
 import { redirect } from "next/navigation";
@@ -16,10 +16,11 @@ interface Props {
 }
 
 export default async function Page({ params }: Props) {
-  const invoice = await fetchInvoice(params.id);
+  // const invoice = await fetchInvoice(params.id);
 
-  return <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
-    <Form type="Quotation" initial={invoice} />
-    <Preview />
-  </div>
+  return (
+    <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
+      <Preview />
+    </div>
+  );
 }
