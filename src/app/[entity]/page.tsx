@@ -5,7 +5,7 @@ import { Entity, getEntityNumber, getUser } from "@/services/database";
 import { INITIAL_STATE } from "@/store/store";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export default async function Page({
   params,
@@ -23,6 +23,10 @@ export default async function Page({
   const {
     data: { session },
   } = await supabase.auth.getSession();
+
+  if (!session) {
+    redirect("/auth");
+  }
 
   const entityCount = await getEntityNumber(
     supabase,
