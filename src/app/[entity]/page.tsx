@@ -1,12 +1,21 @@
 import Form, { IQuotation } from "@/components/Form";
 import Preview from "@/components/Preview";
 import TableForm from "@/components/table-form";
-import { getEntityNumber, getUser } from "@/services/database";
+import { Entity, getEntityNumber, getUser } from "@/services/database";
 import { INITIAL_STATE } from "@/store/store";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
-export default async function Page() {
+export default async function Page({
+  params,
+}: {
+  params: { entity: Entity; id: string };
+}) {
+  if (params.entity !== "quotation" && params.entity !== "invoice") {
+    notFound();
+  }
+
   const supabase = createServerComponentSupabaseClient({
     headers,
     cookies,
@@ -15,9 +24,9 @@ export default async function Page() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  const quotationCount = await getEntityNumber(
+  const entityCount = await getEntityNumber(
     supabase,
-    "Quotations",
+    params.entity,
     session?.user.id!
   );
 
@@ -32,12 +41,12 @@ export default async function Page() {
       ownerEmail: userData?.email,
       ownerMobile: userData?.mobile,
     },
-    number: `${Number(quotationCount) + 1}`.padStart(5, "0"),
+    number: `${Number(entityCount) + 1}`.padStart(5, "0"),
   };
 
   return (
     <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
-      <Form initial={initialData} type="Quotation">
+      <Form initial={initialData} type={params.entity}>
         <TableForm />
       </Form>
       <Preview />

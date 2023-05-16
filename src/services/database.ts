@@ -1,21 +1,22 @@
 import { Quotation } from "@/app/page";
 import { IQuotation, Value } from "@/components/Form";
-import { Item } from "@/components/table-form";
 import { PostgrestSingleResponse, SupabaseClient } from "@supabase/supabase-js";
 
 const QUOTATIONS: string = "quotations";
+const INVOICES: string = "invoices";
 const USERS: string = "users";
-const SERVICES: string = "services";
+
+export type Entity = "quotation" | "invoice";
 
 export async function getEntityNumber(
   supabase: SupabaseClient,
-  entity: "Quotations" | "Invoices",
+  entity: Entity,
   userId: string
 ) {
   const { data, error } = await supabase.from(USERS).select().eq("id", userId);
 
   if (!error) {
-    return data[0][entity.toLowerCase()];
+    return data[0][`${entity.toLowerCase()}s`];
   }
 }
 
@@ -30,12 +31,13 @@ export async function getUser(supabase: SupabaseClient, userId: string) {
   }
 }
 
-export async function getDashboardQuotations(
+export async function getDashboardForEntity(
   supabase: SupabaseClient,
+  entity: Entity,
   userId: string
 ) {
   const { data, error } = (await supabase
-    .from(QUOTATIONS)
+    .from(entity === "quotation" ? QUOTATIONS : INVOICES)
     .select("id, client_name, quote_number, date, amount")
     .eq("created_by", userId)) as PostgrestSingleResponse<Quotation[]>;
 
@@ -45,15 +47,16 @@ export async function getDashboardQuotations(
   };
 }
 
-export async function getQuotation(
+export async function getEntity(
   supabase: SupabaseClient,
-  quotationId: string,
+  entity: Entity,
+  entityId: string,
   userId: string
 ) {
   const { data, error } = await supabase
-    .from(QUOTATIONS)
+    .from(entity === "quotation" ? QUOTATIONS : INVOICES)
     .select()
-    .filter("id", "eq", quotationId)
+    .filter("id", "eq", entityId)
     .filter("created_by", "eq", userId);
 
   if (error) {
@@ -63,13 +66,14 @@ export async function getQuotation(
   return data[0];
 }
 
-export async function createQuotation(
+export async function createEntity(
   supabase: SupabaseClient,
+  entity: Entity,
   quotation: IQuotation,
   userId: string
 ) {
   const { data } = await supabase
-    .from(QUOTATIONS)
+    .from(entity === "quotation" ? QUOTATIONS : INVOICES)
     .insert({
       client_name: quotation.details.clientName,
       client_mobile: quotation.details.clientMobile,
@@ -86,15 +90,16 @@ export async function createQuotation(
   return data;
 }
 
-export async function updateQuotationCount(
+export async function updateEntityCount(
   supabase: SupabaseClient,
-  quotationCount: number,
+  entity: Entity,
+  entityCount: number,
   userId: string
 ) {
   const { data } = await supabase
     .from(USERS)
     .update({
-      quotations: quotationCount,
+      [entity]: entityCount,
     })
     .eq("id", userId);
 

@@ -2,7 +2,7 @@ import Dashboard from "@/components/Dashboard";
 import { headers, cookies } from "next/headers";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { redirect } from "next/navigation";
-import { getDashboardQuotations } from "@/services/database";
+import { getDashboardForEntity } from "@/services/database";
 
 export interface Quotation {
   id: string;
@@ -26,8 +26,9 @@ export default async function Page() {
     redirect("/auth");
   }
 
-  let { data: quotations, error } = await getDashboardQuotations(
+  let { data: quotations, error } = await getDashboardForEntity(
     supabase,
+    "quotation",
     session.user.id
   );
 

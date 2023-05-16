@@ -4,7 +4,7 @@ import store from "@/store/store";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 import Spinner from "@/components/ui/Spinner";
-import { createQuotation, updateQuotationCount } from "@/services/database";
+import { Entity, createEntity, updateEntityCount } from "@/services/database";
 import { useSupabase } from "@/utils/supabase-provider";
 import DetailsInput from "./DetailsInput";
 import { Item } from "./table-form";
@@ -45,7 +45,7 @@ export type IQuotation = {
 };
 
 interface FormProps {
-  type: "Quotation" | "Invoice";
+  type: Entity;
   initial: IQuotation | string;
   children?: ReactNode;
 }
@@ -89,15 +89,16 @@ export default function Form({ type, initial, children }: FormProps) {
     const quotationCount = Number(quotation.id.substring(2));
     try {
       const data = await Promise.allSettled([
-        await createQuotation(
+        await createEntity(
           supabase,
+          type,
           {
             ...quotation,
             amount: totalAmount,
           },
           user!.id
         ),
-        await updateQuotationCount(supabase, quotationCount, user!.id),
+        await updateEntityCount(supabase, type, quotationCount, user!.id),
         new Promise((resolve) => setTimeout(resolve, 1000)),
       ]);
       // @ts-ignore
@@ -116,7 +117,7 @@ export default function Form({ type, initial, children }: FormProps) {
     <div className="p-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">
-          {type} Editor{" "}
+          {`${type.substring(0, 1).toUpperCase()}${type.substring(1)}`} Editor{" "}
           <span className="text-base font-normal text-gray-500">
             (Start typing to see the changes in effect)
           </span>
@@ -132,7 +133,8 @@ export default function Form({ type, initial, children }: FormProps) {
       <div className="space-y-4 pb-6">
         <div className="text-right mb-8">
           <p className="text-lg font-bold">
-            {type} No: <span className="font-medium">{quotation.number}</span>
+            {`${type.substring(0, 1).toUpperCase()}${type.substring(1)}`} No:{" "}
+            <span className="font-medium">{quotation.number}</span>
           </p>
           <p className="text-lg font-bold">
             Date: <span className="font-medium">{quotation.date}</span>

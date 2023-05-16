@@ -1,12 +1,12 @@
 import Form, { IQuotation } from "@/components/Form";
 import Preview from "@/components/Preview";
 import TableForm from "@/components/table-form";
-import { getQuotation, getUser } from "@/services/database";
+import { Entity, getEntity, getUser } from "@/services/database";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
 
 interface Props {
-  params: { id: string };
+  params: { entity: Entity; id: string };
 }
 
 export default async function Page({ params }: Props) {
@@ -17,8 +17,9 @@ export default async function Page({ params }: Props) {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  const quotationData = await getQuotation(
+  const quotationData = await getEntity(
     supabase,
+    params.entity,
     params.id,
     session?.user.id!
   );
@@ -45,7 +46,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
-      <Form initial={quotation} type="Quotation">
+      <Form initial={quotation} type={params.entity}>
         <TableForm />
       </Form>
       <Preview />

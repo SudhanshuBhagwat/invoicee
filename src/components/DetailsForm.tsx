@@ -1,6 +1,6 @@
 "use client";
 
-import { createQuotation } from "@/services/database";
+import { createEntity } from "@/services/database";
 import store from "@/store/store";
 import { useContext, useRef, useState } from "react";
 import DetailsInput from "./DetailsInput";
@@ -42,7 +42,7 @@ export default function DetailsForm({ type }: Props) {
     setIsLoading(true);
     try {
       await Promise.allSettled([
-        await createQuotation(
+        await createEntity(
           supabase,
           {
             ...quotation,
