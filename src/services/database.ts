@@ -23,7 +23,7 @@ export async function getEntityNumber(
 export async function getUser(supabase: SupabaseClient, userId: string) {
   const { data, error } = await supabase
     .from(USERS)
-    .select("name, company, email, mobile, quotations")
+    .select("name, company, email, mobile, quotations, notes")
     .eq("id", userId);
 
   if (!error) {
@@ -84,6 +84,7 @@ export async function createEntity(
       quote_number: Number(quotation.id.substring(2)),
       created_by: userId,
       items: quotation.items,
+      notes: quotation.note,
     })
     .select("id");
 

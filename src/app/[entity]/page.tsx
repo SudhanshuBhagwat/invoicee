@@ -8,6 +8,7 @@ import { INITIAL_STATE } from "@/store/store";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import NotesEditor from "@/components/notes-editor";
 
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
@@ -44,6 +45,7 @@ export default async function Page({
       ownerEmail: userData?.email,
       ownerMobile: userData?.mobile,
     },
+    note: userData?.notes,
     number: `${Number(userData?.quotations) + 1}`.padStart(5, "0"),
   };
 
@@ -51,6 +53,7 @@ export default async function Page({
     <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
       <Form initial={initialData} type={params.entity}>
         <TableForm />
+        <NotesEditor notes={initialData.note} />
       </Form>
       <Preview />
     </div>

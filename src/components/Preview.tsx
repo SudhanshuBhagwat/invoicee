@@ -4,6 +4,7 @@ import store from "@/store/store";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Item } from "./table-form";
+import sanitizeHtml from "sanitize-html";
 
 export default function Preview() {
   const componentRef = useRef<HTMLDivElement>(null);
@@ -26,6 +27,12 @@ export default function Preview() {
             return acc + item;
           }, 0)
       : 0;
+
+  function createMarkup(html: string) {
+    return {
+      __html: sanitizeHtml(html),
+    };
+  }
 
   return (
     <div className="h-full bg-slate-100 p-4">
@@ -165,7 +172,11 @@ export default function Preview() {
         </div>
         <div className="mt-6 space-y-2">
           <h2 className="font-bold">Note:</h2>
-          <ul className="list-disc ml-4">
+          <div
+            className="prose prose-zinc text-black prose-sm prose-ul:"
+            dangerouslySetInnerHTML={createMarkup(quotation.note)}
+          />
+          {/* <ul className="list-disc ml-4">
             <li className="">
               All of the above are going to be provided in the following 2
               resolutions:
@@ -188,7 +199,7 @@ export default function Preview() {
               Thank you for considering our services. If you have any questions
               or concerns, please feel free to contact us.
             </li>
-          </ul>
+          </ul> */}
         </div>
       </div>
     </div>

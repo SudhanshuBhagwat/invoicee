@@ -1,9 +1,8 @@
 "use client";
 
 import { PlusIcon } from "@heroicons/react/24/outline";
-import store, { Settings } from "@/store/store";
+import store from "@/store/store";
 import React, { ChangeEvent, InputHTMLAttributes } from "react";
-import { v4 } from "uuid";
 
 export interface SubItem {
   id: string;
@@ -118,7 +117,7 @@ export default function TableForm() {
               type="checkbox"
               id="showSum"
               name="Show Total"
-              value={String(settings.showSum)}
+              checked={settings.showSum}
               onChange={handleChange}
             />
           </label>
@@ -128,7 +127,7 @@ export default function TableForm() {
               type="checkbox"
               id="showSumForCategory"
               name="Show total for categories"
-              value={String(settings.showSumForCategory)}
+              checked={settings.showSumForCategory}
               onChange={handleChange}
             />
           </label>

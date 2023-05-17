@@ -39,7 +39,7 @@ export type IQuotation = {
   details: IDetails;
   items: Item[];
   date: string;
-  note: Array<string>;
+  note: string;
   amount: number;
   number: string;
 };

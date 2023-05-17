@@ -7,6 +7,7 @@ import { Entity, getEntity, getUser } from "@/services/database";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import NotesEditor from "@/components/notes-editor";
 
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
@@ -52,13 +53,14 @@ export default async function Page({ params }: Props) {
     },
     number: `${Number(quotationData["quote_number"]) + 1}`.padStart(5, "0"),
     items: quotationData.items,
-    note: [],
+    note: userData?.notes,
   };
 
   return (
     <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
       <Form initial={quotation} type={params.entity}>
         <TableForm />
+        <NotesEditor notes={quotation.note} />
       </Form>
       <Preview />
     </div>

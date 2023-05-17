@@ -20,7 +20,7 @@ export const INITIAL_STATE: IQuotation = {
     clientEmail: "",
   },
   date: format(new Date(), "yyyy-MM-dd"),
-  note: [],
+  note: "",
   items: [],
   amount: 0,
   number: "",
@@ -36,6 +36,7 @@ interface Store {
   settings: Settings;
   setId: (id: string) => void;
   setState: (quotation: IQuotation | string | null) => void;
+  updateNote: (note: string) => void;
   fetchInVoiceCount: () => void;
   updateField(id: string, value: string): void;
   updateDate(date: string): void;
@@ -76,6 +77,13 @@ const store = create<Store>((set, get) => ({
         },
       });
     }
+  },
+  updateNote: (note: string) => {
+    set(
+      produce((state) => {
+        state.quotation.note = note;
+      })
+    );
   },
   fetchInVoiceCount: async () => {
     const coll = collection(database, QUOTATION_DATABASE);
