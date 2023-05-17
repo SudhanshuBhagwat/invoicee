@@ -27,7 +27,7 @@ export default async function Page({
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect("/auth");
+    window.location.replace("/auth");
   }
 
   const entityCount = await getEntityNumber(

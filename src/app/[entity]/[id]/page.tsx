@@ -22,7 +22,7 @@ export default async function Page({ params }: Props) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect("/auth");
+    window.location.replace("/auth");
   }
 
   const quotationData = await getEntity(
