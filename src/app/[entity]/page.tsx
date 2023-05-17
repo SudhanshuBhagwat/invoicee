@@ -52,10 +52,10 @@ export default async function Page({
 
   return (
     <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
-      <Form initial={initialData} type={params.entity}>
+      {/* <Form initial={initialData} type={params.entity}>
         <TableForm />
-      </Form>
-      <Preview />
+      </Form> */}
+      {/* <Preview /> */}
     </div>
   );
 }
