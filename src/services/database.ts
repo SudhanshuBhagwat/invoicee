@@ -16,7 +16,7 @@ export async function getEntityNumber(
   const { data, error } = await supabase.from(USERS).select().eq("id", userId);
 
   if (!error) {
-    return data[0][`${entity.toLowerCase()}s`];
+    return data[0];
   }
 }
 
