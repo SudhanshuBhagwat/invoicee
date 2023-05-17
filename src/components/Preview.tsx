@@ -97,10 +97,15 @@ export default function Preview() {
                       <tr key={`${item.id}-${category.id}-${index}`}>
                         {index === 0 && (
                           <td
-                            className="text-xl p-3 pl-4 pr-3 border-r border-gray-200 font-medium text-gray-900 whitespace-nowrap sm:pl-6"
+                            className="text-lg p-3 pl-4 pr-3 border-r border-gray-200 font-medium text-gray-900 whitespace-nowrap sm:pl-6"
                             rowSpan={item.category.length}
                           >
-                            {item.name}
+                            <div className="flex flex-col space-y-2">
+                              <span>{item.name}</span>
+                              <span className="text-sm text-gray-400">
+                                {item.description}
+                              </span>
+                            </div>
                           </td>
                         )}
                         <td className="p-2 text-sm text-gray-800 whitespace-nowrap border-r border-gray-200">

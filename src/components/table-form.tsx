@@ -13,6 +13,7 @@ export interface SubItem {
 export interface Item {
   id: string;
   name: string;
+  description: string;
   category: SubItem[];
   amount: SubItem[];
 }
@@ -41,15 +42,26 @@ export default function TableForm() {
       <tr key={`${idx}-${items.id}-${index}`}>
         {index === 0 && (
           <td rowSpan={items.category.length + 1} className="border">
-            <FormInput
-              placeholder="Exterior"
-              value={items.name}
-              size={1}
-              className="p-2 w-full"
-              handleChange={(value: string) =>
-                updateItem(items.id, "name", value)
-              }
-            />
+            <div className="flex flex-col">
+              <FormInput
+                placeholder="Exterior"
+                value={items.name}
+                size={1}
+                className="p-2 w-full"
+                handleChange={(value: string) =>
+                  updateItem(items.id, "name", value)
+                }
+              />
+              <FormInput
+                placeholder="(Per Floor)"
+                value={items.description}
+                size={1}
+                className="p-2 w-full text-sm"
+                handleChange={(value: string) =>
+                  updateItem(items.id, "description", value)
+                }
+              />
+            </div>
           </td>
         )}
         <td className="border">

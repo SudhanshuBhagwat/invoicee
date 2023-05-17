@@ -135,11 +135,11 @@ const store = create<Store>((set, get) => ({
   updateItem: (id: string, key: keyof Item, value: string) => {
     set(
       produce((state) => {
-        if (key === "name") {
+        if (key === "name" || key === "description") {
           const itemIndex = state.quotation.items.findIndex(
             (i: Item) => i.id === id
           );
-          state.quotation.items[itemIndex].name = value;
+          state.quotation.items[itemIndex][key] = value;
         } else {
           const indices = id.split("$");
           const itemId = indices[0];
