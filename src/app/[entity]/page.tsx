@@ -30,25 +30,25 @@ export default async function Page({
     redirect("/auth");
   }
 
-  const entityCount = await getEntityNumber(
-    supabase,
-    params.entity,
-    session?.user.id!
-  );
+  // const entityCount = await getEntityNumber(
+  //   supabase,
+  //   params.entity,
+  //   session?.user.id!
+  // );
 
-  const userData = await getUser(supabase, session?.user.id!);
+  // const userData = await getUser(supabase, session?.user.id!);
 
-  const initialData: IQuotation = {
-    ...INITIAL_STATE,
-    details: {
-      ...INITIAL_STATE.details,
-      ownerName: userData?.name,
-      ownerCompany: userData?.company,
-      ownerEmail: userData?.email,
-      ownerMobile: userData?.mobile,
-    },
-    number: `${Number(entityCount) + 1}`.padStart(5, "0"),
-  };
+  // const initialData: IQuotation = {
+  //   ...INITIAL_STATE,
+  //   details: {
+  //     ...INITIAL_STATE.details,
+  //     ownerName: userData?.name,
+  //     ownerCompany: userData?.company,
+  //     ownerEmail: userData?.email,
+  //     ownerMobile: userData?.mobile,
+  //   },
+  //   number: `${Number(entityCount) + 1}`.padStart(5, "0"),
+  // };
 
   return (
     <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
