@@ -51,19 +51,19 @@ interface FormProps {
 }
 
 export default function Form({ type, initial, children }: FormProps) {
-  const setState = store((state) => state.setState);
-  const quotation = store((state) => state.quotation);
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
-  const details = store((state) => state.quotation.details);
-  const updateField = store((state) => state.updateField);
   const navigate = useRouter();
-
   const { supabase, user } = useSupabase();
 
   useEffect(() => {
     setState(initial);
   }, []);
+
+  const setState = store((state) => state.setState);
+  const quotation = store((state) => state.quotation);
+  const details = store((state) => state.quotation.details);
+  const updateField = store((state) => state.updateField);
 
   const totalAmount: number =
     quotation.items.length > 0

@@ -1,3 +1,5 @@
+import "server-only";
+
 import Form, { IQuotation } from "@/components/Form";
 import Preview from "@/components/Preview";
 import TableForm from "@/components/table-form";
