@@ -27,7 +27,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           prompt: "consent",
         },
         // @ts-ignore
-        redirectTo: "http://localhost:3000",
+        redirectTo:
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.VERCEL_URL,
       },
     });
 
