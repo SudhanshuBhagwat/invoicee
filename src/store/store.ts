@@ -26,8 +26,14 @@ export const INITIAL_STATE: IQuotation = {
   number: "",
 };
 
+export interface Settings {
+  showSum: boolean;
+  showSumForCategory: boolean;
+}
+
 interface Store {
   quotation: IQuotation;
+  settings: Settings;
   setId: (id: string) => void;
   setState: (quotation: IQuotation | string | null) => void;
   fetchInVoiceCount: () => void;
@@ -36,10 +42,15 @@ interface Store {
   addItem: () => void;
   addCategory: (id: string) => void;
   updateItem: (id: string, key: keyof Item, value: string) => void;
+  updateSetting: (key: string, value: boolean) => void;
 }
 
 const store = create<Store>((set, get) => ({
   quotation: INITIAL_STATE,
+  settings: {
+    showSum: true,
+    showSumForCategory: false,
+  },
   setId: (id: string) => {
     set({
       quotation: {
@@ -152,6 +163,13 @@ const store = create<Store>((set, get) => ({
           ].findIndex((i: Item) => i.id === innerItemId);
           state.quotation.items[itemIndex][key][innerItemIndex].value = value;
         }
+      })
+    );
+  },
+  updateSetting: (key: string, value: boolean) => {
+    set(
+      produce((state) => {
+        state.settings[key] = value;
       })
     );
   },

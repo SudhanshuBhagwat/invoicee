@@ -8,6 +8,7 @@ import { Item } from "./table-form";
 export default function Preview() {
   const componentRef = useRef<HTMLDivElement>(null);
   const quotation = store((state) => state.quotation);
+  const settings = store((state) => state.settings);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -93,6 +94,10 @@ export default function Preview() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {quotation.items.map((item: Item, idx: number) => {
+                    const totalSum = item.amount
+                      .map((amt) => Number(amt.value))
+                      .reduce((acc, amt) => acc + amt, 0);
+
                     return item.category.map((category, index) => (
                       <tr key={`${item.id}-${category.id}-${index}`}>
                         {index === 0 && (
@@ -111,31 +116,48 @@ export default function Preview() {
                         <td className="p-2 text-sm text-gray-800 whitespace-nowrap border-r border-gray-200">
                           {category.value}
                         </td>
-                        <td className="p-2 text-sm text-gray-800 whitespace-nowrap">
-                          {new Intl.NumberFormat("en-IN", {
-                            maximumFractionDigits: 2,
-                            style: "currency",
-                            currency: "INR",
-                          }).format(
-                            Number(quotation.items[idx].amount[index].value)
-                          )}
-                        </td>
+                        {settings.showSumForCategory ? (
+                          index === 0 ? (
+                            <td
+                              rowSpan={item.amount.length}
+                              className="p-2 text-sm text-gray-800 whitespace-nowrap"
+                            >
+                              {new Intl.NumberFormat("en-IN", {
+                                maximumFractionDigits: 2,
+                                style: "currency",
+                                currency: "INR",
+                              }).format(totalSum)}
+                            </td>
+                          ) : null
+                        ) : (
+                          <td className="p-2 text-sm text-gray-800 whitespace-nowrap">
+                            {new Intl.NumberFormat("en-IN", {
+                              maximumFractionDigits: 2,
+                              style: "currency",
+                              currency: "INR",
+                            }).format(
+                              Number(quotation.items[idx].amount[index].value)
+                            )}
+                          </td>
+                        )}
                       </tr>
                     ));
                   })}
-                  <tr>
-                    <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
-                    <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
-                      Total:
-                    </td>
-                    <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
-                      {new Intl.NumberFormat("en-IN", {
-                        maximumFractionDigits: 2,
-                        style: "currency",
-                        currency: "INR",
-                      }).format(Number(totalAmount))}
-                    </td>
-                  </tr>
+                  {settings.showSum && (
+                    <tr>
+                      <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
+                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                        Total:
+                      </td>
+                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                        {new Intl.NumberFormat("en-IN", {
+                          maximumFractionDigits: 2,
+                          style: "currency",
+                          currency: "INR",
+                        }).format(Number(totalAmount))}
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

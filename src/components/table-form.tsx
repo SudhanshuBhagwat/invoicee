@@ -1,7 +1,7 @@
 "use client";
 
 import { PlusIcon } from "@heroicons/react/24/outline";
-import store from "@/store/store";
+import store, { Settings } from "@/store/store";
 import React, { ChangeEvent, InputHTMLAttributes } from "react";
 import { v4 } from "uuid";
 
@@ -35,7 +35,20 @@ function FormInput({ value, handleChange, ...rest }: FormInputProps) {
 }
 
 export default function TableForm() {
-  const { quotation, addItem, addCategory, updateItem } = store();
+  const {
+    quotation,
+    addItem,
+    addCategory,
+    updateItem,
+    settings,
+    updateSetting,
+  } = store();
+
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    const value = Boolean(event.target.checked);
+
+    updateSetting(event.target.id, value);
+  }
 
   function renderNestedItems(items: Item, idx: number) {
     return items.category.map((category, index) => (
@@ -96,7 +109,31 @@ export default function TableForm() {
 
   return (
     <div>
-      <p className="text-xl font-bold mb-4">Items</p>
+      <div className="flex justify-between items-center mb-4">
+        <p className="text-xl font-bold">Items</p>
+        <div className="flex gap-4">
+          <label className="flex gap-2">
+            Show Total
+            <input
+              type="checkbox"
+              id="showSum"
+              name="Show Total"
+              value={String(settings.showSum)}
+              onChange={handleChange}
+            />
+          </label>
+          <label className="flex gap-2">
+            Show total for categories
+            <input
+              type="checkbox"
+              id="showSumForCategory"
+              name="Show total for categories"
+              value={String(settings.showSumForCategory)}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
+      </div>
       <div className="">
         <table className="w-full">
           <thead>
