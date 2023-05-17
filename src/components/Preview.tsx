@@ -94,7 +94,7 @@ export default function Preview() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {quotation.items.map((item: Item, idx: number) => {
                     return item.category.map((category, index) => (
-                      <tr key={`${category}-${index}`}>
+                      <tr key={`${item.id}-${category.id}-${index}`}>
                         {index === 0 && (
                           <td
                             className="text-xl p-3 pl-4 pr-3 border-r border-gray-200 font-medium text-gray-900 whitespace-nowrap sm:pl-6"

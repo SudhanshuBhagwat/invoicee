@@ -2,7 +2,7 @@
 
 import { PlusIcon } from "@heroicons/react/24/outline";
 import store from "@/store/store";
-import { ChangeEvent, InputHTMLAttributes } from "react";
+import React, { ChangeEvent, InputHTMLAttributes } from "react";
 import { v4 } from "uuid";
 
 export interface SubItem {
@@ -36,9 +36,9 @@ function FormInput({ value, handleChange, ...rest }: FormInputProps) {
 export default function TableForm() {
   const { quotation, addItem, addCategory, updateItem } = store();
 
-  function renderNestedItems(items: Item) {
+  function renderNestedItems(items: Item, idx: number) {
     return items.category.map((category, index) => (
-      <tr key={`${v4()}`}>
+      <tr key={`${idx}-${items.id}-${index}`}>
         {index === 0 && (
           <td rowSpan={items.category.length + 1} className="border">
             <FormInput
@@ -95,11 +95,11 @@ export default function TableForm() {
             </tr>
           </thead>
           <tbody>
-            {quotation.items.map((d: Item) => {
+            {quotation.items.map((d: Item, idx: number) => {
               return (
-                <>
-                  {renderNestedItems(d)}
-                  <tr key={`${v4()}-ADD`}>
+                <React.Fragment key={d.id}>
+                  {renderNestedItems(d, idx)}
+                  <tr key={`${idx}-ADD`}>
                     <td colSpan={2} className="border">
                       <button
                         onClick={() => addCategory(d.id)}
@@ -109,7 +109,7 @@ export default function TableForm() {
                       </button>
                     </td>
                   </tr>
-                </>
+                </React.Fragment>
               );
             })}
             <tr>

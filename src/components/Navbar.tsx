@@ -22,17 +22,19 @@ export default function Navbar() {
         <li>
           <button onClick={handleSignOut}>Sign Out</button>
         </li>
-        <li>
-          <Link href="/user">
-            <Image
-              src={user?.user_metadata["avatar_url"]}
-              className="rounded-full"
-              width={34}
-              height={34}
-              alt="User Image"
-            />
-          </Link>
-        </li>
+        {user && (
+          <li>
+            <Link href="/user">
+              <Image
+                src={user?.user_metadata["avatar_url"]}
+                className="rounded-full"
+                width={34}
+                height={34}
+                alt="User Image"
+              />
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

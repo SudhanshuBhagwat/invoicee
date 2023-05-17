@@ -8,6 +8,9 @@ import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-next
 import { headers, cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
 interface Props {
   params: { entity: Entity; id: string };
 }
