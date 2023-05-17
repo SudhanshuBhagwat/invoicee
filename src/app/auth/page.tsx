@@ -22,7 +22,7 @@ export default async function AuthenticationPage() {
     data: { session },
   } = await supabase.auth.getSession();
   if (session) {
-    window.location.replace("/");
+    redirect("/auth");
   }
 
   return (
