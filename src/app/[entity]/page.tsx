@@ -30,12 +30,6 @@ export default async function Page({
     redirect("/auth");
   }
 
-  const { quotations }: any = await getEntityNumber(
-    supabase,
-    params.entity,
-    session?.user.id!
-  );
-
   const userData = await getUser(supabase, session?.user.id!);
 
   const initialData: IQuotation = {
@@ -47,12 +41,11 @@ export default async function Page({
       ownerEmail: userData?.email,
       ownerMobile: userData?.mobile,
     },
-    number: `${Number(quotations) + 1}`.padStart(5, "0"),
+    number: `${Number(userData?.quotations) + 1}`.padStart(5, "0"),
   };
 
   return (
     <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
-      <pre>{JSON.stringify(initialData, null, 2)}</pre>
       {/* <Form initial={initialData} type={params.entity}>
         <TableForm />
       </Form> */}
