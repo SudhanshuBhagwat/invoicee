@@ -5,6 +5,8 @@ import { PlusIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { useState } from "react";
 import Modal from "@/components/ui/Modal";
+import { deleteEntity } from "@/services/database";
+import { useSupabase } from "@/utils/supabase-provider";
 import { useRouter } from "next/navigation";
 
 interface Props {
@@ -13,11 +15,16 @@ interface Props {
 }
 
 export default function Dashboard({ quotations, invoices }: Props) {
-  const router = useRouter();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [id, setId] = useState<string>("");
+  const { supabase } = useSupabase();
+  const router = useRouter();
 
-  async function handleConfirmation() {}
+  async function handleConfirmation() {
+    const entity = id.split("  ");
+    await deleteEntity(supabase, entity[0], entity[1]);
+    router.push("/");
+  }
 
   return (
     <div>
@@ -86,7 +93,7 @@ export default function Dashboard({ quotations, invoices }: Props) {
                       </Link>
                       <button
                         onClick={() => {
-                          setId(quotation.id);
+                          setId("quotation  " + quotation.id);
                           setShowModal(true);
                         }}
                         className="font-medium text-red-600 dark:text-red-500 hover:underline"
@@ -165,7 +172,7 @@ export default function Dashboard({ quotations, invoices }: Props) {
                       </Link>
                       <button
                         onClick={() => {
-                          setId(invoice.id);
+                          setId("invoice  " + invoice.id);
                           setShowModal(true);
                         }}
                         className="font-medium text-red-600 dark:text-red-500 hover:underline"

@@ -91,7 +91,7 @@ export default function Form({ type, initial, children }: FormProps) {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
-    const quotationCount = Number(quotation.id.substring(2));
+    const quotationCount = Number(quotation.number.substring(2));
     try {
       const data = await Promise.allSettled([
         quotation.id.length > 0

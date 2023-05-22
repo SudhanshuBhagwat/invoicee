@@ -58,7 +58,7 @@ export async function getEntity(
   const { data, error } = await supabase
     .from(entity === "quotation" ? QUOTATIONS : INVOICES)
     .select()
-    .filter("id", "eq", entityId)
+    .eq("id", entityId)
     .filter("created_by", "eq", userId);
 
   if (error) {
@@ -83,7 +83,7 @@ export async function createEntity(
       client_company: quotation.details.clientCompany,
       date: quotation.date,
       amount: quotation.amount,
-      quote_number: Number(quotation.id.substring(2)),
+      quote_number: Number(quotation.number.substring(2)),
       created_by: userId,
       items: quotation.items,
       notes: quotation.note,
@@ -114,6 +114,19 @@ export async function updateEntity(
   return data;
 }
 
+export async function deleteEntity(
+  supabase: SupabaseClient,
+  entity: string,
+  id: string
+) {
+  const { data } = await supabase
+    .from(entity === "quotation" ? QUOTATIONS : INVOICES)
+    .delete()
+    .eq("id", id);
+
+  return data;
+}
+
 export async function updateEntityCount(
   supabase: SupabaseClient,
   entity: Entity,
@@ -123,7 +136,7 @@ export async function updateEntityCount(
   const { data } = await supabase
     .from(USERS)
     .update({
-      [entity]: entityCount,
+      [`${entity}s`]: entityCount,
     })
     .eq("id", userId);
 

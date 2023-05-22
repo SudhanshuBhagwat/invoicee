@@ -12,6 +12,9 @@ export interface Quotation {
   amount: number;
 }
 
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
 export default async function Page() {
   const invoices: Quotation[] = [];
   const supabase = createServerComponentSupabaseClient({

@@ -1,5 +1,3 @@
-import "server-only";
-
 import Form, { IQuotation } from "@/components/Form";
 import Preview from "@/components/Preview";
 import TableForm from "@/components/table-form";
@@ -8,9 +6,6 @@ import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-next
 import { headers, cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import NotesEditor from "@/components/notes-editor";
-
-export const revalidate = 0;
-export const fetchCache = "force-no-store";
 
 interface Props {
   params: { entity: Entity; id: string };
@@ -51,7 +46,7 @@ export default async function Page({ params }: Props) {
       ownerEmail: userData?.email,
       ownerMobile: userData?.mobile,
     },
-    number: `${Number(quotationData["quote_number"]) + 1}`.padStart(5, "0"),
+    number: `${Number(quotationData["quote_number"])}`.padStart(5, "0"),
     items: quotationData.items,
     note: userData?.notes,
   };

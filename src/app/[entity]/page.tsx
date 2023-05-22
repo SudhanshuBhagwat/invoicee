@@ -1,5 +1,3 @@
-import "server-only";
-
 import Form, { IQuotation } from "@/components/Form";
 import Preview from "@/components/Preview";
 import TableForm from "@/components/table-form";
@@ -9,9 +7,6 @@ import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-next
 import { headers, cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import NotesEditor from "@/components/notes-editor";
-
-export const revalidate = 0;
-export const fetchCache = "force-no-store";
 
 export default async function Page({
   params,

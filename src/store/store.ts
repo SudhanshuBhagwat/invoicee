@@ -1,6 +1,6 @@
 import { IQuotation, QUOTATION_DATABASE, Value } from "../components/Form";
 import { create } from "zustand";
-import produce from "immer";
+import { produce } from "immer";
 import { format } from "date-fns";
 import { Item } from "@/components/table-form";
 import { v4 } from "uuid";
