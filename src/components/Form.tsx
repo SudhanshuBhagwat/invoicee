@@ -129,7 +129,7 @@ export default function Form({ type, initial, children }: FormProps) {
           form="details"
           className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center"
         >
-          {isLoading ? <Spinner /> : "Save"}
+          {isLoading ? <Spinner /> : initial ? "Update" : "Save"}
         </button>
       </div>
       <div className="space-y-4 pb-6">
