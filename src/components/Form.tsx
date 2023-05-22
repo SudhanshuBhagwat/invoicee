@@ -104,7 +104,7 @@ export default function Form({ type, initial, children }: FormProps) {
       // @ts-ignore
       const id = data[0].value[0].id;
 
-      navigate.replace(`/quotations/${id}`);
+      navigate.replace(`/quotation/${id}`);
     } catch (e) {
       setIsLoading(false);
       console.error("Something went wrong");

@@ -70,7 +70,6 @@ const store = create<Store>((set, get) => ({
       set({
         quotation: {
           ...state,
-          items: [],
         },
       });
     }

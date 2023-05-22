@@ -83,7 +83,7 @@ export default function Preview() {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                     >
-                      Item Description
+                      Items
                     </th>
                     <th
                       scope="col"
@@ -114,9 +114,11 @@ export default function Preview() {
                           >
                             <div className="flex flex-col space-y-2">
                               <span>{item.name}</span>
-                              <span className="text-sm text-gray-400">
-                                {item.description}
-                              </span>
+                              {item.description && (
+                                <span className="text-sm text-gray-400">
+                                  {item.description}
+                                </span>
+                              )}
                             </div>
                           </td>
                         )}

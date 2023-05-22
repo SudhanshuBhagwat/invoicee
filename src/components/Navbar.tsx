@@ -45,6 +45,7 @@ export default function Navbar() {
                   <Menu.Item>
                     {({ active }) => (
                       <button
+                        onClick={handleSignOut}
                         className={`${
                           active ? "bg-blue-600 text-white" : "text-gray-900"
                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
