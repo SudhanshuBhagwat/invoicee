@@ -1,8 +1,6 @@
 import { IQuotation, QUOTATION_DATABASE, Value } from "../components/Form";
 import { create } from "zustand";
 import produce from "immer";
-import { collection, getCountFromServer, getDocs } from "firebase/firestore";
-import { database } from "@/utils/firebase";
 import { format } from "date-fns";
 import { Item } from "@/components/table-form";
 import { v4 } from "uuid";
@@ -37,7 +35,6 @@ interface Store {
   setId: (id: string) => void;
   setState: (quotation: IQuotation | string | null) => void;
   updateNote: (note: string) => void;
-  fetchInVoiceCount: () => void;
   updateField(id: string, value: string): void;
   updateDate(date: string): void;
   addItem: () => void;
@@ -84,20 +81,6 @@ const store = create<Store>((set, get) => ({
         state.quotation.note = note;
       })
     );
-  },
-  fetchInVoiceCount: async () => {
-    const coll = collection(database, QUOTATION_DATABASE);
-    const snapshot = await getCountFromServer(coll);
-    const count = snapshot.data().count;
-
-    const id =
-      count === 0 ? `${1}`.padStart(5, "0") : `${count + 1}`.padStart(5, "0");
-    set({
-      quotation: {
-        ...get().quotation,
-        id,
-      },
-    });
   },
   updateField: (id: string, value: string) => {
     set(

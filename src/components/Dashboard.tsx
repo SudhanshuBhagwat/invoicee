@@ -6,8 +6,6 @@ import Link from "next/link";
 import { useState } from "react";
 import Modal from "@/components/ui/Modal";
 import { useRouter } from "next/navigation";
-import { deleteDoc, doc } from "firebase/firestore";
-import { database } from "@/utils/firebase";
 
 interface Props {
   quotations: Quotation[];
@@ -19,11 +17,7 @@ export default function Dashboard({ quotations, invoices }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [id, setId] = useState<string>("");
 
-  async function handleConfirmation() {
-    const collection = id?.startsWith("Q") ? "quotation" : "invoice";
-    await deleteDoc(doc(database, collection, id));
-    router.replace("/");
-  }
+  async function handleConfirmation() {}
 
   return (
     <div>
