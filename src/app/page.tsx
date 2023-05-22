@@ -38,7 +38,11 @@ export default async function Page() {
   return (
     <main className="antialiased p-6">
       <h1 className="text-2xl font-bold">Dashboard</h1>
-      <Dashboard quotations={quotations ?? []} invoices={invoices} />
+      <Dashboard
+        quotations={quotations ?? []}
+        invoices={invoices}
+        userId={session.user.id}
+      />
     </main>
   );
 }

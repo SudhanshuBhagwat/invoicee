@@ -5,24 +5,44 @@ import { PlusIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { useState } from "react";
 import Modal from "@/components/ui/Modal";
-import { deleteEntity } from "@/services/database";
+import { deleteEntity, updateEntityCount } from "@/services/database";
 import { useSupabase } from "@/utils/supabase-provider";
 import { useRouter } from "next/navigation";
 
 interface Props {
   quotations: Quotation[];
   invoices: Quotation[];
+  userId: string;
 }
 
-export default function Dashboard({ quotations, invoices }: Props) {
+export default function Dashboard({ quotations, invoices, userId }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [id, setId] = useState<string>("");
   const { supabase } = useSupabase();
   const router = useRouter();
 
   async function handleConfirmation() {
-    const entity = id.split("  ");
-    await deleteEntity(supabase, entity[0], entity[1]);
+    const split = id.split("  ");
+    const entityCount =
+      split[0] === "quotation"
+        ? quotations[0].quote_number
+        : invoices[0].quote_number;
+
+    try {
+      await Promise.allSettled([
+        await deleteEntity(supabase, split[0], split[1]),
+        await updateEntityCount(
+          supabase,
+          split[0] === "quotation" ? "quotation" : "invoice",
+          Number(entityCount) - 1,
+          userId
+        ),
+        new Promise((resolve) => setTimeout(resolve, 1000)),
+      ]);
+    } catch (error) {
+      console.error("Something went wrong");
+    }
+
     router.push("/");
   }
 

@@ -39,9 +39,9 @@ export async function getDashboardForEntity(
   const { data, error } = (await supabase
     .from(entity === "quotation" ? QUOTATIONS : INVOICES)
     .select("id, client_name, quote_number, date, amount, created_by")
-    .filter("created_by", "eq", userId)) as PostgrestSingleResponse<
-    Quotation[]
-  >;
+    .filter("created_by", "eq", userId)
+    .order("quote_number", { ascending: false })
+    .limit(5)) as PostgrestSingleResponse<Quotation[]>;
 
   return {
     data,
