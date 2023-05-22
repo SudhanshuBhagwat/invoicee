@@ -4,7 +4,12 @@ import store from "@/store/store";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 import Spinner from "@/components/ui/Spinner";
-import { Entity, createEntity, updateEntityCount } from "@/services/database";
+import {
+  Entity,
+  createEntity,
+  updateEntity,
+  updateEntityCount,
+} from "@/services/database";
 import { useSupabase } from "@/utils/supabase-provider";
 import DetailsInput from "./DetailsInput";
 import { Item } from "./table-form";
@@ -89,22 +94,29 @@ export default function Form({ type, initial, children }: FormProps) {
     const quotationCount = Number(quotation.id.substring(2));
     try {
       const data = await Promise.allSettled([
-        await createEntity(
-          supabase,
-          type,
-          {
-            ...quotation,
-            amount: totalAmount,
-          },
-          user!.id
-        ),
+        quotation.id.length > 0
+          ? await updateEntity(supabase, type, {
+              ...quotation,
+              amount: totalAmount,
+            })
+          : await createEntity(
+              supabase,
+              type,
+              {
+                ...quotation,
+                amount: totalAmount,
+              },
+              user!.id
+            ),
         await updateEntityCount(supabase, type, quotationCount, user!.id),
         new Promise((resolve) => setTimeout(resolve, 1000)),
       ]);
       // @ts-ignore
       const id = data[0].value[0].id;
 
-      navigate.replace(`/quotation/${id}`);
+      if (quotation.id.length === 0) {
+        navigate.replace(`/quotation/${id}`);
+      }
     } catch (e) {
       setIsLoading(false);
       console.error("Something went wrong");

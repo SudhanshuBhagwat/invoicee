@@ -93,6 +93,27 @@ export async function createEntity(
   return data;
 }
 
+export async function updateEntity(
+  supabase: SupabaseClient,
+  entity: Entity,
+  quotation: IQuotation
+) {
+  const { data } = await supabase
+    .from(entity === "quotation" ? QUOTATIONS : INVOICES)
+    .update({
+      client_name: quotation.details.clientName,
+      client_mobile: quotation.details.clientMobile,
+      client_email: quotation.details.clientEmail,
+      client_company: quotation.details.clientCompany,
+      amount: quotation.amount,
+      items: quotation.items,
+      notes: quotation.note,
+    })
+    .eq("id", quotation.id);
+
+  return data;
+}
+
 export async function updateEntityCount(
   supabase: SupabaseClient,
   entity: Entity,
