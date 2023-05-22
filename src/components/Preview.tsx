@@ -6,7 +6,11 @@ import { useReactToPrint } from "react-to-print";
 import { Item } from "./table-form";
 import sanitizeHtml from "sanitize-html";
 
-export default function Preview() {
+interface Props {
+  isSaved?: boolean;
+}
+
+export default function Preview({ isSaved = false }: Props) {
   const componentRef = useRef<HTMLDivElement>(null);
   const quotation = store((state) => state.quotation);
   const settings = store((state) => state.settings);
@@ -38,12 +42,14 @@ export default function Preview() {
     <div className="h-full bg-slate-100 p-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Preview</h2>
-        <button
-          onClick={handlePrint}
-          className="px-6 py-2 font-bold bg-emerald-600 text-white rounded-md"
-        >
-          Print
-        </button>
+        {isSaved && (
+          <button
+            onClick={handlePrint}
+            className="px-6 py-2 font-bold bg-emerald-600 text-white rounded-md"
+          >
+            Print
+          </button>
+        )}
       </div>
       <div
         ref={componentRef}

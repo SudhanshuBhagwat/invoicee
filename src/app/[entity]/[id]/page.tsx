@@ -62,7 +62,7 @@ export default async function Page({ params }: Props) {
         <TableForm />
         <NotesEditor notes={quotation.note} />
       </Form>
-      <Preview />
+      <Preview isSaved={!!quotation} />
     </div>
   );
 }
