@@ -39,6 +39,7 @@ interface Store {
   updateDate(date: string): void;
   addItem: () => void;
   addCategory: (id: string) => void;
+  removeCategory: (itemId: string, index: number) => void;
   updateItem: (id: string, key: keyof Item, value: string) => void;
   updateSetting: (key: string, value: boolean) => void;
 }
@@ -130,6 +131,21 @@ const store = create<Store>((set, get) => ({
           id: v4(),
           value: "",
         });
+      })
+    );
+  },
+  removeCategory: (itemId: string, index: number) => {
+    set(
+      produce((state) => {
+        const itemIndex = state.quotation.items.findIndex(
+          (i: Item) => i.id === itemId
+        );
+        if (state.quotation.items[itemIndex].category.length === 1) {
+          state.quotation.items.splice(itemIndex, 1);
+        } else {
+          state.quotation.items[itemIndex].category.splice(index, 1);
+          state.quotation.items[itemIndex].amount.splice(index, 1);
+        }
       })
     );
   },

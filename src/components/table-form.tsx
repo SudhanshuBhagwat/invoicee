@@ -38,6 +38,7 @@ export default function TableForm() {
     quotation,
     addItem,
     addCategory,
+    removeCategory,
     updateItem,
     settings,
     updateSetting,
@@ -102,6 +103,16 @@ export default function TableForm() {
             }
           />
         </td>
+        <td className="border">
+          <div className="flex justify-center">
+            <button
+              onClick={() => removeCategory(items.id, index)}
+              className="text-red-400 text-sm"
+            >
+              Delete
+            </button>
+          </div>
+        </td>
       </tr>
     ));
   }
@@ -140,6 +151,7 @@ export default function TableForm() {
               <th className="px-4 py-2 border w-40">Item Name</th>
               <th className="px-4 py-2 border w-40">Categories</th>
               <th className="px-4 py-2 border w-32">Amount</th>
+              <th className="px-4 py-2 border w-16"></th>
             </tr>
           </thead>
           <tbody>
@@ -148,7 +160,7 @@ export default function TableForm() {
                 <React.Fragment key={d.id}>
                   {renderNestedItems(d, idx)}
                   <tr key={`${idx}-ADD`}>
-                    <td colSpan={2} className="border">
+                    <td colSpan={3} className="border">
                       <button
                         onClick={() => addCategory(d.id)}
                         className="px-4 py-2 w-full text-center"
@@ -161,7 +173,7 @@ export default function TableForm() {
               );
             })}
             <tr>
-              <td colSpan={3} className="border">
+              <td colSpan={4} className="border">
                 <button
                   onClick={addItem}
                   className="px-4 py-2 w-full text-center"
