@@ -1,3 +1,3 @@
 export default function Loading() {
-  return <div>Getting details for your Quotation...</div>
+  return <div className="p-4">Fetching details...</div>;
 }

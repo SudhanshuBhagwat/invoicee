@@ -130,9 +130,9 @@ export default function Form({ type, initial, children }: FormProps) {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">
+        <h2 className="text-2xl font-bold flex flex-col">
           {entity} Editor{" "}
-          <span className="text-base font-normal text-gray-500">
+          <span className="text-sm font-normal text-gray-500">
             (Start typing to see the changes in effect)
           </span>
         </h2>
