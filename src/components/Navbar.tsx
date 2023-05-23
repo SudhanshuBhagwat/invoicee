@@ -4,6 +4,7 @@ import { useSupabase } from "@/utils/supabase-provider";
 import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
 import React from "react";
+import Link from "next/link";
 
 export default function Navbar() {
   const { supabase, user } = useSupabase();
@@ -16,6 +17,9 @@ export default function Navbar() {
     <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800 border-b">
       <div className="container flex items-center justify-end h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
         <ul className="flex items-center flex-shrink-0 space-x-6">
+          <li>
+            <Link href={"/account"}>Account</Link>
+          </li>
           <li className="h-[34px]">
             <Menu as="div" className="relative inline-block text-left">
               <Menu.Button className="focus:outline-none focus-visible:rounded-full focus-visible:ring-offset-2 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-opacity-75">

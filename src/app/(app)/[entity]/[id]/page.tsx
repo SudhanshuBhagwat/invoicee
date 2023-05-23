@@ -21,7 +21,7 @@ export default async function Page({ params }: Props) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect("/auth");
+    redirect("/login");
   }
 
   const quotationData = await getEntity(

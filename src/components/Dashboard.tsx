@@ -1,6 +1,6 @@
 "use client";
 
-import { Quotation } from "@/app/page";
+import { Quotation } from "@/app/(app)/page";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { useState } from "react";

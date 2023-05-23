@@ -1,4 +1,4 @@
-import { Quotation } from "@/app/page";
+import { Quotation } from "@/app/(app)/page";
 import { IQuotation, Value } from "@/components/Form";
 import { PostgrestSingleResponse, SupabaseClient } from "@supabase/supabase-js";
 
