@@ -130,12 +130,7 @@ export default function Form({ type, initial, children }: FormProps) {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold flex flex-col">
-          {entity} Editor{" "}
-          <span className="text-sm font-normal text-gray-500">
-            (Start typing to see the changes in effect)
-          </span>
-        </h2>
+        <h2 className="text-2xl font-bold flex flex-col">{entity} Editor </h2>
         <button
           type="submit"
           form="details"
@@ -151,9 +146,10 @@ export default function Form({ type, initial, children }: FormProps) {
         </button>
       </div>
       <div className="space-y-4 pb-6">
-        <div className="text-right mb-8">
+        <div className="mb-6">
           <p className="text-lg font-bold">
-            {entity} No: <span className="font-medium">{quotation.number}</span>
+            {entity.slice(0, entity.length - 1)} No:{" "}
+            <span className="font-medium">{quotation.number}</span>
           </p>
           <p className="text-lg font-bold">
             Date: <span className="font-medium">{quotation.date}</span>
@@ -165,9 +161,9 @@ export default function Form({ type, initial, children }: FormProps) {
           ref={formRef}
           className="space-y-4"
         >
-          <div className="grid grid-cols-2 gap-6">
-            <fieldset className="flex flex-col gap-1">
-              <h2 className="text-xl font-semibold mb-3">From:</h2>
+          <fieldset className="flex flex-col gap-1">
+            <h2 className="text-xl font-semibold mb-3">From:</h2>
+            <div className="grid grid-cols-2 gap-2">
               <DetailsInput
                 label="Name"
                 id="ownerName"
@@ -192,9 +188,13 @@ export default function Form({ type, initial, children }: FormProps) {
                 onInputChange={handleFieldChange}
                 value={details.ownerEmail}
               />
-            </fieldset>
-            <fieldset className="flex flex-col gap-1">
-              <h2 className="text-xl font-semibold mb-3">{entity} To:</h2>
+            </div>
+          </fieldset>
+          <fieldset className="flex flex-col gap-1">
+            <h2 className="text-xl font-semibold mb-3">
+              {entity.slice(0, entity.length - 1)} To:
+            </h2>
+            <div className="grid grid-cols-2 gap-2">
               <DetailsInput
                 label="Name"
                 id="clientName"
@@ -219,8 +219,8 @@ export default function Form({ type, initial, children }: FormProps) {
                 onInputChange={handleFieldChange}
                 value={details.clientEmail}
               />
-            </fieldset>
-          </div>
+            </div>
+          </fieldset>
         </form>
         {children}
       </div>

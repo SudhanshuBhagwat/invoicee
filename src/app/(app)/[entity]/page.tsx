@@ -13,9 +13,9 @@ export default async function Page({
 }: {
   params: { entity: Entity; id: string };
 }) {
-  if (params.entity !== "quotation" && params.entity !== "invoice") {
-    notFound();
-  }
+  // if (params.entity !== "quotation" && params.entity !== "invoice") {
+  //   notFound();
+  // }
 
   const supabase = createServerComponentSupabaseClient({
     headers,
