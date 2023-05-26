@@ -1,3 +1,5 @@
+"use server";
+
 import { Quotation } from "@/app/(app)/page";
 import { IQuotation, Value } from "@/components/Form";
 import { PostgrestSingleResponse, SupabaseClient } from "@supabase/supabase-js";
@@ -29,6 +31,17 @@ export async function getUser(supabase: SupabaseClient, userId: string) {
   if (!error) {
     return data[0];
   }
+}
+
+export async function updateUserDetails(
+  supabase: SupabaseClient,
+  details: any,
+  userId: string
+) {
+  const { data, error } = await supabase
+    .from(USERS)
+    .update(details)
+    .eq("id", userId);
 }
 
 export async function getDashboardForEntity(

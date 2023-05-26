@@ -31,7 +31,7 @@ function Sidebar() {
           </a>
           <ul className="mt-6 space-y-2">
             {LINKS.map((link) => (
-              <li className="relative px-2">
+              <li key={link.name} className="relative px-2">
                 <NavLink
                   href={link.href}
                   className="py-2 rounded-md inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:bg-gray-700 hover:text-gray-50 dark:hover:text-gray-200"
@@ -47,7 +47,7 @@ function Sidebar() {
           <ul className="space-y-2">
             <li className="relative px-2">
               <NavLink
-                href={"/settings"}
+                href={"/settings/details"}
                 className="py-2 rounded-md inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:bg-gray-700 hover:text-gray-50 dark:hover:text-gray-200"
                 activeClassName="bg-gray-800 text-white"
               >

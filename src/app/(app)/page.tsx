@@ -1,6 +1,6 @@
 import Dashboard from "@/components/Dashboard";
-import { headers, cookies } from "next/headers";
-import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { redirect } from "next/navigation";
 import { getDashboardForEntity } from "@/services/database";
 
@@ -17,8 +17,7 @@ export const fetchCache = "force-no-store";
 
 export default async function Page() {
   const invoices: Quotation[] = [];
-  const supabase = createServerComponentSupabaseClient({
-    headers,
+  const supabase = createServerComponentClient({
     cookies,
   });
   const {

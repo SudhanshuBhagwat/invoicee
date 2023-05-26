@@ -1,11 +1,13 @@
-import { getUser } from "@/services/database";
-import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { headers, cookies } from "next/headers";
+import { getUser, updateUserDetails } from "@/services/database";
+import {
+  createServerActionClient,
+  createServerComponentClient,
+} from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const supabase = createServerComponentSupabaseClient({
-    headers,
+  const supabase = createServerComponentClient({
     cookies,
   });
   const {
@@ -20,6 +22,22 @@ export default async function Page() {
 
   async function handleSubmit(formData: FormData) {
     "use server";
+
+    const client = createServerActionClient({ cookies });
+    await updateUserDetails(
+      client,
+      {
+        name: formData.get("name"),
+        company: formData.get("company"),
+        email: formData.get("email"),
+        mobile: formData.get("mobile"),
+      },
+      (
+        await client.auth.getUser()
+      ).data.user?.id!
+    );
+
+    redirect("/settings/details");
   }
 
   return (
@@ -46,7 +64,7 @@ export default async function Page() {
               id={"name"}
               name={"name"}
               placeholder="John Doe"
-              value={userData?.name}
+              defaultValue={userData?.name}
               className="border rounded-md px-4 py-2 text-md placeholder:text-md"
             />
           </div>
@@ -58,7 +76,7 @@ export default async function Page() {
               required
               id={"company"}
               name={"company"}
-              value={userData?.company}
+              defaultValue={userData?.company}
               placeholder="Demon Slayer Corp"
               className="border rounded-md px-4 py-2 text-md placeholder:text-md"
             />
@@ -71,7 +89,7 @@ export default async function Page() {
               required
               id={"mobile"}
               name={"mobile"}
-              value={userData?.mobile}
+              defaultValue={userData?.mobile}
               placeholder="+91 1234567890"
               className="border rounded-md px-4 py-2 text-md placeholder:text-md"
             />
@@ -84,7 +102,7 @@ export default async function Page() {
               required
               id={"email"}
               name={"email"}
-              value={userData?.email}
+              defaultValue={userData?.email}
               placeholder="john.doe@example.com"
               className="border rounded-md px-4 py-2 text-md placeholder:text-md"
             />

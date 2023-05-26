@@ -2,8 +2,8 @@ import Form, { IQuotation } from "@/components/Form";
 import Preview from "@/components/Preview";
 import TableForm from "@/components/table-form";
 import { Entity, getEntity, getUser } from "@/services/database";
-import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { headers, cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import NotesEditor from "@/components/notes-editor";
 
@@ -12,8 +12,7 @@ interface Props {
 }
 
 export default async function Page({ params }: Props) {
-  const supabase = createServerComponentSupabaseClient({
-    headers,
+  const supabase = createServerComponentClient({
     cookies,
   });
   const {

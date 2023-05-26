@@ -148,7 +148,7 @@ export default function Form({ type, initial, children }: FormProps) {
       <div className="space-y-4 pb-6">
         <div className="mb-6">
           <p className="text-lg font-bold">
-            {entity.slice(0, entity.length - 1)} No:{" "}
+            {entity.slice(0, entity.length)} No:{" "}
             <span className="font-medium">{quotation.number}</span>
           </p>
           <p className="text-lg font-bold">
@@ -192,7 +192,7 @@ export default function Form({ type, initial, children }: FormProps) {
           </fieldset>
           <fieldset className="flex flex-col gap-1">
             <h2 className="text-xl font-semibold mb-3">
-              {entity.slice(0, entity.length - 1)} To:
+              {entity.slice(0, entity.length)} To:
             </h2>
             <div className="grid grid-cols-2 gap-2">
               <DetailsInput

@@ -9,12 +9,14 @@ import { Label } from "@/components/ui/label";
 import Spinner from "./ui/Spinner";
 import { useSupabase } from "@/utils/supabase-provider";
 import GoogleIcon from "./icons/Google";
+import { useRouter } from "next/navigation";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { supabase } = useSupabase();
+  const router = useRouter();
 
   async function handleGoogleLogin() {
     setIsLoading(true);
@@ -26,13 +28,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           access_type: "offline",
           prompt: "consent",
         },
-        // @ts-ignore
-        redirectTo:
-          process.env.NODE_ENV === "development"
-            ? "http://localhost:3000"
-            : process.env.VERCEL_URL,
+        redirectTo: `${location.origin}/auth/callback`,
       },
     });
+
+    router.refresh();
 
     setTimeout(() => {
       setIsLoading(false);

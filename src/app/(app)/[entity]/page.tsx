@@ -3,8 +3,8 @@ import Preview from "@/components/Preview";
 import TableForm from "@/components/table-form";
 import { Entity, getUser } from "@/services/database";
 import { INITIAL_STATE } from "@/store/store";
-import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { headers, cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import NotesEditor from "@/components/notes-editor";
 
@@ -17,8 +17,7 @@ export default async function Page({
   //   notFound();
   // }
 
-  const supabase = createServerComponentSupabaseClient({
-    headers,
+  const supabase = createServerComponentClient({
     cookies,
   });
   const {
