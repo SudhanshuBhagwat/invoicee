@@ -8,6 +8,14 @@ import Modal from "@/components/ui/Modal";
 import { deleteEntity, updateEntityCount } from "@/services/database";
 import { useSupabase } from "@/utils/supabase-provider";
 import { useRouter } from "next/navigation";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./table";
 
 interface Props {
   quotations: Quotation[];
@@ -59,74 +67,56 @@ export default function Dashboard({ quotations, invoices, userId }: Props) {
             Create Quotation
           </Link>
         </div>
-        {quotations.length === 0 ? (
-          <div className="w-full mt-6 text-center text-slate-500">
-            No quotations to display. Start by clicking the{" "}
-            <span className="text-slate-900 font-semibold">
-              Create Quotation
-            </span>{" "}
-            button
-          </div>
-        ) : (
-          <div className="mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="px-6 py-3 w-64">
-                    Quotation Number
-                  </th>
-                  <th scope="col" className="px-6 py-3 w-80">
-                    To
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Date
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Amount
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {quotations.map((quotation) => (
-                  <tr
-                    key={quotation.quote_number}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      {quotation.quote_number}
-                    </th>
-                    <td className="px-6 py-4">{quotation.client_name}</td>
-                    <td className="px-6 py-4">{quotation.date}</td>
-                    <td className="px-6 py-4">{quotation.amount}₹</td>
-                    <td className="px-6 py-4 space-x-2">
-                      <Link
-                        href={`/quotation/${quotation.id}`}
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                      >
-                        Edit
-                      </Link>
-                      <button
-                        onClick={() => {
-                          setId("quotation  " + quotation.id);
-                          setShowModal(true);
-                        }}
-                        className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <div className="rounded-md border mt-4">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-64">Quotation Number</TableHead>
+                <TableHead className="w-80">To</TableHead>
+                <TableHead className="w-36">Date</TableHead>
+                <TableHead className="w-36">Amount</TableHead>
+                <TableHead>Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {quotations.length > 0 ? (
+                quotations.map((quotation) => (
+                  <TableRow key={quotation.id}>
+                    <TableCell>{quotation.quote_number}</TableCell>
+                    <TableCell>{quotation.client_name}</TableCell>
+                    <TableCell>{quotation.date}</TableCell>
+                    <TableCell>{quotation.amount}₹</TableCell>
+                    <TableCell>
+                      <div className="space-x-4">
+                        <Link
+                          href={`/quotation/${quotation.id}`}
+                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() => {
+                            setId("quotation  " + quotation.id);
+                            setShowModal(true);
+                          }}
+                          className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={5} className="h-12 text-center">
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       <div className="mt-6">
@@ -140,72 +130,56 @@ export default function Dashboard({ quotations, invoices, userId }: Props) {
             Create Invoice
           </Link>
         </div>
-        {invoices.length === 0 ? (
-          <div className="w-full mt-6 text-center text-slate-500">
-            No invoices to display. Start by clicking the{" "}
-            <span className="text-slate-900 font-semibold">Create Invoice</span>{" "}
-            button
-          </div>
-        ) : (
-          <div className="mt-4 relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="px-6 py-3 w-64">
-                    Invoice Number
-                  </th>
-                  <th scope="col" className="px-6 py-3 w-80">
-                    To
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Date
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Amount
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {invoices.map((invoice) => (
-                  <tr
-                    key={invoice.quote_number}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      {invoice.quote_number}
-                    </th>
-                    <td className="px-6 py-4">{invoice.client_name}</td>
-                    <td className="px-6 py-4">{invoice.date}</td>
-                    <td className="px-6 py-4">{invoice.amount}₹</td>
-                    <td className="px-6 py-4 space-x-2">
-                      <Link
-                        href={`/invoice/${invoice.id}`}
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                      >
-                        Edit
-                      </Link>
-                      <button
-                        onClick={() => {
-                          setId("invoice  " + invoice.id);
-                          setShowModal(true);
-                        }}
-                        className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <div className="rounded-md border mt-4">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-64">Invoice Number</TableHead>
+                <TableHead className="w-80">To</TableHead>
+                <TableHead className="w-36">Date</TableHead>
+                <TableHead className="w-36">Amount</TableHead>
+                <TableHead>Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {invoices.length > 0 ? (
+                invoices.map((invoice) => (
+                  <TableRow key={invoice.quote_number}>
+                    <TableCell scope="row">{invoice.quote_number}</TableCell>
+                    <TableCell>{invoice.client_name}</TableCell>
+                    <TableCell>{invoice.date}</TableCell>
+                    <TableCell>{invoice.amount}₹</TableCell>
+                    <TableCell>
+                      <div className="space-x-4">
+                        <Link
+                          href={`/invoice/${invoice.id}`}
+                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() => {
+                            setId("invoice  " + invoice.id);
+                            setShowModal(true);
+                          }}
+                          className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={5} className="h-12 text-center">
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
       <Modal
         title="Delete"
