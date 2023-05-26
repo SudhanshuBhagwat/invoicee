@@ -1,5 +1,9 @@
+"use client";
+
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import NavLink from "./ui/nav-link";
+import { useSupabase } from "@/utils/supabase-provider";
+import Image from "next/image";
 
 const LINKS = [
   {
@@ -9,6 +13,12 @@ const LINKS = [
 ];
 
 function Sidebar() {
+  const { supabase, user } = useSupabase();
+
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+  }
+
   return (
     <aside className="z-30 flex-shrink-0 hidden w-64 overflow-y-auto bg-gray-50 shadow-md dark:bg-gray-800 lg:block border-r">
       <div className="py-4 h-full text-gray-500 dark:text-gray-400 flex flex-col justify-between">
@@ -45,8 +55,14 @@ function Sidebar() {
               </NavLink>
             </li>
             <li className="w-full flex justify-between items-center px-2 pt-4">
-              <div className="flex items-center space-x-2 pointer-events-none">
-                <div className="inline-block w-8 h-8 rounded-full bg-red-600"></div>
+              <div className="flex justify-center items-center space-x-2 pointer-events-none">
+                <Image
+                  src={user?.user_metadata["avatar_url"]}
+                  className="rounded-full"
+                  width={32}
+                  height={32}
+                  alt="User Image"
+                />
                 <div>
                   <p className="text-sm font-bold -mb-2">Sudhanshu Bhagwat</p>
                   <span className="text-[11px]">
@@ -55,7 +71,7 @@ function Sidebar() {
                 </div>
               </div>
               <div>
-                <button>
+                <button onClick={handleSignOut}>
                   <ArrowRightOnRectangleIcon className="w-5 h-5" />
                 </button>
               </div>
