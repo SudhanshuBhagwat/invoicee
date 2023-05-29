@@ -20,7 +20,6 @@ export default function DetailsInput({
         {label}:
       </label>
       <input
-        required
         {...rest}
         id={id}
         name={id}
