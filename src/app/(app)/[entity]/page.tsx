@@ -40,7 +40,7 @@ export default async function Page({
       ownerMobile: userData?.mobile,
     },
     note: userData?.notes,
-    number: `${Number(userData?[`${params.entity}s`]) + 1}`.padStart(5, "0"),
+    number: `${Number(userData ? userData[`${params.entity}s`] : "0") + 1}`.padStart(5, "0"),
   };
 
   return (
