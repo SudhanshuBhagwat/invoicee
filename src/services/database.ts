@@ -1,5 +1,3 @@
-"use server";
-
 import { Quotation } from "@/app/(app)/page";
 import { IQuotation, Value } from "@/components/Form";
 import { PostgrestSingleResponse, SupabaseClient } from "@supabase/supabase-js";
@@ -25,7 +23,7 @@ export async function getEntityNumber(
 export async function getUser(supabase: SupabaseClient, userId: string) {
   const { data, error } = await supabase
     .from(USERS)
-    .select("name, company, email, mobile, quotations, notes")
+    .select("name, company, email, mobile, quotations, invoices, notes")
     .eq("id", userId);
 
   if (!error) {

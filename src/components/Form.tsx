@@ -115,7 +115,7 @@ export default function Form({ type, initial, children }: FormProps) {
       const id = data[0].value[0].id;
 
       if (quotation.id.length === 0) {
-        navigate.replace(`/quotation/${id}`);
+        navigate.push(`/${type}/${id}`);
       }
     } catch (e) {
       setIsLoading(false);

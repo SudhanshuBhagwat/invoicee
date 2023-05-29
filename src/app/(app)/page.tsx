@@ -13,10 +13,9 @@ export interface Quotation {
 }
 
 export const revalidate = 0;
-export const fetchCache = "force-no-store";
+export const dynamic = 'force-dynamic';
 
 export default async function Page() {
-  const invoices: Quotation[] = [];
   const supabase = createServerComponentClient({
     cookies,
   });
@@ -28,9 +27,15 @@ export default async function Page() {
     redirect("/login");
   }
 
-  let { data: quotations, error } = await getDashboardForEntity(
+  let { data: quotations } = await getDashboardForEntity(
     supabase,
     "quotation",
+    session.user.id
+  );
+
+  let { data: invoices } = await getDashboardForEntity(
+    supabase,
+    "invoice",
     session.user.id
   );
 
@@ -39,7 +44,7 @@ export default async function Page() {
       <h1 className="text-2xl font-bold">Dashboard</h1>
       <Dashboard
         quotations={quotations ?? []}
-        invoices={invoices}
+        invoices={invoices ?? []}
         userId={session.user.id}
       />
     </main>
