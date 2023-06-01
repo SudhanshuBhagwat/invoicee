@@ -5,7 +5,6 @@ import { PlusIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { useState } from "react";
 import Modal from "@/components/ui/Modal";
-import { deleteEntity, updateEntityCount } from "@/services/database";
 import { useSupabase } from "@/utils/supabase-provider";
 import { useRouter } from "next/navigation";
 import {
@@ -16,6 +15,11 @@ import {
   TableHeader,
   TableRow,
 } from "./table";
+import { deleteEntity } from "@/lib/actions";
+import { toast } from "react-hot-toast";
+import { Entity } from "@/services/database";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
+import { Button } from "./ui/button";
 
 interface Props {
   quotations: Quotation[];
@@ -26,36 +30,25 @@ interface Props {
 export default function Dashboard({ quotations, invoices, userId }: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [id, setId] = useState<string>("");
-  const { supabase } = useSupabase();
-  const router = useRouter();
 
   async function handleConfirmation() {
     const split = id.split("  ");
+    const entity: Entity = split[0] === "quotation" ? "quotation" : "invoice";
     const entityCount =
-      split[0] === "quotation"
+      entity === "quotation"
         ? quotations[0].quote_number
         : invoices[0].quote_number;
 
-    try {
-      await Promise.allSettled([
-        await deleteEntity(supabase, split[0], split[1]),
-        await updateEntityCount(
-          supabase,
-          split[0] === "quotation" ? "quotation" : "invoice",
-          Number(entityCount) - 1,
-          userId
-        ),
-        new Promise((resolve) => setTimeout(resolve, 1000)),
-      ]);
-    } catch (error) {
-      console.error("Something went wrong");
-    }
-
-    router.push("/");
+    await toast.promise(deleteEntity(entity, split[1], Number(entityCount), userId), {
+      error: e => e.message,
+      success: `${split[0]} deleted!!`,
+      loading: `Deleting ${split[0]}...`,
+    })
+    .finally(() => setShowModal(false));
   }
 
   return (
-    <div>
+    <Dialog open={showModal} onOpenChange={setShowModal}>
       <div className="mt-6">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold">Quotations</h2>
@@ -181,13 +174,20 @@ export default function Dashboard({ quotations, invoices, userId }: Props) {
           </Table>
         </div>
       </div>
-      <Modal
-        title="Delete"
-        description="Do you really want to delete?"
-        isOpen={showModal}
-        setIsOpen={setShowModal}
-        handleConfirmation={handleConfirmation}
-      />
-    </div>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Delete</DialogTitle>
+          <DialogDescription>Do you really want to delete?</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmation} variant="destructive">
+            Delete
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
