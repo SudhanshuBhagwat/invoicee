@@ -1,4 +1,4 @@
-import { Quotation } from "@/app/(app)/page";
+// import { Quotation } from "@/app/(app)/page";
 import { IQuotation, Value } from "@/components/Form";
 import { PostgrestSingleResponse, SupabaseClient } from "@supabase/supabase-js";
 
@@ -52,7 +52,7 @@ export async function getDashboardForEntity(
     .select("id, client_name, quote_number, date, amount, created_by")
     .filter("created_by", "eq", userId)
     .order("quote_number", { ascending: false })
-    .limit(5)) as PostgrestSingleResponse<Quotation[]>;
+    .limit(5)) as PostgrestSingleResponse<any[]>;
 
   return {
     data,
