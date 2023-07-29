@@ -57,7 +57,7 @@ export default function Preview({ isSaved = false }: Props) {
       >
         <div className="text-right">
           <p className="font-bold">
-            Quote No: <span className="font-normal">{quotation.number}</span>
+            No: <span className="font-normal">{quotation.number}</span>
           </p>
           <p className="font-bold">
             Date: <span className="font-normal">{quotation.date}</span>

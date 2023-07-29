@@ -21,7 +21,7 @@ export const INITIAL_STATE: IQuotation = {
   note: "",
   items: [],
   amount: 0,
-  number: "",
+  number: "0",
 };
 
 export interface Settings {
@@ -36,6 +36,7 @@ interface Store {
   setState: (quotation: IQuotation | string | null) => void;
   updateNote: (note: string) => void;
   updateField(id: string, value: string): void;
+  updateNumber(number: string): void;
   updateDate(date: string): void;
   addItem: () => void;
   addCategory: (id: string) => void;
@@ -89,10 +90,16 @@ const store = create<Store>((set, get) => ({
       })
     );
   },
+  updateNumber: (number: string) =>
+    set(
+      produce((state) => {
+        state.quotation.number = number;
+      })
+    ),
   updateDate: (date: string) =>
     set(
       produce((state) => {
-        state.date = date;
+        state.quotation.date = date;
       })
     ),
   addItem: () => {

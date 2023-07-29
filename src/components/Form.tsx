@@ -1,19 +1,15 @@
 "use client";
 
 import store from "@/store/store";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { Fragment, ReactNode, useEffect, useRef, useState } from "react";
 
 import Spinner from "@/components/ui/Spinner";
-import {
-  Entity,
-  createEntity,
-  updateEntity,
-  updateEntityCount,
-} from "@/services/database";
-import { useSupabase } from "@/utils/supabase-provider";
+import { Entity } from "@/services/database";
 import DetailsInput from "./DetailsInput";
 import { Item } from "./table-form";
 import { useRouter } from "next/navigation";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
+import { Listbox, Transition } from "@headlessui/react";
 
 export const QUOTATION_DATABASE = "quotation";
 
@@ -55,11 +51,13 @@ interface FormProps {
   children?: ReactNode;
 }
 
+const entity = [{ name: "Quotation" }, { name: "Invoice" }];
+
 export default function Form({ type, initial, children }: FormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useRouter();
-  const { supabase, user } = useSupabase();
+  const [selected, setSelected] = useState(entity[0]);
 
   useEffect(() => {
     setState(initial);
@@ -69,6 +67,8 @@ export default function Form({ type, initial, children }: FormProps) {
   const quotation = store((state) => state.quotation);
   const details = store((state) => state.quotation.details);
   const updateField = store((state) => state.updateField);
+  const updateNumber = store((state) => state.updateNumber);
+  const updateDate = store((state) => state.updateDate);
 
   const totalAmount: number =
     quotation.items.length > 0
@@ -88,50 +88,50 @@ export default function Form({ type, initial, children }: FormProps) {
     updateField(id, value);
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsLoading(true);
-    const quotationCount = Number(quotation.number.substring(2));
-    try {
-      const data = await Promise.allSettled([
-        quotation.id.length > 0
-          ? await updateEntity(supabase, type, {
-              ...quotation,
-              amount: totalAmount,
-            })
-          : await createEntity(
-              supabase,
-              type,
-              {
-                ...quotation,
-                amount: totalAmount,
-              },
-              user!.id
-            ),
-        await updateEntityCount(supabase, type, quotationCount, user!.id),
-        new Promise((resolve) => setTimeout(resolve, 1000)),
-      ]);
-      // @ts-ignore
-      const id = data[0].value[0].id;
+  // async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  //   event.preventDefault();
+  //   setIsLoading(true);
+  //   const quotationCount = Number(quotation.number.substring(2));
+  //   try {
+  //     const data = await Promise.allSettled([
+  //       quotation.id.length > 0
+  //         ? await updateEntity(supabase, type, {
+  //             ...quotation,
+  //             amount: totalAmount,
+  //           })
+  //         : await createEntity(
+  //             supabase,
+  //             type,
+  //             {
+  //               ...quotation,
+  //               amount: totalAmount,
+  //             },
+  //             user!.id
+  //           ),
+  //       await updateEntityCount(supabase, type, quotationCount, user!.id),
+  //       new Promise((resolve) => setTimeout(resolve, 1000)),
+  //     ]);
+  //     // @ts-ignore
+  //     const id = data[0].value[0].id;
 
-      if (quotation.id.length === 0) {
-        navigate.push(`/${type}/${id}`);
-      }
-    } catch (e) {
-      setIsLoading(false);
-      console.error("Something went wrong");
-    }
-    setIsLoading(false);
-    formRef.current?.reset();
-  }
+  //     if (quotation.id.length === 0) {
+  //       navigate.push(`/${type}/${id}`);
+  //     }
+  //   } catch (e) {
+  //     setIsLoading(false);
+  //     console.error("Something went wrong");
+  //   }
+  //   setIsLoading(false);
+  //   formRef.current?.reset();
+  // }
 
-  const entity = `${type.substring(0, 1).toUpperCase()}${type.substring(1)}`;
+  // const entity = `${type.substring(0, 1).toUpperCase()}${type.substring(1)}`;
 
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold flex flex-col">{entity} Editor </h2>
-        <button
+        <h2 className="text-2xl font-bold flex flex-col">Editor </h2>
+        {/* <button
           type="submit"
           form="details"
           className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center"
@@ -143,21 +143,30 @@ export default function Form({ type, initial, children }: FormProps) {
           ) : (
             "Save"
           )}
-        </button>
+        </button> */}
       </div>
       <div className="space-y-4 pb-6">
-        <div className="mb-6">
-          <p className="text-lg font-bold">
-            {entity.slice(0, entity.length)} No:{" "}
-            <span className="font-medium">{quotation.number}</span>
-          </p>
-          <p className="text-lg font-bold">
-            Date: <span className="font-medium">{quotation.date}</span>
+        <div className="mb-6 space-y-4">
+          <DetailsInput
+            label="Number"
+            id="number"
+            onInputChange={(value: string, id: string) => updateNumber(value)}
+            value={quotation.number}
+          />
+          <p className="flex flex-col gap-1">
+            <label htmlFor="date">Date: </label>
+            <input
+              id="date"
+              className="rounded-md border-gray-200"
+              type="date"
+              onChange={(e) => updateDate(e.target.value)}
+              value={quotation.date}
+            />
           </p>
         </div>
         <form
           id="details"
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
           ref={formRef}
           className="space-y-4"
         >
@@ -192,7 +201,7 @@ export default function Form({ type, initial, children }: FormProps) {
           </fieldset>
           <fieldset className="flex flex-col gap-1">
             <h2 className="text-xl font-semibold mb-3">
-              {entity.slice(0, entity.length)} To:
+              {selected.name.slice(0, selected.name.length)} To:
             </h2>
             <div className="grid grid-cols-2 gap-2">
               <DetailsInput
