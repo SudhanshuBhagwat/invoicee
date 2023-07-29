@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers'
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
-import { Entity, deleteEntity as deleteDatabaseEntity, updateEntityCount } from "@/services/database";
+import { Entity, deleteEntity as deleteDatabaseEntity, updateEntityCount, updateUserDetails } from "@/services/database";
 import { revalidatePath } from "next/cache";
 
 export async function deleteEntity(entity: Entity, id: string, count: number, userId: string) {
@@ -23,4 +23,27 @@ export async function deleteEntity(entity: Entity, id: string, count: number, us
   }
 
   revalidatePath("/");
+}
+
+export async function updateUserDetailsAction(formData: FormData) {
+  const client = createServerActionClient({ cookies });
+  try {
+    await Promise.allSettled([
+      await updateUserDetails(
+        client,
+        {
+          name: formData.get("name"),
+          company: formData.get("company"),
+          email: formData.get("email"),
+          mobile: formData.get("mobile"),
+        },
+        (
+          await client.auth.getUser()
+        ).data.user?.id!
+      ),
+      new Promise((resolve) => setTimeout(resolve, 1000)),
+    ]);
+  } catch (error) {
+    throw new Error(`Error saving details`);
+  }
 }
