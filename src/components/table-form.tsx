@@ -122,22 +122,24 @@ export default function TableForm() {
       <div className="flex justify-between items-center mb-4">
         <p className="text-xl font-bold">Items</p>
         <div className="flex gap-4">
-          <label className="flex gap-2">
+          <label className="flex gap-2 items-center">
             Show Total
             <input
               type="checkbox"
               id="showSum"
               name="Show Total"
+              className="rounded"
               checked={settings.showSum}
               onChange={handleChange}
             />
           </label>
-          <label className="flex gap-2">
+          <label className="flex gap-2 items-center">
             Show total for categories
             <input
               type="checkbox"
               id="showSumForCategory"
               name="Show total for categories"
+              className="rounded"
               checked={settings.showSumForCategory}
               onChange={handleChange}
             />
