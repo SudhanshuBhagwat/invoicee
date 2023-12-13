@@ -26,8 +26,8 @@ export default function NotesEditor({ notes }: { notes: string }) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      let html = convertToHTML(editorState.getCurrentContent());
-      updateNote(html);
+      // let html = convertToHTML(editorState.getCurrentContent());
+      // updateNote(html);
     }
   }, [editorState]);
 

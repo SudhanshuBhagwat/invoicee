@@ -1,35 +1,33 @@
 "use client";
 
-import { useSupabase } from "@/utils/supabase-provider";
+// import { useSupabase } from "@/utils/supabase-provider";
 import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
 import React from "react";
 import Link from "next/link";
 
 export default function Navbar() {
-  const { supabase, user } = useSupabase();
+  // const { supabase, user } = useSupabase();
 
   async function handleSignOut() {
-    await supabase.auth.signOut();
+    // await supabase.auth.signOut();
   }
 
   return (
     <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800 border-b">
-      <div className="container flex items-center justify-end h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
+      <div className="flex items-center justify-between h-full px-4 text-purple-600 dark:text-purple-300">
+        <h1 className="text-black font-extrabold text-3xl">Invoicee</h1>
         <ul className="flex items-center flex-shrink-0 space-x-6">
-          <li>
-            <Link href={"/account"}>Account</Link>
-          </li>
           <li className="h-[34px]">
             <Menu as="div" className="relative inline-block text-left">
               <Menu.Button className="focus:outline-none focus-visible:rounded-full focus-visible:ring-offset-2 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-opacity-75">
-                <Image
-                  src={user?.user_metadata["avatar_url"]}
+                {/* <Image
+                  // src={user?.user_metadata["avatar_url"]}
                   className="rounded-full"
                   width={34}
                   height={34}
                   alt="User Image"
-                />
+                /> */}
               </Menu.Button>
               <Transition
                 as={React.Fragment}

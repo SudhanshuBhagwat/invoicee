@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import "../styles/globals.css";
 import { Toaster } from "react-hot-toast";
+import Navbar from "@/components/Navbar";
+import NextAuthProvider from "@/components/NextAuthProvider";
 
 export const metadata: Metadata = {
   title: "Invoicee",
@@ -15,8 +17,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="h-screen">
-        <main className="h-full overflow-y-auto">{children}</main>
-        <Toaster />
+        <NextAuthProvider>
+          <Navbar />
+          <main>{children}</main>
+          <Toaster />
+        </NextAuthProvider>
       </body>
     </html>
   );
