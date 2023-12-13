@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/Navbar";
 import NextAuthProvider from "@/components/NextAuthProvider";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Invoicee",
@@ -18,9 +19,11 @@ export default async function RootLayout({
     <html lang="en">
       <body className="h-screen">
         <NextAuthProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Toaster />
+          <Providers>
+            <Navbar />
+            <main>{children}</main>
+            <Toaster />
+          </Providers>
         </NextAuthProvider>
       </body>
     </html>
