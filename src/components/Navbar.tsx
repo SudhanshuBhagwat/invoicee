@@ -1,18 +1,13 @@
 "use client";
 
-// import { useSupabase } from "@/utils/supabase-provider";
 import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
 import React from "react";
-import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
-  // const { supabase, user } = useSupabase();
-
-  async function handleSignOut() {
-    // await supabase.auth.signOut();
-  }
-
+  const { data } = useSession();
+  console.log({ data });
   return (
     <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800 border-b">
       <div className="flex items-center justify-between h-full px-4 text-purple-600 dark:text-purple-300">
@@ -43,7 +38,7 @@ export default function Navbar() {
                     <Menu.Item>
                       {({ active }) => (
                         <button
-                          onClick={handleSignOut}
+                          onClick={() => signOut()}
                           className={`${
                             active ? "bg-blue-600 text-white" : "text-gray-900"
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}

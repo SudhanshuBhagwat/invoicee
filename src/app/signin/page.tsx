@@ -7,7 +7,11 @@ export default async function Page() {
     <div className={`flex items-center`}>
       <button
         className="px-4 py-2 bg-green-600 rounded-md text-white font-bold"
-        onClick={() => signIn("google")}
+        onClick={() =>
+          signIn("google", {
+            callbackUrl: "/",
+          })
+        }
       >
         Login with Google
       </button>
