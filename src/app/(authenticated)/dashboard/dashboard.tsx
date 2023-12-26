@@ -114,11 +114,11 @@ export default function Dashboard({ invoices, userId }: Props) {
         </div>
       </div> */}
 
-      <div className="mt-6">
+      <div>
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold">Invoices</h2>
           <Link
-            href="/invoice"
+            href="/new-invoice"
             className="flex items-center bg-blue-600 rounded-md px-4 py-2 font-semibold text-white hover:bg-blue-500 space-x-2"
           >
             <PlusIcon className="w-6 h-6" />

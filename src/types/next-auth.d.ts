@@ -7,6 +7,10 @@ declare module "next-auth" {
     supabaseAccessToken?: string;
     user: {
       // he user's postal address
+      id: string;
+      name: string;
+      email: string;
+      image: string;
       address: string;
     } & DefaultSession["user"];
   }

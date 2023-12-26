@@ -2,7 +2,6 @@ import NextAuthProvider from "@/components/NextAuthProvider";
 import { Metadata } from "next";
 import "../styles/globals.css";
 import { Providers } from "./providers";
-import SupabaseProvider from "@/utils/supabase-provider";
 
 export const metadata: Metadata = {
   title: "Invoicee",
@@ -18,9 +17,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className="h-screen">
         <NextAuthProvider>
-          <SupabaseProvider>
-            <Providers>{children}</Providers>
-          </SupabaseProvider>
+          <Providers>{children}</Providers>
         </NextAuthProvider>
       </body>
     </html>

@@ -1,12 +1,16 @@
-import { getDashboardForEntity } from "@/services/database";
 import Dashboard from "./dashboard";
-import supabase from "@/lib/supabase";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { db, getInvoicesByID } from "@/lib/db";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
-  console.log(session);
+  const invoices = await getInvoicesByID(session?.user.id!);
 
-  return <div>Dashboard</div>;
+  return (
+    <div>
+      <h2 className="text-2xl font-bold mt-4 mb-2">Dashboard</h2>
+      <Dashboard invoices={invoices} userId={session?.user.id!} />
+    </div>
+  );
 }
