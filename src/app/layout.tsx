@@ -1,9 +1,8 @@
+import NextAuthProvider from "@/components/NextAuthProvider";
 import { Metadata } from "next";
 import "../styles/globals.css";
-import { Toaster } from "react-hot-toast";
-import Navbar from "@/components/Navbar";
-import NextAuthProvider from "@/components/NextAuthProvider";
 import { Providers } from "./providers";
+import SupabaseProvider from "@/utils/supabase-provider";
 
 export const metadata: Metadata = {
   title: "Invoicee",
@@ -19,11 +18,9 @@ export default async function RootLayout({
     <html lang="en">
       <body className="h-screen">
         <NextAuthProvider>
-          <Providers>
-            <Navbar />
-            <main>{children}</main>
-            <Toaster />
-          </Providers>
+          <SupabaseProvider>
+            <Providers>{children}</Providers>
+          </SupabaseProvider>
         </NextAuthProvider>
       </body>
     </html>

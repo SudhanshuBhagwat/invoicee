@@ -16,21 +16,21 @@ export const authOptions: NextAuthOptions = {
     secret: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
   }),
   callbacks: {
-    // async session({ session, user }) {
-    //   const signingSecret = process.env.SUPABASE_JWT_SECRET;
-    //   if (signingSecret) {
-    //     const payload = {
-    //       aud: "authenticated",
-    //       exp: Math.floor(new Date(session.expires).getTime() / 1000),
-    //       sub: user.id,
-    //       email: user.email,
-    //       role: "authenticated",
-    //     };
-    //     session.supabaseAccessToken = jwt.sign(payload, signingSecret);
-    //   }
-    //   console.log({ session });
-    //   return session;
-    // },
+    async session({ session, user }) {
+      const signingSecret = process.env.SUPABASE_JWT_SECRET;
+      if (signingSecret) {
+        const payload = {
+          aud: "authenticated",
+          exp: Math.floor(new Date(session.expires).getTime() / 1000),
+          sub: user.id,
+          email: user.email,
+          role: "authenticated",
+        };
+        session.supabaseAccessToken = jwt.sign(payload, signingSecret);
+      }
+      console.log({ session });
+      return session;
+    },
   },
   pages: {
     signIn: "/signin",
