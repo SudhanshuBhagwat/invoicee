@@ -33,7 +33,7 @@ export async function getInvoicesByID(id: string) {
       amount: invoice.amount || 0,
       date: format(invoice.date, "dd-MM-yyyy"),
       id: invoice.id,
-      number: invoice.quote_number,
+      number: String(invoice.quote_number),
       items: invoice.items,
       note: invoice.notes,
       details: {

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
 import React from "react";
 import { signOut, useSession } from "next-auth/react";
+import { Separator } from "./ui/separator";
 
 export default function Navbar() {
   const { data } = useSession();
@@ -36,6 +37,45 @@ export default function Navbar() {
                 >
                   <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="px-1 py-1 ">
+                      <Menu.Item disabled>
+                        <span
+                          className={`group flex flex-col w-full rounded-md px-2 py-2 text-sm text-gray-900`}
+                        >
+                          <h4 className="font-medium">{data.user.name}</h4>
+                          <p className="text-xs">{data.user.email}</p>
+                        </span>
+                      </Menu.Item>
+                      <Separator />
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="/profile"
+                            className={`${
+                              active
+                                ? "bg-blue-600 text-white"
+                                : "text-gray-900"
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          >
+                            Profile
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="/settings"
+                            className={`${
+                              active
+                                ? "bg-blue-600 text-white"
+                                : "text-gray-900"
+                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          >
+                            Settings
+                          </a>
+                        )}
+                      </Menu.Item>
+
+                      <Separator />
                       <Menu.Item>
                         {({ active }) => (
                           <button

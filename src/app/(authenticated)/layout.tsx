@@ -19,7 +19,7 @@ export default async function Layout({
   return (
     <div>
       <Navbar />
-      <main>{children}</main>
+      <main className="mx-4">{children}</main>
       <Toaster />
     </div>
   );
