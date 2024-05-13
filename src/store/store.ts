@@ -1,7 +1,7 @@
 import { IQuotation, QUOTATION_DATABASE, Value } from "../components/Form";
 import { create } from "zustand";
 import { produce } from "immer";
-import { format } from "date-fns";
+import { format, formatISO } from "date-fns";
 import { Item } from "@/components/table-form";
 import { v4 } from "uuid";
 
@@ -18,7 +18,49 @@ export const INITIAL_STATE: IQuotation = {
     clientEmail: "",
   },
   date: format(new Date(), "yyyy-MM-dd"),
-  note: "",
+  notes: {
+    entityMap: {
+      "0": {
+        type: "TOKEN",
+        mutability: "SEGMENTED",
+        data: {
+          time: 1657116932641,
+        },
+      },
+    },
+    blocks: [
+      {
+        key: "ekpc6",
+        text: "aaa",
+        type: "unstyled",
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {},
+      },
+      {
+        key: "dmkkr",
+        text: "foo",
+        type: "unstyled",
+        depth: 0,
+        inlineStyleRanges: [
+          {
+            offset: 0,
+            length: 3,
+            style: "INSERT",
+          },
+        ],
+        entityRanges: [
+          {
+            offset: 0,
+            length: 3,
+            key: 0,
+          },
+        ],
+        data: {},
+      },
+    ],
+  },
   items: [],
   amount: 0,
   number: "0",
@@ -34,7 +76,7 @@ interface Store {
   settings: Settings;
   setId: (id: string) => void;
   setState: (quotation: IQuotation | string | null) => void;
-  updateNote: (note: string) => void;
+  updateNote: (note: any) => void;
   updateField(id: string, value: string): void;
   updateNumber(number: string): void;
   updateDate(date: string): void;
@@ -79,7 +121,7 @@ const store = create<Store>((set, get) => ({
   updateNote: (note: string) => {
     set(
       produce((state) => {
-        state.quotation.note = note;
+        state.quotation.notes = note;
       })
     );
   },

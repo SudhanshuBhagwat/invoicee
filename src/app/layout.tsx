@@ -1,4 +1,3 @@
-import NextAuthProvider from "@/components/NextAuthProvider";
 import { Metadata } from "next";
 import "../styles/globals.css";
 import { Providers } from "./providers";
@@ -16,9 +15,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="h-screen">
-        <NextAuthProvider>
-          <Providers>{children}</Providers>
-        </NextAuthProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

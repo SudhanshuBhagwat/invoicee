@@ -3,6 +3,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import store from "@/store/store";
 import React, { ChangeEvent, InputHTMLAttributes } from "react";
+import { Input } from "./ui/input";
 
 export interface SubItem {
   id: string;
@@ -15,22 +16,6 @@ export interface Item {
   description: string;
   category: SubItem[];
   amount: SubItem[];
-}
-
-interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  handleChange: (value: string) => void;
-}
-
-function FormInput({ value, handleChange, ...rest }: FormInputProps) {
-  return (
-    <input
-      {...rest}
-      value={value}
-      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-        handleChange(e.target.value)
-      }
-    />
-  );
 }
 
 export default function TableForm() {
@@ -51,70 +36,61 @@ export default function TableForm() {
   }
 
   function renderNestedItems(items: Item, idx: number) {
-    return items.category.map((category, index) => (
-      <tr key={`${idx}-${items.id}-${index}`}>
-        {index === 0 && (
-          <td rowSpan={items.category.length + 1} className="border">
-            <div className="flex flex-col">
-              <FormInput
-                placeholder="Exterior"
-                value={items.name}
-                size={1}
-                className="p-2 w-full"
-                handleChange={(value: string) =>
-                  updateItem(items.id, "name", value)
-                }
-              />
-              <FormInput
-                placeholder="(Per Floor)"
-                value={items.description}
-                size={1}
-                className="p-2 w-full text-sm"
-                handleChange={(value: string) =>
-                  updateItem(items.id, "description", value)
-                }
-              />
+    return items.category.map((category, index) => {
+      return (
+        <tr key={`${idx}-${items.id}-${index}`}>
+          {index === 0 && (
+            <td rowSpan={items.category.length + 1} className="border">
+              <div className="flex flex-col">
+                <Input
+                  placeholder="Exterior"
+                  defaultValue={items.name}
+                  size={1}
+                  name={`item[${idx}][name]`}
+                  className="p-2 w-full"
+                />
+                <div className="h-[0.5px] bg-gray-200" />
+                <Input
+                  placeholder="(Per Floor)"
+                  defaultValue={items.description}
+                  size={1}
+                  name={`item[${idx}][description]`}
+                  className="p-2 w-full text-sm"
+                />
+              </div>
+            </td>
+          )}
+          <td className="border">
+            <Input
+              className="p-2 w-full"
+              size={1}
+              name={`item[${idx}]category[${index}][value]`}
+              placeholder="Kitchen"
+              defaultValue={category.value}
+            />
+          </td>
+          <td className="border">
+            <Input
+              type="number"
+              name={`item[${idx}]amount[${index}][value]`}
+              className="p-2 w-full"
+              placeholder="2500"
+              defaultValue={items.amount[index].value}
+            />
+          </td>
+          <td className="border">
+            <div className="flex justify-center">
+              <button
+                onClick={() => removeCategory(items.id, index)}
+                className="text-red-400 text-sm"
+              >
+                Delete
+              </button>
             </div>
           </td>
-        )}
-        <td className="border">
-          <FormInput
-            className="p-2 w-full"
-            size={1}
-            placeholder="Kitchen"
-            value={category.value}
-            handleChange={(value: string) =>
-              updateItem(`${items.id}$${category.id}`, "category", value)
-            }
-          />
-        </td>
-        <td className="border">
-          <FormInput
-            type="number"
-            className="p-2 w-full"
-            placeholder="2500"
-            value={items.amount[index].value}
-            handleChange={(value: string) =>
-              updateItem(
-                `${items.id}$${items.amount[index].id}`,
-                "amount",
-                value
-              )
-            }
-          />
-        </td>
-        <td className="border">
-          <div className="flex justify-center">
-            <button
-              onClick={() => removeCategory(items.id, index)}
-              className="text-red-400 text-sm"
-            >
-              Delete
-            </button>
-          </div>
-        </td>
-      </tr>
-    ));
+        </tr>
+      );
+    });
   }
 
   return (
@@ -127,7 +103,6 @@ export default function TableForm() {
             <input
               type="checkbox"
               id="showSum"
-              name="Show Total"
               className="rounded"
               checked={settings.showSum}
               onChange={handleChange}
@@ -164,6 +139,7 @@ export default function TableForm() {
                   <tr key={`${idx}-ADD`}>
                     <td colSpan={3} className="border">
                       <button
+                        type="button"
                         onClick={() => addCategory(d.id)}
                         className="px-4 py-2 w-full text-center"
                       >
@@ -177,6 +153,7 @@ export default function TableForm() {
             <tr>
               <td colSpan={4} className="border">
                 <button
+                  type="button"
                   onClick={addItem}
                   className="px-4 py-2 w-full text-center"
                 >

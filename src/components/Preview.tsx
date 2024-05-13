@@ -1,16 +1,19 @@
 "use client";
 
 import store from "@/store/store";
+import { calculateTotalAmount } from "@/utils/utils";
+import { Editor, EditorState, convertFromRaw } from "draft-js";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Item } from "./table-form";
-import sanitizeHtml from "sanitize-html";
+import { UserData } from "@/types/types";
 
 interface Props {
   isSaved?: boolean;
+  user: UserData;
 }
 
-export default function Preview({ isSaved = false }: Props) {
+export default function Preview({ isSaved = false, user }: Props) {
   const componentRef = useRef<HTMLDivElement>(null);
   const quotation = store((state) => state.quotation);
   const settings = store((state) => state.settings);
@@ -18,25 +21,9 @@ export default function Preview({ isSaved = false }: Props) {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const totalAmount: number =
-    quotation.items.length > 0
-      ? quotation.items
-          .map((item) => {
-            return item.amount.reduce(
-              (acc, subItem) => acc + Number(subItem.value),
-              0
-            );
-          })
-          .reduce((acc, item) => {
-            return acc + item;
-          }, 0)
-      : 0;
-
-  function createMarkup(html: string) {
-    return {
-      __html: sanitizeHtml(html),
-    };
-  }
+  const totalAmount: number = calculateTotalAmount(quotation);
+  const contentState = convertFromRaw(quotation.notes);
+  const editorState = EditorState.createWithContent(contentState);
 
   return (
     <div className="h-full bg-slate-100 p-4">
@@ -66,10 +53,10 @@ export default function Preview({ isSaved = false }: Props) {
         <div className="flex justify-between mt-10">
           <div className="space-y-1">
             <h2 className="text-lg font-bold">Company:</h2>
-            <p>{quotation.details.ownerName}</p>
-            <p>{quotation.details.ownerCompany}</p>
-            <p>{quotation.details.ownerMobile}</p>
-            <p>{quotation.details.ownerEmail}</p>
+            <p>{user.name}</p>
+            <p>{user.company}</p>
+            <p>{user.mobile}</p>
+            <p>{user.email}</p>
           </div>
           <div className="space-y-1 text-right">
             <h2 className="text-lg font-bold">Customer:</h2>
@@ -180,9 +167,11 @@ export default function Preview({ isSaved = false }: Props) {
         </div>
         <div className="mt-6 space-y-2">
           <h2 className="font-bold">Note:</h2>
-          <div
-            className="prose prose-zinc text-black prose-sm prose-ul:"
-            dangerouslySetInnerHTML={createMarkup(quotation.note)}
+          <Editor
+            editorKey="editor"
+            editorState={editorState}
+            readOnly={true}
+            onChange={() => {}}
           />
           {/* <ul className="list-disc ml-4">
             <li className="">

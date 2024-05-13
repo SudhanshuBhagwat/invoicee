@@ -1,35 +1,22 @@
 "use client";
 
-import { EditorState } from "draft-js";
-import { useEffect, useState } from "react";
-import { convertToHTML, convertFromHTML } from "draft-convert";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import store from "@/store/store";
+import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import dynamic from "next/dynamic";
+import { useState } from "react";
 import { EditorProps } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const Editor = dynamic<EditorProps>(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   { ssr: false }
 );
 
-export default function NotesEditor({ notes }: { notes: string }) {
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
+export default function NotesEditor({ notes }: { notes: any }) {
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(convertFromRaw(notes))
   );
   const updateNote = store((state) => state.updateNote);
-
-  useEffect(() => {
-    const contentState = convertFromHTML(notes);
-    setEditorState(EditorState.createWithContent(contentState));
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // let html = convertToHTML(editorState.getCurrentContent());
-      // updateNote(html);
-    }
-  }, [editorState]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -45,9 +32,12 @@ export default function NotesEditor({ notes }: { notes: string }) {
           },
         }}
         editorState={editorState}
-        onEditorStateChange={setEditorState}
+        onEditorStateChange={(e) => {
+          setEditorState(e);
+          updateNote(convertToRaw(e.getCurrentContent()));
+        }}
         toolbarClassName="border rounded"
-        editorClassName="border rounded m-0"
+        editorClassName="border rounded m-0 px-2"
       />
     </div>
   );
