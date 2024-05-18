@@ -8,6 +8,7 @@ import Link from "next/link";
 import { User } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@/utils/supabase/client";
+import NavLink from "./ui/nav-link";
 
 export default function Navbar({ user }: { user?: User }) {
   const navigation = useRouter();
@@ -23,7 +24,18 @@ export default function Navbar({ user }: { user?: User }) {
   return (
     <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800 border-b">
       <div className="flex items-center justify-between h-full px-4 text-purple-600 dark:text-purple-300">
-        <h1 className="text-black font-extrabold text-3xl">Invoicee</h1>
+        <div className="flex items-center space-x-8">
+          <h1 className="text-black font-extrabold text-3xl select-none">
+            Invoicee
+          </h1>
+          <NavLink
+            className="text-md text-black px-3 py-1"
+            activeClassName="bg-gray-200 rounded"
+            href={"/dashboard"}
+          >
+            Dashboard
+          </NavLink>
+        </div>
         {user ? (
           <ul className="flex items-center flex-shrink-0 space-x-6">
             <li className="h-[34px]">
