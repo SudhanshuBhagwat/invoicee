@@ -79,8 +79,11 @@ export default function Form({ initial, user, children }: FormProps) {
               />
             </div>
           </div>
-          <fieldset name="ownerDetails" className="flex flex-col gap-1">
-            <h2 className="text-xl font-semibold mb-3">From:</h2>
+          <fieldset
+            name="ownerDetails"
+            className="grid gap-6 rounded-lg border p-4"
+          >
+            <legend className="-ml-1 px-1 text-sm font-medium">From</legend>
             <div className="grid grid-cols-2 gap-2">
               <DetailsInput
                 label="Name"
@@ -112,8 +115,13 @@ export default function Form({ initial, user, children }: FormProps) {
               />
             </div>
           </fieldset>
-          <fieldset name="clientDetails" className="flex flex-col gap-1">
-            <h2 className="text-xl font-semibold mb-3">Quotation To:</h2>
+          <fieldset
+            name="clientDetails"
+            className="grid gap-6 rounded-lg border p-4"
+          >
+            <legend className="-ml-1 px-1 text-sm font-medium">
+              Quotation To:
+            </legend>
             <div className="grid grid-cols-2 gap-2">
               <DetailsInput
                 label="Name"

@@ -19,8 +19,8 @@ export default function NotesEditor({ notes }: { notes: any }) {
   const updateNote = store((state) => state.updateNote);
 
   return (
-    <div className="flex flex-col gap-4">
-      <p className="text-xl font-bold">Editor</p>
+    <fieldset name="clientDetails" className="gap-6 rounded-lg border p-4">
+      <legend className="-ml-1 px-1 text-sm font-medium">Notes</legend>
       <Editor
         toolbar={{
           options: ["inline", "list"],
@@ -39,6 +39,6 @@ export default function NotesEditor({ notes }: { notes: any }) {
         toolbarClassName="border rounded"
         editorClassName="border rounded m-0 px-2"
       />
-    </div>
+    </fieldset>
   );
 }

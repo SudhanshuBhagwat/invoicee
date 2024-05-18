@@ -5,8 +5,7 @@ import { calculateTotalAmount } from "@/utils/utils";
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import { Item } from "./table-form";
-import { UserData } from "@/types/types";
+import { Item, UserData } from "@/types/types";
 
 interface Props {
   isSaved?: boolean;
