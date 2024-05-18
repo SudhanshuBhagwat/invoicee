@@ -2,21 +2,9 @@
 
 import { PlusIcon } from "@heroicons/react/24/outline";
 import store from "@/store/store";
-import React, { ChangeEvent, InputHTMLAttributes } from "react";
+import React, { ChangeEvent } from "react";
 import { Input } from "./ui/input";
-
-export interface SubItem {
-  id: string;
-  value: string;
-}
-
-export interface Item {
-  id: string;
-  name: string;
-  description: string;
-  category: SubItem[];
-  amount: SubItem[];
-}
+import { Item } from "@/types/types";
 
 export default function TableForm() {
   const {

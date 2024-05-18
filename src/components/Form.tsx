@@ -1,56 +1,17 @@
 "use client";
 
 import store from "@/store/store";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect } from "react";
 
 import Spinner from "@/components/ui/Spinner";
 import DetailsInput from "./DetailsInput";
-import TableForm, { Item } from "./table-form";
 import { Label } from "./ui/label";
-import { handleSubmit } from "@/lib/actions";
-import { format, formatISO, parseISO } from "date-fns";
-import { UserData } from "@/types/types";
+import { format, parseISO } from "date-fns";
+import { IQuotation, UserData } from "@/types/types";
 import { Entity, createInvoice } from "@/services/database";
-import { createBrowserClient } from "@/utils/supabase/client";
-import { Json } from "@/types/supabase";
-import { calculateTotalAmount } from "@/utils/utils";
-import { useFormState } from "react-dom";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { useFormStatus } from "react-dom";
 
 export const QUOTATION_DATABASE = "quotation";
-
-export type IAmount = {
-  value: number;
-  description: string;
-};
-
-export type IDetails = {
-  ownerName: string;
-  ownerCompany: string;
-  ownerMobile: string;
-  ownerEmail: string;
-  clientName: string;
-  clientCompany: string;
-  clientMobile: string;
-  clientEmail: string;
-};
-
-export type Value = {
-  id: number;
-  value: string;
-  description?: string;
-};
-
-export type IQuotation = {
-  id: string;
-  details: IDetails;
-  items: Item[];
-  date: string;
-  notes: any;
-  amount: number;
-  number: string;
-};
 
 interface FormProps {
   type: Entity;
@@ -62,7 +23,7 @@ interface FormProps {
 const entity = [{ name: "Quotation" }, { name: "Invoice" }] as const;
 
 export default function Form({ initial, user, children }: FormProps) {
-  const [_, action, isPending] = useFormState(createInvoice, null);
+  const { pending: isPending } = useFormStatus();
 
   useEffect(() => {
     setState(initial);
@@ -79,61 +40,23 @@ export default function Form({ initial, user, children }: FormProps) {
     updateField(id, value);
   }
 
-  async function createInvoice() {
-    console.log("Svaing", quotation);
-    const supabase = await createBrowserClient();
-    const totalAmount = calculateTotalAmount(quotation);
-
-    let finalQuote = {
-      amount: Number(totalAmount),
-      created_at: quotation.date,
-      client_company: quotation.details.clientCompany,
-      client_email: quotation.details.clientEmail,
-      client_mobile: quotation.details.clientMobile,
-      client_name: quotation.details.clientName,
-      date: quotation.date,
-      items: JSON.stringify(quotation.items),
-      notes: JSON.stringify(quotation.notes),
-      quote_number: Number(quotation.number),
-      created_by_id: user?.id,
-    };
-
-    let result;
-
-    if (quotation.id) {
-      result = await supabase
-        .from("invoices")
-        .update(finalQuote)
-        .eq("id", quotation.id);
-    } else {
-      result = await supabase.from("invoices").insert(finalQuote);
-    }
-
-    if (!result.error) {
-      redirect("/dashboard");
-    }
-  }
-
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold flex flex-col">Editor </h2>
-        <button
-          type="submit"
-          form="details"
-          className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center"
-        >
-          {isPending ? (
-            <Spinner />
-          ) : quotation.id.length > 0 ? (
-            "Update"
-          ) : (
-            "Save"
-          )}
-        </button>
-      </div>
-      <div className="space-y-4 pb-6">
-        <form id="details" action={action} className="space-y-4">
+      <div id="details" className="space-y-4">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold flex flex-col">Editor </h2>
+          <button
+            type="submit"
+            form="details"
+            className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center"
+            onClick={async () => {
+              await createInvoice(quotation, user.id);
+            }}
+          >
+            {isPending ? <Spinner /> : quotation.id ? "Update" : "Save"}
+          </button>
+        </div>
+        <div className="space-y-4 pb-6">
           <input name="id" className="hidden" defaultValue={user?.id} />
           <div className="mb-6 flex gap-2">
             <DetailsInput
@@ -219,7 +142,7 @@ export default function Form({ initial, user, children }: FormProps) {
             </div>
           </fieldset>
           {children}
-        </form>
+        </div>
       </div>
     </div>
   );

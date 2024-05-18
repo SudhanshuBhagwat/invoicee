@@ -129,7 +129,7 @@ export default function Dashboard({ invoices, userId }: Props) {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-64">Invoice Number</TableHead>
+                <TableHead className="w-64">Number</TableHead>
                 <TableHead className="w-80">To</TableHead>
                 <TableHead className="w-36">Date</TableHead>
                 <TableHead className="w-36">Amount</TableHead>

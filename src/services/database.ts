@@ -1,3 +1,5 @@
+"use server";
+
 // import { Quotation } from "@/app/(app)/page";
 import { IQuotation, Value } from "@/components/Form";
 import { PostgrestSingleResponse, SupabaseClient } from "@supabase/supabase-js";
@@ -6,6 +8,8 @@ import { calculateTotalAmount } from "@/utils/utils";
 import { createBrowserClient } from "@/utils/supabase/client";
 import { UserData } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const QUOTATIONS: string = "quotations";
 const INVOICES: string = "invoices";
@@ -285,20 +289,36 @@ export async function getCurrentUser(
 }
 
 export async function createInvoice(quotation: IQuotation, userId: string) {
+  const supabase = await createClient();
   const totalAmount = calculateTotalAmount(quotation);
 
-  const response = await fetch("http://localhost:3000/api/invoice", {
-    method: "POST",
-    body: JSON.stringify({
-      quotation: {
-        ...quotation,
-        amount: totalAmount,
-      },
-      userId,
-    }),
-  });
+  let finalQuote = {
+    amount: Number(totalAmount),
+    created_at: quotation.date,
+    client_company: quotation.details.clientCompany,
+    client_email: quotation.details.clientEmail,
+    client_mobile: quotation.details.clientMobile,
+    client_name: quotation.details.clientName,
+    date: quotation.date,
+    items: JSON.stringify(quotation.items),
+    notes: JSON.stringify(quotation.notes),
+    quote_number: Number(quotation.number),
+    created_by_id: userId,
+  };
 
-  const result = await response.json();
-  console.log(result);
-  return result;
+  let result;
+
+  if (quotation.id) {
+    result = await supabase
+      .from("invoices")
+      .update(finalQuote)
+      .eq("id", quotation.id);
+  } else {
+    result = await supabase.from("invoices").insert(finalQuote);
+  }
+
+  if (!result.error) {
+    revalidatePath("/dashboard");
+    redirect("/dashboard");
+  }
 }
