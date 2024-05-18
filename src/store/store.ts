@@ -1,9 +1,8 @@
-import { IQuotation, QUOTATION_DATABASE, Value } from "../components/Form";
 import { create } from "zustand";
 import { produce } from "immer";
 import { format, formatISO } from "date-fns";
-import { Item } from "@/components/table-form";
 import { v4 } from "uuid";
+import { IQuotation, Item } from "@/types/types";
 
 export const INITIAL_STATE: IQuotation = {
   id: "",

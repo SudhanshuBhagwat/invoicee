@@ -4,7 +4,6 @@ import { PlusIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { useState } from "react";
 
-import { IQuotation } from "@/components/Form";
 import {
   Table,
   TableBody,
@@ -22,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { IQuotation } from "@/types/types";
 
 interface Props {
   quotations?: IQuotation[];
