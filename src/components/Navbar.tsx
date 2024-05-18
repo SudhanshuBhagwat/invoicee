@@ -9,7 +9,7 @@ import { User } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@/utils/supabase/client";
 
-export default function Navbar({ user }: { user: User }) {
+export default function Navbar({ user }: { user?: User }) {
   const navigation = useRouter();
 
   async function handleSignOut() {

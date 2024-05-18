@@ -139,7 +139,7 @@ export default function Dashboard({ invoices, userId }: Props) {
             <TableBody>
               {invoices.length > 0 ? (
                 invoices.map((invoice) => (
-                  <TableRow key={invoice.number}>
+                  <TableRow key={invoice.id}>
                     <TableCell scope="row">{invoice.number}</TableCell>
                     <TableCell>{invoice.details.clientName}</TableCell>
                     <TableCell>{invoice.date}</TableCell>

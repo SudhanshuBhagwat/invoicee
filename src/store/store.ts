@@ -213,10 +213,7 @@ const store = create<Store>((set, get) => ({
           const itemIndex = state.quotation.items.findIndex(
             (i: Item) => i.id === itemId
           );
-          const innerItemIndex = state.quotation.items[itemIndex][
-            key
-          ].findIndex((i: Item) => i.id === innerItemId);
-          state.quotation.items[itemIndex][key][innerItemIndex].value = value;
+          state.quotation.items[itemIndex][key][innerItemId].value = value;
         }
       })
     );

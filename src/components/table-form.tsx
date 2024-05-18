@@ -29,10 +29,14 @@ export default function TableForm() {
     updateSetting,
   } = store();
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+  function handleSettingChange(event: ChangeEvent<HTMLInputElement>) {
     const value = Boolean(event.target.checked);
 
     updateSetting(event.target.id, value);
+  }
+
+  function handleInputChange(id: string, key: keyof Item, value: string) {
+    updateItem(id, key, value);
   }
 
   function renderNestedItems(items: Item, idx: number) {
@@ -48,6 +52,9 @@ export default function TableForm() {
                   size={1}
                   name={`item[${idx}][name]`}
                   className="p-2 w-full"
+                  onChange={(e) =>
+                    handleInputChange(items.id, "name", e.target.value)
+                  }
                 />
                 <div className="h-[0.5px] bg-gray-200" />
                 <Input
@@ -56,6 +63,9 @@ export default function TableForm() {
                   size={1}
                   name={`item[${idx}][description]`}
                   className="p-2 w-full text-sm"
+                  onChange={(e) =>
+                    handleInputChange(items.id, "description", e.target.value)
+                  }
                 />
               </div>
             </td>
@@ -67,6 +77,13 @@ export default function TableForm() {
               name={`item[${idx}]category[${index}][value]`}
               placeholder="Kitchen"
               defaultValue={category.value}
+              onChange={(e) =>
+                handleInputChange(
+                  `${items.id}$${index}`,
+                  "category",
+                  e.target.value
+                )
+              }
             />
           </td>
           <td className="border">
@@ -76,6 +93,13 @@ export default function TableForm() {
               className="p-2 w-full"
               placeholder="2500"
               defaultValue={items.amount[index].value}
+              onChange={(e) =>
+                handleInputChange(
+                  `${items.id}$${index}`,
+                  "amount",
+                  e.target.value
+                )
+              }
             />
           </td>
           <td className="border">
@@ -105,7 +129,7 @@ export default function TableForm() {
               id="showSum"
               className="rounded"
               checked={settings.showSum}
-              onChange={handleChange}
+              onChange={handleSettingChange}
             />
           </label>
           <label className="flex gap-2 items-center">
@@ -116,7 +140,7 @@ export default function TableForm() {
               name="Show total for categories"
               className="rounded"
               checked={settings.showSumForCategory}
-              onChange={handleChange}
+              onChange={handleSettingChange}
             />
           </label>
         </div>

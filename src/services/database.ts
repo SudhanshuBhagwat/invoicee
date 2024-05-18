@@ -194,7 +194,7 @@ export async function getServices(supabase: SupabaseClient, userId: string) {
 
 export async function getInvoiceByID(id: string) {
   const supabase = createClient();
-  const user = await getCurrentUser();
+  const user = await getCurrentUser(supabase);
   const { data: invoice, error } = await supabase
     .from("invoices")
     .select("*")
@@ -206,11 +206,11 @@ export async function getInvoiceByID(id: string) {
 
   return {
     amount: invoice![0].amount || 0,
-    date: format(invoice![0].date, "dd-mm-yyyy"),
+    date: format(invoice![0].date, "yyyy-MM-dd"),
     id: invoice![0].id,
     number: String(invoice![0].quote_number),
-    items: invoice![0].items,
-    notes: invoice![0].notes,
+    items: JSON.parse(invoice![0].items),
+    notes: JSON.parse(invoice![0].notes || ""),
     details: {
       clientCompany: invoice![0].client_company,
       clientEmail: invoice![0].client_email,
@@ -227,7 +227,7 @@ export async function getInvoiceByID(id: string) {
 export async function getInvoices() {
   const invoices: IQuotation[] = [];
   const supabase = createClient();
-  const user = await getCurrentUser();
+  const user = await getCurrentUser(supabase);
   const serverInvoices = await supabase
     .from("invoices")
     .select("*")
@@ -240,11 +240,11 @@ export async function getInvoices() {
   for (const invoice of serverInvoices.data!) {
     invoices.push({
       amount: invoice.amount || 0,
-      date: format(parseISO(invoice.date), "dd-mm-yyyy"),
+      date: format(parseISO(invoice.date), "yyyy-MM-dd"),
       id: invoice.id,
       number: String(invoice.quote_number),
-      items: invoice.items,
-      notes: invoice.notes,
+      items: JSON.parse(invoice.items),
+      notes: JSON.parse(invoice.notes || ""),
       details: {
         clientCompany: invoice.client_company,
         clientEmail: invoice.client_email,
@@ -261,10 +261,11 @@ export async function getInvoices() {
   return invoices;
 }
 
-export async function getCurrentUser(): Promise<UserData | null> {
-  const supabase = createClient();
-  const user = await supabase.auth.getUser();
-  const userData = await supabase
+export async function getCurrentUser(
+  client: SupabaseClient
+): Promise<UserData | null> {
+  const user = await client.auth.getUser();
+  const userData = await client
     .from("User")
     .select("*")
     .eq("provider_id", user.data.user?.id!);

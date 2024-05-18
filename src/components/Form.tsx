@@ -13,6 +13,10 @@ import { UserData } from "@/types/types";
 import { Entity, createInvoice } from "@/services/database";
 import { createBrowserClient } from "@/utils/supabase/client";
 import { Json } from "@/types/supabase";
+import { calculateTotalAmount } from "@/utils/utils";
+import { useFormState } from "react-dom";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export const QUOTATION_DATABASE = "quotation";
 
@@ -41,7 +45,7 @@ export type Value = {
 export type IQuotation = {
   id: string;
   details: IDetails;
-  items: Json;
+  items: Item[];
   date: string;
   notes: any;
   amount: number;
@@ -55,11 +59,10 @@ interface FormProps {
   user: UserData;
 }
 
-const entity = [{ name: "Quotation" }, { name: "Invoice" }];
+const entity = [{ name: "Quotation" }, { name: "Invoice" }] as const;
 
 export default function Form({ initial, user, children }: FormProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [selected, setSelected] = useState(entity[0]);
+  const [_, action, isPending] = useFormState(createInvoice, null);
 
   useEffect(() => {
     setState(initial);
@@ -76,9 +79,39 @@ export default function Form({ initial, user, children }: FormProps) {
     updateField(id, value);
   }
 
-  // const createInvoiceAction = createInvoice.bind(null, quotation, user.id);
   async function createInvoice() {
+    console.log("Svaing", quotation);
     const supabase = await createBrowserClient();
+    const totalAmount = calculateTotalAmount(quotation);
+
+    let finalQuote = {
+      amount: Number(totalAmount),
+      created_at: quotation.date,
+      client_company: quotation.details.clientCompany,
+      client_email: quotation.details.clientEmail,
+      client_mobile: quotation.details.clientMobile,
+      client_name: quotation.details.clientName,
+      date: quotation.date,
+      items: JSON.stringify(quotation.items),
+      notes: JSON.stringify(quotation.notes),
+      quote_number: Number(quotation.number),
+      created_by_id: user?.id,
+    };
+
+    let result;
+
+    if (quotation.id) {
+      result = await supabase
+        .from("invoices")
+        .update(finalQuote)
+        .eq("id", quotation.id);
+    } else {
+      result = await supabase.from("invoices").insert(finalQuote);
+    }
+
+    if (!result.error) {
+      redirect("/dashboard");
+    }
   }
 
   return (
@@ -90,7 +123,7 @@ export default function Form({ initial, user, children }: FormProps) {
           form="details"
           className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center"
         >
-          {isLoading ? (
+          {isPending ? (
             <Spinner />
           ) : quotation.id.length > 0 ? (
             "Update"
@@ -100,7 +133,7 @@ export default function Form({ initial, user, children }: FormProps) {
         </button>
       </div>
       <div className="space-y-4 pb-6">
-        <form id="details" action={createInvoice} className="space-y-4">
+        <form id="details" action={action} className="space-y-4">
           <input name="id" className="hidden" defaultValue={user?.id} />
           <div className="mb-6 flex gap-2">
             <DetailsInput
@@ -157,9 +190,7 @@ export default function Form({ initial, user, children }: FormProps) {
             </div>
           </fieldset>
           <fieldset name="clientDetails" className="flex flex-col gap-1">
-            <h2 className="text-xl font-semibold mb-3">
-              {selected.name.slice(0, selected.name.length)} To:
-            </h2>
+            <h2 className="text-xl font-semibold mb-3">Quotation To:</h2>
             <div className="grid grid-cols-2 gap-2">
               <DetailsInput
                 label="Name"

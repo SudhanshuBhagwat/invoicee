@@ -3,6 +3,7 @@ import Preview from "@/components/Preview";
 import NotesEditor from "@/components/notes-editor";
 import TableForm from "@/components/table-form";
 import { getCurrentUser, getInvoiceByID } from "@/services/database";
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function Page({
@@ -11,7 +12,7 @@ export default async function Page({
   params: { invoiceId: string };
 }) {
   const quotation = await getInvoiceByID(params.invoiceId);
-  const user = await getCurrentUser();
+  const user = await getCurrentUser(createClient());
 
   if (!quotation) {
     redirect("/dashboard");
