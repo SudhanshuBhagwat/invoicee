@@ -15,6 +15,7 @@ import { Inbox } from "lucide-react";
 import Image from "next/image";
 import { createBrowserClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import AppIcon from "./icons/app";
 
 export default function Nav({ user }: { user?: User }) {
   const navigation = useRouter();
@@ -31,7 +32,7 @@ export default function Nav({ user }: { user?: User }) {
     <header className="w-full sticky top-0 flex h-16 items-center justify-between gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <h1 className="flex items-center gap-2 text-lg font-semibold md:text-base select-none">
-          <Inbox className="h-6 w-6" />
+          <AppIcon />
           Invoicee
         </h1>
         <Link

@@ -3,7 +3,7 @@ export default function GoogleIcon() {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
-      className="w-3 h-3"
+      className="w-3 h-3 mr-2"
       viewBox="0 0 16 16"
     >
       {" "}

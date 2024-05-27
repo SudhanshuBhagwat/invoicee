@@ -11,6 +11,7 @@ import { IQuotation, UserData } from "@/types/types";
 import { Entity, createInvoice } from "@/services/database";
 import { useFormStatus } from "react-dom";
 import { Button } from "./ui/button";
+import { SaveIcon } from "lucide-react";
 
 export const QUOTATION_DATABASE = "quotation";
 
@@ -52,7 +53,14 @@ export default function Form({ initial, user, children }: FormProps) {
               await createInvoice(quotation, user.id);
             }}
           >
-            {isPending ? <Spinner /> : quotation.id ? "Update" : "Save"}
+            {isPending ? (
+              <Spinner />
+            ) : (
+              <span className="flex items-center">
+                <SaveIcon className="h-4 w-4 mr-2" />
+                {quotation.id ? "Update" : "Save"}
+              </span>
+            )}
           </Button>
         </div>
         <div className="space-y-4 pb-6">

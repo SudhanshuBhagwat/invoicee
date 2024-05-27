@@ -8,7 +8,7 @@ export default async function Page() {
   const invoices = await getInvoices();
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 mx-6">
       <Dashboard invoices={invoices} userId={data.user?.id!} />
     </div>
   );

@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Item, UserData } from "@/types/types";
 import { Button } from "./ui/button";
+import { PrinterIcon } from "lucide-react";
 
 interface Props {
   isSaved?: boolean;
@@ -26,18 +27,19 @@ export default function Preview({ isSaved = false, user }: Props) {
   const editorState = EditorState.createWithContent(contentState);
 
   return (
-    <div className="h-full bg-slate-100 p-4">
+    <div className="h-full w-full bg-slate-100 p-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Preview</h2>
         {isSaved && (
           <Button size="sm" onClick={handlePrint}>
             Print
+            <PrinterIcon className="w-4 h-4 ml-2" />
           </Button>
         )}
       </div>
       <div
         ref={componentRef}
-        className="w-full bg-white overflow-auto px-10 pb-6 pt-10"
+        className="w-full bg-white overflow-auto px-10 pb-6 pt-10 rounded shadow-md"
       >
         <div className="text-right">
           <p className="font-bold">

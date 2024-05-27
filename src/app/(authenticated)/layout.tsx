@@ -19,7 +19,7 @@ export default async function Layout({
   return (
     <div>
       <Nav user={data.user} />
-      <main className="mx-6">{children}</main>
+      <main>{children}</main>
       <Toaster />
     </div>
   );

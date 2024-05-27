@@ -90,7 +90,12 @@ export default function Dashboard({ invoices, userId }: Props) {
                 invoices.map((invoice) => (
                   <TableRow key={invoice.id}>
                     <TableCell scope="row">{invoice.number}</TableCell>
-                    <TableCell>{invoice.details.clientName}</TableCell>
+                    <TableCell className="text-md">
+                      {invoice.details.clientName} •
+                      <span className="text-sm font-semibold ml-1">
+                        {invoice.details.clientCompany}
+                      </span>
+                    </TableCell>
                     <TableCell>{invoice.date}</TableCell>
                     <TableCell>{invoice.amount}₹</TableCell>
                     <TableCell>
