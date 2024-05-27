@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 import React from "react";
-import Navbar from "@/components/Navbar";
 import { Toaster } from "react-hot-toast";
 import { createClient } from "@/utils/supabase/server";
+import Nav from "@/components/nav";
 
 export default async function Layout({
   children,
@@ -18,8 +18,8 @@ export default async function Layout({
 
   return (
     <div>
-      <Navbar user={data.user} />
-      <main className="mx-4">{children}</main>
+      <Nav user={data.user} />
+      <main className="mx-6">{children}</main>
       <Toaster />
     </div>
   );

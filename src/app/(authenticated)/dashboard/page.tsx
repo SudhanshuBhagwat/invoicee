@@ -8,8 +8,7 @@ export default async function Page() {
   const invoices = await getInvoices();
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mt-4 mb-2">Dashboard</h2>
+    <div className="mt-4">
       <Dashboard invoices={invoices} userId={data.user?.id!} />
     </div>
   );

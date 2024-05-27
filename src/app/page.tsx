@@ -1,10 +1,10 @@
+import Nav from "@/components/nav";
 import { Stack, Text } from "@chakra-ui/react";
-import Navbar from "@/components/Navbar";
 
 export default async function Page() {
   return (
     <div className={``}>
-      <Navbar />
+      <Nav />
       <main className="px-4">
         <Stack spacing={3}>
           <Text fontSize="3xl" fontWeight={700}>

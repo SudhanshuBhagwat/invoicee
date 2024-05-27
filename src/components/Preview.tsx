@@ -6,6 +6,7 @@ import { Editor, EditorState, convertFromRaw } from "draft-js";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Item, UserData } from "@/types/types";
+import { Button } from "./ui/button";
 
 interface Props {
   isSaved?: boolean;
@@ -29,12 +30,9 @@ export default function Preview({ isSaved = false, user }: Props) {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Preview</h2>
         {isSaved && (
-          <button
-            onClick={handlePrint}
-            className="px-6 py-2 font-bold bg-emerald-600 text-white rounded-md"
-          >
+          <Button size="sm" onClick={handlePrint}>
             Print
-          </button>
+          </Button>
         )}
       </div>
       <div

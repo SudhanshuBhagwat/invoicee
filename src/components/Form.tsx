@@ -10,6 +10,7 @@ import { format, parseISO } from "date-fns";
 import { IQuotation, UserData } from "@/types/types";
 import { Entity, createInvoice } from "@/services/database";
 import { useFormStatus } from "react-dom";
+import { Button } from "./ui/button";
 
 export const QUOTATION_DATABASE = "quotation";
 
@@ -45,16 +46,14 @@ export default function Form({ initial, user, children }: FormProps) {
       <div id="details" className="space-y-4">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold flex flex-col">Editor </h2>
-          <button
-            type="submit"
-            form="details"
-            className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-md flex items-center justify-center text-center"
+          <Button
+            size="sm"
             onClick={async () => {
               await createInvoice(quotation, user.id);
             }}
           >
             {isPending ? <Spinner /> : quotation.id ? "Update" : "Save"}
-          </button>
+          </Button>
         </div>
         <div className="space-y-4 pb-6">
           <input name="id" className="hidden" defaultValue={user?.id} />
@@ -70,7 +69,7 @@ export default function Form({ initial, user, children }: FormProps) {
               <input
                 id="date"
                 name="date"
-                className="rounded-md border-gray-200"
+                className="rounded-md border-gray-200 h-9"
                 type="date"
                 onChange={(e) => {
                   updateDate(format(parseISO(e.target.value), "yyyy-MM-dd"));

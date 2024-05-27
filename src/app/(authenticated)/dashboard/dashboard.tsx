@@ -1,6 +1,5 @@
 "use client";
 
-import { PlusIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -22,6 +21,19 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { IQuotation } from "@/types/types";
+import { PlusCircle } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert";
+import { AlertDialogContent } from "@radix-ui/react-alert-dialog";
+import { deleteInvoice } from "@/services/database";
 
 interface Props {
   quotations?: IQuotation[];
@@ -51,77 +63,14 @@ export default function Dashboard({ invoices, userId }: Props) {
 
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
-      {/* <div className="mt-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold">Quotations</h2>
-          <Link
-            href="/quotation"
-            className="flex items-center bg-blue-600 rounded-md px-4 py-2 font-semibold text-white hover:bg-blue-500 space-x-2"
-          >
-            <PlusIcon className="w-6 h-6" />
-            Create Quotation
-          </Link>
-        </div>
-        <div className="rounded-md border mt-4">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-64">Quotation Number</TableHead>
-                <TableHead className="w-80">To</TableHead>
-                <TableHead className="w-36">Date</TableHead>
-                <TableHead className="w-36">Amount</TableHead>
-                <TableHead>Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {quotations.length > 0 ? (
-                quotations.map((quotation) => (
-                  <TableRow key={quotation.id}>
-                    <TableCell>{quotation.number}</TableCell>
-                    <TableCell>{quotation.details.clientName}</TableCell>
-                    <TableCell>{quotation.date}</TableCell>
-                    <TableCell>{quotation.amount}₹</TableCell>
-                    <TableCell>
-                      <div className="space-x-4">
-                        <Link
-                          href={`/quotation/${quotation.id}`}
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        >
-                          Edit
-                        </Link>
-                        <button
-                          onClick={() => {
-                            setId("quotation  " + quotation.id);
-                            setShowModal(true);
-                          }}
-                          className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="h-12 text-center">
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      </div> */}
-
       <div>
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold">Invoices</h2>
           <Link
             href="/new-invoice"
-            className="flex items-center bg-blue-600 rounded-md px-4 py-2 font-semibold text-white hover:bg-blue-500 space-x-2"
+            className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background"
           >
-            <PlusIcon className="w-6 h-6" />
+            <PlusCircle className="h-3.5 w-3.5" />
             Create Invoice
           </Link>
         </div>
@@ -154,7 +103,7 @@ export default function Dashboard({ invoices, userId }: Props) {
                         </Link>
                         <button
                           onClick={() => {
-                            setId("invoice  " + invoice.id);
+                            setId(invoice.id);
                             setShowModal(true);
                           }}
                           className="font-medium text-red-600 dark:text-red-500 hover:underline"
@@ -185,9 +134,39 @@ export default function Dashboard({ invoices, userId }: Props) {
           <Button variant="outline" onClick={() => setShowModal(false)}>
             Cancel
           </Button>
-          <Button variant="destructive">Delete</Button>
+          <Button
+            variant="destructive"
+            onClick={async () => {
+              await deleteInvoice(id);
+              setShowModal(false);
+            }}
+          >
+            Delete
+          </Button>
         </DialogFooter>
       </DialogContent>
+      {/* <AlertDialog open={showModal} onOpenChange={setShowModal}> */}
+      {/* <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                setShowModal(false);
+              }}
+            >
+              Delete
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent> */}
+      {/* </AlertDialog> */}
     </Dialog>
   );
 }
