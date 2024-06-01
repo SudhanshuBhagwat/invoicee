@@ -14,11 +14,13 @@ import {
 import { Inbox } from "lucide-react";
 import Image from "next/image";
 import { createBrowserClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import AppIcon from "./icons/app";
+import NavLink from "./nav-link";
 
 export default function Nav({ user }: { user?: User }) {
   const navigation = useRouter();
+  const pathName = usePathname();
 
   async function handleSignOut() {
     const supabase = createBrowserClient();
@@ -37,18 +39,8 @@ export default function Nav({ user }: { user?: User }) {
         </h1>
         {user && (
           <>
-            <Link
-              href="/dashboard"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/invoices"
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Invoices
-            </Link>
+            <NavLink href={"/dashboard"} name="Dashboard" />
+            <NavLink href={"/invoices"} name="Invoices" />
           </>
         )}
       </nav>
