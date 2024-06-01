@@ -35,12 +35,22 @@ export default function Nav({ user }: { user?: User }) {
           <AppIcon />
           Invoicee
         </h1>
-        <Link
-          href="/dashboard"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Dashboard
-        </Link>
+        {user && (
+          <>
+            <Link
+              href="/dashboard"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/invoices"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Invoices
+            </Link>
+          </>
+        )}
       </nav>
       <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         {user ? (

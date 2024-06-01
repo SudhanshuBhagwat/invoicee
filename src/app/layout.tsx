@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import "../styles/globals.css";
-import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Invoicee",
@@ -14,9 +13,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="h-screen">
-        <Providers>{children}</Providers>
-      </body>
+      <body className="h-screen">{children}</body>
     </html>
   );
 }
