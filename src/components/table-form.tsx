@@ -5,6 +5,7 @@ import store from "@/store/store";
 import React, { ChangeEvent } from "react";
 import { Input } from "./ui/input";
 import { Item } from "@/types/types";
+import { Checkbox } from "./ui/checkbox";
 
 export default function TableForm() {
   const {
@@ -111,25 +112,24 @@ export default function TableForm() {
       >
         <legend className="-ml-1 px-1 text-sm font-medium">Items</legend>
         <div className="flex gap-4">
-          <label className="flex gap-2 items-center">
+          <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
             Show Total
-            <input
-              type="checkbox"
+            <Checkbox
               id="showSum"
-              className="rounded"
               checked={settings.showSum}
-              onChange={handleSettingChange}
+              onCheckedChange={(value) => {
+                return updateSetting("showSum", Boolean(value));
+              }}
             />
           </label>
-          <label className="flex gap-2 items-center">
+          <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-2">
             Show total for categories
-            <input
-              type="checkbox"
+            <Checkbox
               id="showSumForCategory"
-              name="Show total for categories"
-              className="rounded"
               checked={settings.showSumForCategory}
-              onChange={handleSettingChange}
+              onCheckedChange={(value) => {
+                return updateSetting("showSumForCategory", Boolean(value));
+              }}
             />
           </label>
         </div>

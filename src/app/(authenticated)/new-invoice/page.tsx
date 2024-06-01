@@ -1,9 +1,10 @@
-import Form, { IQuotation } from "@/components/Form";
+import Form from "@/components/Form";
 import Preview from "@/components/Preview";
 import NotesEditor from "@/components/notes-editor";
 import TableForm from "@/components/table-form";
 import { getCurrentUser } from "@/services/database";
 import { INITIAL_STATE } from "@/store/store";
+import { IQuotation } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Page() {
