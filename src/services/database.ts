@@ -212,6 +212,7 @@ export async function getInvoiceByID(id: string) {
     number: String(invoice![0].quote_number),
     items: JSON.parse(invoice![0].items),
     notes: JSON.parse(invoice![0].notes || ""),
+    status: invoice![0].status,
     details: {
       clientCompany: invoice![0].client_company,
       clientEmail: invoice![0].client_email,
@@ -246,6 +247,7 @@ export async function getInvoices() {
       number: String(invoice.quote_number),
       items: JSON.parse(invoice.items),
       notes: JSON.parse(invoice.notes || ""),
+      status: invoice.status,
       details: {
         clientCompany: invoice.client_company,
         clientEmail: invoice.client_email,
@@ -301,6 +303,7 @@ export async function createInvoice(quotation: IQuotation, userId: string) {
     notes: JSON.stringify(quotation.notes),
     quote_number: Number(quotation.number),
     created_by_id: userId,
+    status: quotation.status,
   };
 
   let result;

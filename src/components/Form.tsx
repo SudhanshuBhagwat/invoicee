@@ -12,6 +12,15 @@ import { Entity, createInvoice } from "@/services/database";
 import { useFormStatus } from "react-dom";
 import { Button } from "./ui/button";
 import { SaveIcon } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 export const QUOTATION_DATABASE = "quotation";
 
@@ -77,13 +86,34 @@ export default function Form({ initial, user, children }: FormProps) {
               <input
                 id="date"
                 name="date"
-                className="rounded-md border-gray-200 h-9"
+                className="rounded-md border shadow-sm border-input h-9 px-3 py-1 text-sm"
                 type="date"
                 onChange={(e) => {
                   updateDate(format(parseISO(e.target.value), "yyyy-MM-dd"));
                 }}
                 value={quotation.date}
               />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="status">Status</Label>
+              <Select
+                name="status"
+                defaultValue="0"
+                value={String(quotation.status)}
+                onValueChange={(value) => handleFieldChange(value, "status")}
+              >
+                <SelectTrigger className="w-[180px] h-9">
+                  <SelectValue placeholder="Select a status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Status</SelectLabel>
+                    <SelectItem value="0">Draft</SelectItem>
+                    <SelectItem value="1">Due</SelectItem>
+                    <SelectItem value="2">Paid</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <fieldset

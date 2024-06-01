@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { produce } from "immer";
-import { format, formatISO } from "date-fns";
+import { format } from "date-fns";
 import { v4 } from "uuid";
-import { IQuotation, Item } from "@/types/types";
+import { IQuotation, Item, Status } from "@/types/types";
 
 export const INITIAL_STATE: IQuotation = {
   id: "",
+  status: Status.Draft,
   details: {
     ownerName: "",
     ownerCompany: "",

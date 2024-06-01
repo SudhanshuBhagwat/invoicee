@@ -1,5 +1,3 @@
-import { Item } from "@/components/table-form";
-
 export interface UserData {
   id: string;
   providerId: string;
@@ -39,7 +37,14 @@ export type IQuotation = {
   notes: any;
   amount: number;
   number: string;
+  status: Status;
 };
+
+export enum Status {
+  "Draft",
+  "Due",
+  "Paid",
+}
 
 export interface SubItem {
   id: string;

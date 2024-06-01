@@ -11,11 +11,12 @@ export default function NavLink({
   name: string;
 }) {
   const pathname = usePathname();
+
   return (
     <Link
       href={href}
       className={`text-sm font-medium transition-colors hover:text-primary ${
-        pathname !== href ? "text-muted-foreground" : ""
+        !pathname.startsWith(href) ? "text-muted-foreground" : ""
       }`}
     >
       {name}

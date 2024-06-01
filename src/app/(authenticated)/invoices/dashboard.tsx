@@ -20,7 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { IQuotation } from "@/types/types";
+import { IQuotation, Status } from "@/types/types";
 import { MoreHorizontal, PlusCircle, Search } from "lucide-react";
 import {
   AlertDialog,
@@ -80,12 +80,10 @@ export default function Dashboard({ invoices, userId }: Props) {
 
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
-      <div className="py-4">
+      <div>
         <div className="flex flex-row justify-between">
           <div>
-            <div className="text-2xl font-semibold leading-none tracking-tight">
-              Invoices
-            </div>
+            <div className="text-3xl font-bold tracking-tight">Invoices</div>
             <div className="text-sm text-muted-foreground">
               Manage your products and view their sales performance.
             </div>
@@ -129,7 +127,7 @@ export default function Dashboard({ invoices, userId }: Props) {
                       {invoice.number}
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">Draft</Badge>
+                      <Badge variant="outline">{Status[invoice.status]}</Badge>
                     </TableCell>
                     <TableCell>{invoice.details.clientName}</TableCell>
                     <TableCell>{invoice.details.clientCompany}</TableCell>
