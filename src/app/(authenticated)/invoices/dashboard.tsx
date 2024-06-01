@@ -177,7 +177,7 @@ export default function Dashboard({ invoices, userId }: Props) {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={5} className="h-12 text-center">
+                  <TableCell colSpan={7} className="h-12 text-center">
                     No results.
                   </TableCell>
                 </TableRow>
