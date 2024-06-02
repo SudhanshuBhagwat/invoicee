@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import { createClient } from "@/utils/supabase/server";
@@ -10,15 +9,11 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const supabase = createClient();
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) {
-    redirect("/signin");
-  }
+  const { data } = await supabase.auth.getUser();
 
   return (
     <div>
-      <Nav user={data.user} />
+      <Nav user={data.user!} />
       <main>{children}</main>
       <Toaster />
     </div>
