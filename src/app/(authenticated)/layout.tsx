@@ -14,7 +14,7 @@ export default async function Layout({
   return (
     <div>
       <Nav user={data.user!} />
-      <main>{children}</main>
+      <main className="mx-6 py-2">{children}</main>
       <Toaster />
     </div>
   );

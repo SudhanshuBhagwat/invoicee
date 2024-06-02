@@ -41,6 +41,7 @@ export default function Nav({ user }: { user?: User }) {
           <>
             <NavLink href={"/dashboard"} name="Dashboard" />
             <NavLink href={"/invoices"} name="Invoices" />
+            <NavLink href={"/customers"} name="Customers" />
           </>
         )}
       </nav>

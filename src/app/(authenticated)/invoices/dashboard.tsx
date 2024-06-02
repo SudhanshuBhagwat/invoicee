@@ -81,7 +81,7 @@ export default function Dashboard({ invoices, userId }: Props) {
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
       <div>
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between items-center">
           <div>
             <div className="text-3xl font-bold tracking-tight">Invoices</div>
             <div className="text-sm text-muted-foreground">
