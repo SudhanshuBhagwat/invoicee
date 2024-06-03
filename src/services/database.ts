@@ -324,13 +324,11 @@ export async function createInvoice(quotation: IQuotation, userId: string) {
 }
 
 export async function deleteInvoice(invoiceId: string) {
-  console.log(invoiceId);
   const supabase = await createClient();
   const { error } = await supabase
     .from("invoices")
     .delete()
     .eq("id", invoiceId);
-  console.log(error);
   if (!error) {
     revalidatePath("/dashboard");
   }

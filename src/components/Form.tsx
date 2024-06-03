@@ -52,7 +52,7 @@ export default function Form({ initial, user, children }: FormProps) {
   }
 
   return (
-    <div className="p-4">
+    <div>
       <div id="details" className="space-y-4">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold flex flex-col">Editor </h2>

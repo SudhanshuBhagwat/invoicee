@@ -27,7 +27,7 @@ export default function Preview({ isSaved = false, user }: Props) {
   const editorState = EditorState.createWithContent(contentState);
 
   return (
-    <div className="h-full w-full bg-slate-100 p-4">
+    <div className="h-full w-full px-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Preview</h2>
         {isSaved && (

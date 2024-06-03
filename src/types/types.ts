@@ -58,3 +58,13 @@ export interface Item {
   category: SubItem[];
   amount: SubItem[];
 }
+
+export interface Customer {
+  id: string;
+  name: string;
+  mobile: string;
+  company: string;
+  email: string;
+  user_id: string;
+  created_at: string;
+}
