@@ -1,26 +1,9 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/table";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown";
+import { DataTable } from "@/components/data-table";
 import { Input } from "@/components/ui/input";
 import { getCustomers } from "@/services/customers";
-import { Status } from "@/types/types";
-import { format, formatISO } from "date-fns";
-import { MoreHorizontal, PlusCircle, Search } from "lucide-react";
+import { PlusCircle, Search } from "lucide-react";
 import Link from "next/link";
+import { columns } from "./components/columns";
 
 export default async function Page() {
   const customers = await getCustomers();
@@ -53,76 +36,7 @@ export default async function Page() {
         </div>
       </div>
       <div className="rounded-md border mt-6">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Invoices</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Total Amount</TableHead>
-              <TableHead>Amount Due</TableHead>
-              <TableHead>Due Date</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {customers.length > 0 ? (
-              customers.map((customer) => (
-                <TableRow key={customer.id}>
-                  <TableCell className="font-medium flex flex-col items-start">
-                    {customer.name}
-                    <span className="font-normal text-sm">
-                      {customer.company}
-                    </span>
-                  </TableCell>
-                  <TableCell>123</TableCell>
-                  <TableCell>
-                    <Badge variant="outline">Due</Badge>
-                  </TableCell>
-                  <TableCell>123,23₹</TableCell>
-                  <TableCell className="hidden md:table-cell">100,0₹</TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {format(new Date(), "yyyy-MM-dd")}
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          aria-haspopup="true"
-                          size="icon"
-                          variant="ghost"
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Toggle menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>
-                          <Link
-                            className="w-full"
-                            href={`/customer/${customer.id}`}
-                          >
-                            Edit
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <button className="w-full text-left">Delete</button>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={7} className="h-12 text-center">
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+        <DataTable data={customers} columns={columns} />
       </div>
     </div>
   );
