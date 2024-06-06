@@ -37,7 +37,7 @@ export const columns: ColumnDef<Customer>[] = [
     cell: ({ row }) => {
       return (
         <div className="font-medium flex flex-col items-start">
-          {row.original.name}
+          {row.original.first_name} {row.original.last_name}
           <span className="font-normal text-sm">{row.original.company}</span>
         </div>
       );

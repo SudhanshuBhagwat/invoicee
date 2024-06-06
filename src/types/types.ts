@@ -61,7 +61,8 @@ export interface Item {
 
 export interface Customer {
   id: string;
-  name: string;
+  first_name: string;
+  last_name: string;
   mobile: string;
   company: string;
   email: string;
