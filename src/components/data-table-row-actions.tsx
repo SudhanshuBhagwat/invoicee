@@ -21,15 +21,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert";
-import { deleteInvoice } from "@/services/database";
 import { useState } from "react";
 
 interface DataTableRowActionsProps {
-  id: string;
+  editAction: string;
+  deleteAction: Function;
 }
 
-export function DataTableRowActions({ id }: DataTableRowActionsProps) {
+export function DataTableRowActions({
+  editAction,
+  deleteAction,
+}: DataTableRowActionsProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  console.log({ editAction, deleteAction });
 
   return (
     <>
@@ -43,7 +47,7 @@ export function DataTableRowActions({ id }: DataTableRowActionsProps) {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem>
-            <Link className="w-full" href={`/invoice/${id}`}>
+            <Link className="w-full" href={editAction}>
               Edit
             </Link>
           </DropdownMenuItem>
@@ -68,7 +72,7 @@ export function DataTableRowActions({ id }: DataTableRowActionsProps) {
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={async () => {
-                await deleteInvoice(id);
+                await deleteAction();
               }}
             >
               Continue

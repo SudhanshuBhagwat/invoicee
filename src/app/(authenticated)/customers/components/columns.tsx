@@ -3,6 +3,7 @@
 import { DataTableRowActions } from "@/components/data-table-row-actions";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { deleteCustomer } from "@/services/customers";
 import { Customer, Status } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
@@ -79,6 +80,11 @@ export const columns: ColumnDef<Customer>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions id={row.original.id} />,
+    cell: ({ row }) => (
+      <DataTableRowActions
+        deleteAction={() => deleteCustomer(row.original.id)}
+        editAction={`/customer/${row.original.id}`}
+      />
+    ),
   },
 ];

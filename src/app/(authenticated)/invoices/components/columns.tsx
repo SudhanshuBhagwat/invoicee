@@ -3,6 +3,7 @@
 import { DataTableRowActions } from "@/components/data-table-row-actions";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { deleteInvoice } from "@/services/database";
 import { IQuotation, Status } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -67,6 +68,11 @@ export const columns: ColumnDef<IQuotation>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions id={row.original.id} />,
+    cell: ({ row }) => (
+      <DataTableRowActions
+        deleteAction={() => deleteInvoice(row.original.id)}
+        editAction={`/invoice/${row.original.id}`}
+      />
+    ),
   },
 ];

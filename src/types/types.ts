@@ -68,4 +68,5 @@ export interface Customer {
   email: string;
   user_id: string;
   created_at: string;
+  billing_address: string;
 }
