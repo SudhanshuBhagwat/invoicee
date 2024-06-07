@@ -33,7 +33,6 @@ export function DataTableRowActions({
   deleteAction,
 }: DataTableRowActionsProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  console.log({ editAction, deleteAction });
 
   return (
     <>

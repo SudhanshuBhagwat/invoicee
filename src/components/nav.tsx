@@ -11,7 +11,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown";
-import { Inbox } from "lucide-react";
 import Image from "next/image";
 import { createBrowserClient } from "@/utils/supabase/client";
 import { usePathname, useRouter } from "next/navigation";
@@ -20,7 +19,6 @@ import NavLink from "./nav-link";
 
 export default function Nav({ user }: { user?: User }) {
   const navigation = useRouter();
-  const pathName = usePathname();
 
   async function handleSignOut() {
     const supabase = createBrowserClient();
