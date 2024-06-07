@@ -32,8 +32,8 @@ export default function Preview({ isSaved = false, user }: Props) {
         <h2 className="text-2xl font-bold">Preview</h2>
         {isSaved && (
           <Button size="sm" onClick={handlePrint}>
+            <PrinterIcon className="w-4 h-4 mr-2" />
             Print
-            <PrinterIcon className="w-4 h-4 ml-2" />
           </Button>
         )}
       </div>

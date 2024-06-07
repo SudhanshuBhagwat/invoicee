@@ -74,7 +74,7 @@ export function DataTableRowActions({
                 await deleteAction();
               }}
             >
-              Continue
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

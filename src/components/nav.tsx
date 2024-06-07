@@ -61,7 +61,9 @@ export default function Nav({ user }: { user?: User }) {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => navigation.push("/settings")}>
+              <DropdownMenuItem
+                onClick={() => navigation.push("/settings/account")}
+              >
                 Settings
               </DropdownMenuItem>
               <DropdownMenuSeparator />
