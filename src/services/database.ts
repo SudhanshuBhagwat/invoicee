@@ -73,20 +73,14 @@ export async function getCurrentUser(
   client: SupabaseClient
 ): Promise<UserData | null> {
   const user = await client.auth.getUser();
-  const userData = await client
+  const { data, error } = await client
     .from("User")
     .select("*")
-    .eq("provider_id", user.data.user?.id!);
+    .eq("provider_id", user.data.user?.id!)
+    .single();
 
-  if (!user.error && !userData.error) {
-    return {
-      id: userData.data[0].id,
-      providerId: user.data.user.id,
-      name: userData.data[0].name!,
-      company: userData.data[0].company!,
-      email: userData.data[0].email!,
-      mobile: userData.data[0].mobile!,
-    };
+  if (!error) {
+    return data;
   }
 
   return null;
