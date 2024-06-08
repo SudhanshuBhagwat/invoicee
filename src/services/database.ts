@@ -32,12 +32,6 @@ export async function getInvoiceByID(id: string) {
     status: invoice![0].status,
     customer_id: invoice![0].customer_id,
     customer: invoice![0].customers,
-    details: {
-      ownerCompany: user.company || "",
-      ownerEmail: user.email || "",
-      ownerMobile: user.mobile || "",
-      ownerName: user.name || "",
-    },
   };
 }
 

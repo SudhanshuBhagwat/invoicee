@@ -9,17 +9,27 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Metadata } from "next";
-import Image from "next/image";
 import { Overview } from "./components/overview";
 import { RecentSales } from "./components/recent-sales";
 import { Download } from "lucide-react";
+import getInvoicesForMonth from "@/services/invoice/get-invoices-for-month";
+import getTotalRevenue from "@/services/invoice/get-total-revenue";
+import getTotalInvoices from "@/services/invoice/get-total-invoices";
+import getTotalCustomers from "@/services/customers/get-total-customers";
+import getUnpaidInvoiceAmount from "@/services/invoice/get-unpaid-invoice-amount";
 
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Example dashboard app built using the components.",
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const invoicesForMonth = await getInvoicesForMonth();
+  const amount = await getTotalRevenue();
+  const totalInvoices = await getTotalInvoices();
+  const totalCustomers = await getTotalCustomers();
+  const unpaidInvoiceAmount = await getUnpaidInvoiceAmount();
+
   return (
     <>
       <div className="hidden flex-col md:flex">
@@ -65,7 +75,12 @@ export default function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">$45,231.89</div>
+                    <div className="text-2xl font-bold">
+                      {new Intl.NumberFormat("en-In", {
+                        style: "currency",
+                        currency: "INR",
+                      }).format(Number(amount))}
+                    </div>
                     <p className="text-xs text-muted-foreground">
                       +20.1% from last month
                     </p>
@@ -74,7 +89,7 @@ export default function DashboardPage() {
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Subscriptions
+                      Total Invoices
                     </CardTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +107,9 @@ export default function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+2350</div>
+                    <div className="text-2xl font-bold">
+                      {totalInvoices?.count}
+                    </div>
                     <p className="text-xs text-muted-foreground">
                       +180.1% from last month
                     </p>
@@ -100,7 +117,9 @@ export default function DashboardPage() {
                 </Card>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Sales</CardTitle>
+                    <CardTitle className="text-sm font-medium">
+                      Customers
+                    </CardTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -116,7 +135,9 @@ export default function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+12,234</div>
+                    <div className="text-2xl font-bold">
+                      {totalCustomers?.count}
+                    </div>
                     <p className="text-xs text-muted-foreground">
                       +19% from last month
                     </p>
@@ -125,7 +146,7 @@ export default function DashboardPage() {
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Active Now
+                      Pending
                     </CardTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +162,12 @@ export default function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+573</div>
+                    <div className="text-2xl font-bold">
+                      {new Intl.NumberFormat("en-In", {
+                        style: "currency",
+                        currency: "INR",
+                      }).format(Number(unpaidInvoiceAmount))}
+                    </div>
                     <p className="text-xs text-muted-foreground">
                       +201 since last hour
                     </p>
@@ -161,11 +187,11 @@ export default function DashboardPage() {
                   <CardHeader>
                     <CardTitle>Recent Sales</CardTitle>
                     <CardDescription>
-                      You made 265 sales this month.
+                      You made {invoicesForMonth?.length} sales this month.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <RecentSales />
+                    <RecentSales invoicesForMonth={invoicesForMonth!} />
                   </CardContent>
                 </Card>
               </div>
