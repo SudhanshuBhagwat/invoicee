@@ -1,3 +1,5 @@
+import { Database } from "@/types/supabase";
+
 export interface UserData {
   id: string;
   providerId: string;
@@ -17,10 +19,6 @@ export type IDetails = {
   ownerCompany: string;
   ownerMobile: string;
   ownerEmail: string;
-  clientName: string;
-  clientCompany: string;
-  clientMobile: string;
-  clientEmail: string;
 };
 
 export type Value = {
@@ -31,13 +29,15 @@ export type Value = {
 
 export type IQuotation = {
   id: string;
-  details: IDetails;
-  items: Item[];
+  details?: IDetails | null;
+  items?: Item[] | null;
   date: string;
-  notes: any;
+  notes?: any;
   amount: number;
   number: string;
   status: Status;
+  customer_id: string | null;
+  customer: Customer | null;
 };
 
 export enum Status {
@@ -60,13 +60,13 @@ export interface Item {
 }
 
 export interface Customer {
-  id: string;
-  first_name: string;
-  last_name: string;
-  mobile: string;
-  company: string;
-  email: string;
-  user_id: string;
-  created_at: string;
-  billing_address: string;
+  id?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+  mobile?: string | null;
+  company?: string | null;
+  email?: string | null;
+  user_id?: string | null;
+  created_at?: string | null;
+  billing_address?: string | null;
 }

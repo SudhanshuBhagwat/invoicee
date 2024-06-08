@@ -48,11 +48,12 @@ export const columns: ColumnDef<IQuotation>[] = [
   },
   {
     accessorKey: "To",
-    cell: ({ row }) => row.original.details.clientName,
+    cell: ({ row }) =>
+      `${row.original.customer?.first_name} ${row.original.customer?.last_name}`,
   },
   {
     accessorKey: "Company",
-    cell: ({ row }) => row.original.details.clientCompany,
+    cell: ({ row }) => row.original.customer?.company,
   },
   {
     accessorKey: "Date",

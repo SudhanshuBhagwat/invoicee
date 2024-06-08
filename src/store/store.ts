@@ -7,15 +7,13 @@ import { IQuotation, Item, Status } from "@/types/types";
 export const INITIAL_STATE: IQuotation = {
   id: "",
   status: Status.Draft,
+  customer_id: "",
+  customer: null,
   details: {
     ownerName: "",
     ownerCompany: "",
     ownerMobile: "",
     ownerEmail: "",
-    clientName: "",
-    clientCompany: "",
-    clientMobile: "",
-    clientEmail: "",
   },
   date: format(new Date(), "yyyy-MM-dd"),
   notes: {
@@ -76,6 +74,7 @@ interface Store {
   settings: Settings;
   setId: (id: string) => void;
   setState: (quotation: IQuotation | string | null) => void;
+  updateCustomer: (customer_id: string) => void;
   updateNote: (note: any) => void;
   updateField(id: string, value: string): void;
   updateNumber(number: string): void;
@@ -117,6 +116,13 @@ const store = create<Store>((set, get) => ({
         },
       });
     }
+  },
+  updateCustomer: (customer_id: string) => {
+    set(
+      produce((state) => {
+        state.quotation.customer_id = customer_id;
+      })
+    );
   },
   updateNote: (note: string) => {
     set(

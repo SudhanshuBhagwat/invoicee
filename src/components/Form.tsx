@@ -7,11 +7,11 @@ import Spinner from "@/components/ui/Spinner";
 import DetailsInput from "./DetailsInput";
 import { Label } from "./ui/label";
 import { format, parseISO } from "date-fns";
-import { IQuotation, UserData } from "@/types/types";
+import { Customer, IQuotation, UserData } from "@/types/types";
 import { Entity, createInvoice } from "@/services/database";
 import { useFormStatus } from "react-dom";
 import { Button } from "./ui/button";
-import { SaveIcon } from "lucide-react";
+import { PlusCircle, SaveIcon } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -21,19 +21,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { ClientSelector } from "./client-selector";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export const QUOTATION_DATABASE = "quotation";
 
 interface FormProps {
   type: Entity;
-  initial: IQuotation | string;
+  initial: IQuotation;
   children?: ReactNode;
   user: UserData;
+  customers: Customer[];
 }
 
 const entity = [{ name: "Quotation" }, { name: "Invoice" }] as const;
 
-export default function Form({ initial, user, children }: FormProps) {
+export default function Form({
+  initial,
+  user,
+  children,
+  customers,
+}: FormProps) {
   const { pending: isPending } = useFormStatus();
 
   useEffect(() => {
@@ -42,15 +51,14 @@ export default function Form({ initial, user, children }: FormProps) {
 
   const setState = store((state) => state.setState);
   const quotation = store((state) => state.quotation);
-  const details = store((state) => state.quotation.details);
   const updateField = store((state) => state.updateField);
   const updateNumber = store((state) => state.updateNumber);
   const updateDate = store((state) => state.updateDate);
+  const pathname = usePathname();
 
   function handleFieldChange(value: string, id: string) {
     updateField(id, value);
   }
-
   return (
     <div>
       <div id="details" className="space-y-4">
@@ -159,31 +167,26 @@ export default function Form({ initial, user, children }: FormProps) {
             <legend className="-ml-1 px-1 text-sm font-medium">
               Quotation To:
             </legend>
-            <div className="grid grid-cols-2 gap-2">
-              <DetailsInput
-                label="Name"
-                id="clientName"
-                onInputChange={handleFieldChange}
-                value={details.clientName}
-              />
-              <DetailsInput
-                label="Company Name"
-                id="clientCompany"
-                onInputChange={handleFieldChange}
-                value={details.clientCompany}
-              />
-              <DetailsInput
-                label="Mobile No"
-                id="clientMobile"
-                onInputChange={handleFieldChange}
-                value={details.clientMobile}
-              />
-              <DetailsInput
-                label="Email Address"
-                id="clientEmail"
-                onInputChange={handleFieldChange}
-                value={details.clientEmail}
-              />
+            <div className="grid grid-cols-5 gap-4">
+              <div className="grid col-span-3">
+                <ClientSelector
+                  customers={customers}
+                  customer={
+                    initial.customer
+                      ? `${initial.customer?.first_name} ${initial.customer?.last_name}`
+                      : ""
+                  }
+                />
+              </div>
+              <Link
+                href={pathname + "?addCustomer=true"}
+                className="cursor-pointer gap-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-3 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background col-span-2"
+              >
+                <span className="flex gap-2 items-center">
+                  <PlusCircle className="h-3.5 w-3.5" />
+                  Quick Add Customer
+                </span>
+              </Link>
             </div>
           </fieldset>
           {children}
