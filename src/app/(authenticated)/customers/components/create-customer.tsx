@@ -21,7 +21,7 @@ export function CreateCustomer({
             type="text"
             name="first-name"
             placeholder="John"
-            defaultValue={initialData?.first_name}
+            defaultValue={initialData?.first_name || ""}
           />
         </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -30,7 +30,7 @@ export function CreateCustomer({
             type="text"
             name="last-name"
             placeholder="Doe"
-            defaultValue={initialData?.last_name}
+            defaultValue={initialData?.last_name || ""}
           />
         </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -39,7 +39,7 @@ export function CreateCustomer({
             type="number"
             name="number"
             placeholder="+91 1234567890"
-            defaultValue={initialData?.mobile}
+            defaultValue={initialData?.mobile || ""}
           />
         </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -48,7 +48,7 @@ export function CreateCustomer({
             type="email"
             name="email"
             placeholder="Email"
-            defaultValue={initialData?.email}
+            defaultValue={initialData?.email || ""}
           />
         </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -57,7 +57,7 @@ export function CreateCustomer({
             type="text"
             name="company"
             placeholder="Acme Inc."
-            defaultValue={initialData?.company}
+            defaultValue={initialData?.company || ""}
           />
         </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -65,7 +65,7 @@ export function CreateCustomer({
           <Input
             type="text"
             name="address"
-            defaultValue={initialData?.billing_address}
+            defaultValue={initialData?.billing_address || ""}
             placeholder="36th Street, Near Avenue Mall, Pune"
           />
         </div>

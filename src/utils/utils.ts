@@ -1,7 +1,7 @@
-import { IQuotation } from "@/components/Form";
+import { IQuotation } from "@/types/types";
 
 export function calculateTotalAmount(quotation: IQuotation) {
-  return quotation.items.length > 0
+  return quotation.items && quotation.items.length > 0
     ? quotation.items
         .map((item) => {
           return item.amount.reduce(

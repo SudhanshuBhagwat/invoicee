@@ -82,7 +82,7 @@ export const columns: ColumnDef<Customer>[] = [
     id: "actions",
     cell: ({ row }) => (
       <DataTableRowActions
-        deleteAction={() => deleteCustomer(row.original.id)}
+        deleteAction={() => deleteCustomer(row.original.id!)}
         editAction={`/customer/${row.original.id}`}
       />
     ),

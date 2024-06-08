@@ -144,24 +144,25 @@ export default function TableForm() {
               </tr>
             </thead>
             <tbody>
-              {quotation.items.map((d: Item, idx: number) => {
-                return (
-                  <React.Fragment key={d.id}>
-                    {renderNestedItems(d, idx)}
-                    <tr key={`${idx}-ADD`}>
-                      <td colSpan={3} className="border">
-                        <button
-                          type="button"
-                          onClick={() => addCategory(d.id)}
-                          className="px-4 py-[6px] w-full text-center"
-                        >
-                          + Add Row
-                        </button>
-                      </td>
-                    </tr>
-                  </React.Fragment>
-                );
-              })}
+              {quotation.items &&
+                quotation.items.map((d: Item, idx: number) => {
+                  return (
+                    <React.Fragment key={d.id}>
+                      {renderNestedItems(d, idx)}
+                      <tr key={`${idx}-ADD`}>
+                        <td colSpan={3} className="border">
+                          <button
+                            type="button"
+                            onClick={() => addCategory(d.id)}
+                            className="px-4 py-[6px] w-full text-center"
+                          >
+                            + Add Row
+                          </button>
+                        </td>
+                      </tr>
+                    </React.Fragment>
+                  );
+                })}
               <tr>
                 <td colSpan={4} className="border">
                   <button

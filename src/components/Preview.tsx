@@ -59,10 +59,12 @@ export default function Preview({ isSaved = false, user }: Props) {
           </div>
           <div className="space-y-1 text-right">
             <h2 className="text-lg font-bold">Customer:</h2>
-            <p>{quotation.details.clientName}</p>
-            <p>{quotation.details.clientCompany}</p>
-            <p>{quotation.details.clientMobile}</p>
-            <p>{quotation.details.clientEmail}</p>
+            <p>
+              {quotation.customer?.first_name} {quotation.customer?.last_name}
+            </p>
+            <p>{quotation.customer?.company}</p>
+            <p>{quotation.customer?.mobile}</p>
+            <p>{quotation.customer?.email}</p>
           </div>
         </div>
         <div className="overflow-x-auto mt-6 sm:-mx-6 lg:-mx-8">
@@ -92,58 +94,61 @@ export default function Preview({ isSaved = false, user }: Props) {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {quotation.items.map((item: Item, idx: number) => {
-                    const totalSum = item.amount
-                      .map((amt) => Number(amt.value))
-                      .reduce((acc, amt) => acc + amt, 0);
+                  {quotation.items &&
+                    quotation.items.map((item: Item, idx: number) => {
+                      const totalSum = item.amount
+                        .map((amt) => Number(amt.value))
+                        .reduce((acc, amt) => acc + amt, 0);
 
-                    return item.category.map((category, index) => (
-                      <tr key={`${item.id}-${category.id}-${index}`}>
-                        {index === 0 && (
-                          <td
-                            className="text-lg p-3 pl-4 pr-3 border-r border-gray-200 font-medium text-gray-900 whitespace-nowrap sm:pl-6"
-                            rowSpan={item.category.length}
-                          >
-                            <div className="flex flex-col space-y-2">
-                              <span>{item.name}</span>
-                              {item.description && (
-                                <span className="text-sm text-gray-400">
-                                  {item.description}
-                                </span>
-                              )}
-                            </div>
-                          </td>
-                        )}
-                        <td className="p-2 text-sm text-gray-800 whitespace-nowrap border-r border-gray-200">
-                          {category.value}
-                        </td>
-                        {settings.showSumForCategory ? (
-                          index === 0 ? (
+                      return item.category.map((category, index) => (
+                        <tr key={`${item.id}-${category.id}-${index}`}>
+                          {index === 0 && (
                             <td
-                              rowSpan={item.amount.length}
-                              className="p-2 text-sm text-gray-800 whitespace-nowrap"
+                              className="text-lg p-3 pl-4 pr-3 border-r border-gray-200 font-medium text-gray-900 whitespace-nowrap sm:pl-6"
+                              rowSpan={item.category.length}
                             >
+                              <div className="flex flex-col space-y-2">
+                                <span>{item.name}</span>
+                                {item.description && (
+                                  <span className="text-sm text-gray-400">
+                                    {item.description}
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                          )}
+                          <td className="p-2 text-sm text-gray-800 whitespace-nowrap border-r border-gray-200">
+                            {category.value}
+                          </td>
+                          {settings.showSumForCategory ? (
+                            index === 0 ? (
+                              <td
+                                rowSpan={item.amount.length}
+                                className="p-2 text-sm text-gray-800 whitespace-nowrap"
+                              >
+                                {new Intl.NumberFormat("en-IN", {
+                                  maximumFractionDigits: 2,
+                                  style: "currency",
+                                  currency: "INR",
+                                }).format(totalSum)}
+                              </td>
+                            ) : null
+                          ) : (
+                            <td className="p-2 text-sm text-gray-800 whitespace-nowrap">
                               {new Intl.NumberFormat("en-IN", {
                                 maximumFractionDigits: 2,
                                 style: "currency",
                                 currency: "INR",
-                              }).format(totalSum)}
+                              }).format(
+                                Number(
+                                  quotation?.items![idx].amount[index].value
+                                )
+                              )}
                             </td>
-                          ) : null
-                        ) : (
-                          <td className="p-2 text-sm text-gray-800 whitespace-nowrap">
-                            {new Intl.NumberFormat("en-IN", {
-                              maximumFractionDigits: 2,
-                              style: "currency",
-                              currency: "INR",
-                            }).format(
-                              Number(quotation.items[idx].amount[index].value)
-                            )}
-                          </td>
-                        )}
-                      </tr>
-                    ));
-                  })}
+                          )}
+                        </tr>
+                      ));
+                    })}
                   {settings.showSum && (
                     <tr>
                       <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
