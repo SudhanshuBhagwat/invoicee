@@ -56,7 +56,7 @@ export function ClientSelector({
                   value={`${customer.first_name} ${customer.last_name}`}
                   onSelect={(currentValue: React.SetStateAction<string>) => {
                     setValue(currentValue);
-                    updateCustomer(customer.id!);
+                    updateCustomer(customer);
                     setOpen(false);
                   }}
                 >

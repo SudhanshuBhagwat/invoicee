@@ -13,17 +13,12 @@ export async function getCustomers() {
 
   const { data, error } = await supabase
     .from("customers")
-    .select("id, first_name, last_name, company")
+    .select("*")
     .eq("user_id", user?.id!);
 
   if (!error) {
     for (const customer of data) {
-      customers.push({
-        id: customer.id,
-        first_name: customer.first_name,
-        last_name: customer.last_name,
-        company: customer.company,
-      });
+      customers.push(customer);
     }
   }
 

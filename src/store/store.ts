@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { produce } from "immer";
 import { format } from "date-fns";
 import { v4 } from "uuid";
-import { IQuotation, Item, Status } from "@/types/types";
+import { Customer, IQuotation, Item, Status } from "@/types/types";
 
 export const INITIAL_STATE: IQuotation = {
   id: "",
@@ -74,7 +74,7 @@ interface Store {
   settings: Settings;
   setId: (id: string) => void;
   setState: (quotation: IQuotation | string | null) => void;
-  updateCustomer: (customer_id: string) => void;
+  updateCustomer: (customer: Customer) => void;
   updateNote: (note: any) => void;
   updateField(id: string, value: string): void;
   updateNumber(number: string): void;
@@ -117,10 +117,11 @@ const store = create<Store>((set, get) => ({
       });
     }
   },
-  updateCustomer: (customer_id: string) => {
+  updateCustomer: (customer: Customer) => {
     set(
       produce((state) => {
-        state.quotation.customer_id = customer_id;
+        state.quotation.customer_id = customer.id;
+        state.quotation.customer = customer;
       })
     );
   },
