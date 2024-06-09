@@ -5,6 +5,7 @@ import { getCurrentUser } from "./database";
 import { Customer } from "@/types/types";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import getUnpaidInvoiceForCustomer from "./customers/get_unpaid-invoice-for-customer";
 
 export async function getCustomers() {
   const customers: Customer[] = [];
@@ -13,15 +14,26 @@ export async function getCustomers() {
 
   const { data, error } = await supabase
     .from("customers")
-    .select("*")
+    .select("*, invoices(totalInvoices:id.count(), totalRevenue:amount.sum())")
     .eq("user_id", user?.id!);
 
   if (!error) {
     for (const customer of data) {
-      customers.push(customer);
+      const unpaidInvoiceForCustomer = await getUnpaidInvoiceForCustomer(
+        customer.id
+      );
+      customers.push({
+        ...customer,
+        invoices: {
+          // @ts-ignore
+          ...customer.invoices["0"],
+          ...unpaidInvoiceForCustomer,
+        },
+      });
     }
   }
 
+  console.log(customers[4]);
   return customers;
 }
 

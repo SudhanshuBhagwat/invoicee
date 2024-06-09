@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { deleteCustomer } from "@/services/customers";
 import { Customer, Status } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 export const columns: ColumnDef<Customer>[] = [
   {
@@ -48,12 +48,19 @@ export const columns: ColumnDef<Customer>[] = [
   },
   {
     accessorKey: "Invoices",
-    cell: ({ row }) => 123,
+    cell: ({ row }) =>
+      row.original.invoices.totalInvoices > 0
+        ? row.original.invoices.totalInvoices
+        : "-",
   },
   {
     accessorKey: "Status",
     cell: ({ row }) => {
-      return <Badge variant="outline">{Status[1]}</Badge>;
+      return (
+        <Badge variant="outline">
+          {Status[row.original.invoices.amountDue > 0 ? 1 : 2]}
+        </Badge>
+      );
     },
   },
   {
@@ -62,7 +69,7 @@ export const columns: ColumnDef<Customer>[] = [
       new Intl.NumberFormat("en-In", {
         style: "currency",
         currency: "INR",
-      }).format(10000),
+      }).format(row.original.invoices.totalRevenue),
   },
   {
     accessorKey: "Amount Due",
@@ -70,13 +77,14 @@ export const columns: ColumnDef<Customer>[] = [
       new Intl.NumberFormat("en-In", {
         style: "currency",
         currency: "INR",
-      }).format(2000),
+      }).format(row.original.invoices.amountDue),
   },
   {
     accessorKey: "Due Date",
-    cell: ({ row }) => {
-      format(new Date(), "yyyy-MM-dd");
-    },
+    cell: ({ row }) =>
+      row.original.invoices.firstInvoiceDate
+        ? format(new Date(row.original.invoices.firstInvoiceDate), "yyyy-MM-dd")
+        : "-",
   },
   {
     id: "actions",

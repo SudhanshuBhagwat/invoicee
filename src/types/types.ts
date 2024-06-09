@@ -69,4 +69,5 @@ export interface Customer {
   user_id?: string | null;
   created_at?: string | null;
   billing_address?: string | null;
+  invoices?: any;
 }
