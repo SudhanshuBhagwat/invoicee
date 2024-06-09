@@ -17,6 +17,7 @@ import getTotalRevenue from "@/services/invoice/get-total-revenue";
 import getTotalInvoices from "@/services/invoice/get-total-invoices";
 import getTotalCustomers from "@/services/customers/get-total-customers";
 import getUnpaidInvoiceAmount from "@/services/invoice/get-unpaid-invoice-amount";
+import getInvoiceOverview from "@/services/invoice/get-invoice-overview";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -29,6 +30,7 @@ export default async function DashboardPage() {
   const totalInvoices = await getTotalInvoices();
   const totalCustomers = await getTotalCustomers();
   const unpaidInvoiceAmount = await getUnpaidInvoiceAmount();
+  const invoiceOverview = await getInvoiceOverview();
 
   return (
     <>
@@ -180,7 +182,7 @@ export default async function DashboardPage() {
                     <CardTitle>Overview</CardTitle>
                   </CardHeader>
                   <CardContent className="pl-2">
-                    <Overview />
+                    <Overview overviewData={invoiceOverview} />
                   </CardContent>
                 </Card>
                 <Card className="col-span-3">
