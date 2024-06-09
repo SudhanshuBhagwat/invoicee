@@ -7,6 +7,7 @@ import { IQuotation, UserData } from "@/types/types";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { DEFAULT_DATE_FORMAT } from "@/lib/utils";
 
 export type Entity = "quotation" | "invoice";
 
@@ -24,7 +25,7 @@ export async function getInvoiceByID(id: string) {
 
   return {
     amount: invoice![0].amount || 0,
-    date: format(invoice![0].date, "yyyy-MM-dd"),
+    date: format(invoice![0].date, DEFAULT_DATE_FORMAT),
     id: invoice![0].id,
     number: String(invoice![0].quote_number),
     items: JSON.parse(invoice![0].items),
@@ -51,7 +52,7 @@ export async function getInvoices() {
   for (const invoice of serverInvoices.data) {
     invoices.push({
       amount: invoice.amount || 0,
-      date: format(parseISO(invoice.date), "yyyy-MM-dd"),
+      date: format(parseISO(invoice.date), DEFAULT_DATE_FORMAT),
       id: invoice.id,
       number: String(invoice.quote_number),
       status: invoice.status,

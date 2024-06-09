@@ -3,6 +3,7 @@ import { produce } from "immer";
 import { format } from "date-fns";
 import { v4 } from "uuid";
 import { Customer, IQuotation, Item, Status } from "@/types/types";
+import { DEFAULT_DATE_FORMAT } from "@/lib/utils";
 
 export const INITIAL_STATE: IQuotation = {
   id: "",
@@ -15,7 +16,7 @@ export const INITIAL_STATE: IQuotation = {
     ownerMobile: "",
     ownerEmail: "",
   },
-  date: format(new Date(), "yyyy-MM-dd"),
+  date: format(new Date(), DEFAULT_DATE_FORMAT),
   notes: {
     entityMap: {
       "0": {

@@ -24,6 +24,7 @@ import {
 import { ClientSelector } from "./client-selector";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { DEFAULT_DATE_FORMAT } from "@/lib/utils";
 
 export const QUOTATION_DATABASE = "quotation";
 
@@ -90,7 +91,7 @@ export default function Form({
               value={quotation.number}
             />
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="date">Date</Label>
+              <Label htmlFor="date">Due Date</Label>
               <input
                 id="date"
                 name="date"
@@ -99,7 +100,7 @@ export default function Form({
                 onChange={(e) => {
                   updateDate(format(parseISO(e.target.value), "yyyy-MM-dd"));
                 }}
-                value={quotation.date}
+                value={format(quotation.date || new Date(), "yyyy-MM-dd")}
               />
             </div>
             <div className="flex flex-col gap-1.5">

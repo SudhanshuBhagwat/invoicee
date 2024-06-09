@@ -33,7 +33,6 @@ export async function getCustomers() {
     }
   }
 
-  console.log(customers[4]);
   return customers;
 }
 

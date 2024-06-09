@@ -3,6 +3,7 @@
 import { DataTableRowActions } from "@/components/data-table-row-actions";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { DEFAULT_DATE_FORMAT } from "@/lib/utils";
 import { deleteCustomer } from "@/services/customers";
 import { Customer, Status } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -83,7 +84,10 @@ export const columns: ColumnDef<Customer>[] = [
     accessorKey: "Due Date",
     cell: ({ row }) =>
       row.original.invoices.firstInvoiceDate
-        ? format(new Date(row.original.invoices.firstInvoiceDate), "yyyy-MM-dd")
+        ? format(
+            new Date(row.original.invoices.firstInvoiceDate),
+            DEFAULT_DATE_FORMAT
+          )
         : "-",
   },
   {
