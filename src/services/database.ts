@@ -25,7 +25,7 @@ export async function getInvoiceByID(id: string) {
 
   return {
     amount: invoice![0].amount || 0,
-    date: format(invoice![0].date, DEFAULT_DATE_FORMAT),
+    date: invoice![0].date,
     id: invoice![0].id,
     number: String(invoice![0].quote_number),
     items: JSON.parse(invoice![0].items),
