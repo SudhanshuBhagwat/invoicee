@@ -1,39 +1,13 @@
-ALTER
-TABLE
- invoices
-ADD
- 
-COLUMN
- customer_id 
-uuid
-,
-ADD
- 
-CONSTRAINT
- fk_customer_id 
-FOREIGN
- KEY (customer_id) 
-REFERENCES
- customers (id);
+alter table invoices
+drop constraint if exists fk_customer_id;
 
+ALTER TABLE invoices
+ADD COLUMN IF NOT EXISTS customer_id uuid;
 
-ALTER
- 
-TABLE
- invoices
-DROP
- 
-COLUMN
- client_name,
-DROP
- 
-COLUMN
- client_company,
-DROP
- 
-COLUMN
- client_mobile,
-DROP
- 
-COLUMN
- client_email;
+ALTER TABLE invoices ADD CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customers (id);
+
+ALTER TABLE invoices
+DROP COLUMN IF EXISTS client_name,
+DROP COLUMN IF EXISTS client_company,
+DROP COLUMN IF EXISTS client_mobile,
+DROP COLUMN IF EXISTS client_email;
