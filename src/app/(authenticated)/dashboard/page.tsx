@@ -27,9 +27,9 @@ export const metadata: Metadata = {
 export default async function DashboardPage() {
   // const invoicesForMonth = await getInvoicesForMonth();
   const amount = await getTotalRevenue();
-  const totalInvoices = await getTotalInvoices();
-  const totalCustomers = await getTotalCustomers();
-  const unpaidInvoiceAmount = await getUnpaidInvoiceAmount();
+  // const totalInvoices = await getTotalInvoices();
+  // const totalCustomers = await getTotalCustomers();
+  // const unpaidInvoiceAmount = await getUnpaidInvoiceAmount();
   // const invoiceOverview = await getInvoiceOverview();
 
   return (
@@ -87,7 +87,7 @@ export default async function DashboardPage() {
                     </p>
                   </CardContent>
                 </Card>
-                <Card>
+                {/* <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Total Invoices
@@ -173,7 +173,7 @@ export default async function DashboardPage() {
                       +201 since last hour
                     </p>
                   </CardContent>
-                </Card>
+                </Card> */}
               </div>
               {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
