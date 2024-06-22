@@ -28,7 +28,7 @@ export default async function DashboardPage() {
   const invoicesForMonth = await getInvoicesForMonth();
   const amount = await getTotalRevenue();
   const totalInvoices = await getTotalInvoices();
-  const totalCustomers = await getTotalCustomers();
+  // const totalCustomers = await getTotalCustomers();
   const unpaidInvoiceAmount = await getUnpaidInvoiceAmount();
   const invoiceOverview = await getInvoiceOverview();
 
@@ -116,7 +116,7 @@ export default async function DashboardPage() {
                     </p>
                   </CardContent>
                 </Card>
-                <Card>
+                {/* <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Customers
@@ -143,7 +143,7 @@ export default async function DashboardPage() {
                       +19% from last month
                     </p>
                   </CardContent>
-                </Card>
+                </Card> */}
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
