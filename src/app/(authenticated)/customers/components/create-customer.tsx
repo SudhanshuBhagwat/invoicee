@@ -15,7 +15,7 @@ export function CreateCustomer({
         id="customer-form"
         className="w-full grid grid-cols-2 gap-4"
       >
-        <div className="grid w-full max-w-sm items-center gap-1.5">
+        <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="first-name">First Name</Label>
           <Input
             type="text"
@@ -33,7 +33,7 @@ export function CreateCustomer({
             defaultValue={initialData?.last_name || ""}
           />
         </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
+        <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="number">Contact Number</Label>
           <Input
             type="number"
@@ -42,7 +42,7 @@ export function CreateCustomer({
             defaultValue={initialData?.mobile || ""}
           />
         </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
+        <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="email">Email</Label>
           <Input
             type="email"
@@ -51,7 +51,7 @@ export function CreateCustomer({
             defaultValue={initialData?.email || ""}
           />
         </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
+        <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="company">Company</Label>
           <Input
             type="text"
@@ -60,7 +60,7 @@ export function CreateCustomer({
             defaultValue={initialData?.company || ""}
           />
         </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
+        <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="address">Billing Address</Label>
           <Input
             type="text"

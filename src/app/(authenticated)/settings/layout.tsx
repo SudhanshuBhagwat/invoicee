@@ -1,17 +1,21 @@
 import { Separator } from "@/components/ui/separator";
 import { Metadata } from "next";
-import Image from "next/image";
 import { SidebarNav } from "./components/sidebar-nav";
 
 export const metadata: Metadata = {
-  title: "Forms",
-  description: "Advanced form example using react-hook-form and Zod.",
+  title: "Profile",
+  description:
+    "Manage personal details for you Invoicee profile for a seamless experience.",
 };
 
 const sidebarNavItems = [
   {
     title: "Account",
     href: "/settings/account",
+  },
+  {
+    title: "Preferences",
+    href: "/settings/preferences",
   },
 ];
 
@@ -31,7 +35,7 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
         </div>
         <Separator className="my-6" />
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-          <aside className="-mx-4 lg:w-1/5">
+          <aside className="lg:w-1/5">
             <SidebarNav items={sidebarNavItems} />
           </aside>
           <div className="flex-1 lg:max-w-2xl">{children}</div>

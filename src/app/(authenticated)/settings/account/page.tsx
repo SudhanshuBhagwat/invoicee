@@ -11,8 +11,8 @@ export default async function SettingsAccountPage() {
       <div>
         <h3 className="text-lg font-medium">Account</h3>
         <p className="text-sm text-muted-foreground">
-          Update your account settings. Set your preferred language and
-          timezone.
+          Update your account settings. Set the details user details so that you
+          don't have to invest time while invoicing.
         </p>
       </div>
       <Separator />

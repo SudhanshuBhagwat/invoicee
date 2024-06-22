@@ -36,14 +36,13 @@ export default async function DashboardPage() {
     <>
       <div className="hidden flex-col md:flex">
         <div className="space-y-4">
-          <div className="flex items-center justify-between space-y-2 -mt-2">
+          <div className="flex items-center justify-between space-y-2">
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
             <div className="flex items-center space-x-2">
-              <CalendarDateRangePicker />
-              <Button className="gap-2">
-                <Download className="h-3.5 w-3.5" />
+              {/* <Button className="gap-2">
+                <Download className="h-3 w-3.5" />
                 Download
-              </Button>
+              </Button> */}
             </div>
           </div>
           <Tabs defaultValue="overview" className="space-y-4">
