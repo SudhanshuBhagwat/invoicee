@@ -1,11 +1,11 @@
 "use client";
 
-import { PlusIcon } from "@heroicons/react/24/outline";
 import store from "@/store/store";
 import React, { ChangeEvent } from "react";
 import { Input } from "./ui/input";
 import { Item } from "@/types/types";
 import { Checkbox } from "./ui/checkbox";
+import { PlusIcon } from "lucide-react";
 
 export default function TableForm() {
   const {
