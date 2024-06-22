@@ -25,12 +25,12 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardPage() {
-  const invoicesForMonth = await getInvoicesForMonth();
+  // const invoicesForMonth = await getInvoicesForMonth();
   const amount = await getTotalRevenue();
   const totalInvoices = await getTotalInvoices();
-  // const totalCustomers = await getTotalCustomers();
+  const totalCustomers = await getTotalCustomers();
   const unpaidInvoiceAmount = await getUnpaidInvoiceAmount();
-  const invoiceOverview = await getInvoiceOverview();
+  // const invoiceOverview = await getInvoiceOverview();
 
   return (
     <>
@@ -116,7 +116,7 @@ export default async function DashboardPage() {
                     </p>
                   </CardContent>
                 </Card>
-                {/* <Card>
+                <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
                       Customers
@@ -143,7 +143,7 @@ export default async function DashboardPage() {
                       +19% from last month
                     </p>
                   </CardContent>
-                </Card> */}
+                </Card>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -175,7 +175,7 @@ export default async function DashboardPage() {
                   </CardContent>
                 </Card>
               </div>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+              {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
                   <CardHeader>
                     <CardTitle>Overview</CardTitle>
@@ -195,7 +195,7 @@ export default async function DashboardPage() {
                     <RecentSales invoicesForMonth={invoicesForMonth!} />
                   </CardContent>
                 </Card>
-              </div>
+              </div> */}
             </TabsContent>
           </Tabs>
         </div>
