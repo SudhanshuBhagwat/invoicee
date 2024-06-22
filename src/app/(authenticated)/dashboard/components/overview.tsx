@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { getAmount } from "@/lib/utils";
 import { format } from "date-fns";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
@@ -35,5 +36,19 @@ export function Overview({
         />
       </BarChart>
     </ResponsiveContainer>
+  );
+}
+
+export function OverviewSkeleton() {
+  return (
+    <div className="w-full h-[350px] px-4">
+      <div className="flex space-x-4 h-full">
+        {Array(12)
+          .fill(null)
+          .map(() => (
+            <Skeleton className="h-full w-20" />
+          ))}
+      </div>
+    </div>
   );
 }

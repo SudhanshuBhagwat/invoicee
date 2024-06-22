@@ -102,7 +102,7 @@ const CardSkeleton = () => {
           <Skeleton className="h-8 w-[250px]" />
         </div>
         <p className="text-xs text-muted-foreground">
-          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-2 w-[250px]" />
         </p>
       </CardContent>
     </Card>

@@ -1,22 +1,21 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardSkeleton,
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import getInvoiceOverview from "@/services/invoice/get-invoice-overview";
 import { Metadata } from "next";
-import { Overview } from "./components/overview";
+import { Suspense } from "react";
+import CustomerCount from "./components/customer-count";
+import InvoiceCount from "./components/invoice-count";
+import { Overview, OverviewSkeleton } from "./components/overview";
 import { RecentSales } from "./components/recent-sales";
 import RevenueCard from "./components/revenue-card";
-import { Suspense } from "react";
-import InvoiceCount from "./components/invoice-count";
-import CustomerCount from "./components/customer-count";
 import UnpaidInvoiceAmount from "./components/unpaid-invoice-count";
-import getInvoicesForMonth from "@/services/invoice/get-invoices-for-month";
-import getInvoiceOverview from "@/services/invoice/get-invoice-overview";
+import Spinner from "@/components/ui/Spinner";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -24,9 +23,6 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardPage() {
-  // const invoicesForMonth = await getInvoicesForMonth();
-  // const invoiceOverview = await getInvoiceOverview();
-
   return (
     <>
       <div className="hidden flex-col md:flex">
@@ -60,27 +56,21 @@ export default async function DashboardPage() {
                   <UnpaidInvoiceAmount />
                 </Suspense>
               </div>
-              {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
                   <CardHeader>
                     <CardTitle>Overview</CardTitle>
                   </CardHeader>
                   <CardContent className="pl-2">
-                    <Overview overviewData={invoiceOverview} />
+                    <Suspense fallback={<OverviewSkeleton />}>
+                      <Overview overviewData={await getInvoiceOverview()} />
+                    </Suspense>
                   </CardContent>
                 </Card>
-                <Card className="col-span-3">
-                  <CardHeader>
-                    <CardTitle>Recent Sales</CardTitle>
-                    <CardDescription>
-                      You made {invoicesForMonth?.length} sales this month.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <RecentSales invoicesForMonth={invoicesForMonth!} />
-                  </CardContent>
-                </Card>
-              </div> */}
+                <Suspense fallback={<Spinner />}>
+                  <RecentSales />
+                </Suspense>
+              </div>
             </TabsContent>
           </Tabs>
         </div>
