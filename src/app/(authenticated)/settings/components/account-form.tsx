@@ -45,6 +45,14 @@ const accountFormSchema = z.object({
     .max(10, {
       message: "Mobile must not be longer than 10 characters.",
     }),
+  gst_number: z
+    .string()
+    .min(15, {
+      message: "GST Number must be at least 15 characters.",
+    })
+    .max(15, {
+      message: "GST Number must not be longer than 15 characters.",
+    }),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
@@ -55,6 +63,7 @@ export function AccountForm({ user }: { user: UserData | null }) {
     company: user?.company,
     email: user?.email,
     mobile: user?.mobile,
+    gst_number: user?.gst_number,
   };
 
   const form = useForm<AccountFormValues>({
@@ -137,6 +146,23 @@ export function AccountForm({ user }: { user: UserData | null }) {
               <FormLabel>Mobile</FormLabel>
               <FormControl>
                 <Input type="number" placeholder="1234567890" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is the name that will be displayed on your profile and in
+                emails.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="gst_number"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>GST Number</FormLabel>
+              <FormControl>
+                <Input type="text" placeholder="1234567890" {...field} />
               </FormControl>
               <FormDescription>
                 This is the name that will be displayed on your profile and in

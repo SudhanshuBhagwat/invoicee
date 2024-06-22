@@ -24,7 +24,7 @@ export function CreateCustomer({
             defaultValue={initialData?.first_name || ""}
           />
         </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
+        <div className="grid w-full items-center gap-1.5">
           <Label htmlFor="last-name">Last Name</Label>
           <Input
             type="text"
@@ -67,6 +67,15 @@ export function CreateCustomer({
             name="address"
             defaultValue={initialData?.billing_address || ""}
             placeholder="36th Street, Near Avenue Mall, Pune"
+          />
+        </div>
+        <div className="grid col-span-2 w-full gap-1.5">
+          <Label htmlFor="gst">GST Number</Label>
+          <Input
+            type="text"
+            name="gst"
+            defaultValue={initialData?.gst_number || ""}
+            placeholder="22AAAAA0000A1Z5"
           />
         </div>
       </form>

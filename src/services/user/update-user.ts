@@ -8,19 +8,21 @@ export const updateUser = async ({
   mobile,
   company,
   user_id,
+  gst_number,
 }: {
   email: string;
   name: string;
   mobile: string;
   company: string;
   user_id: string;
+  gst_number: string;
 }) => {
   const supabase = createClient();
 
   try {
     const { data, error } = await supabase
       .from("User")
-      .update({ email, name, mobile, company })
+      .update({ email, name, mobile, company, gst_number })
       .eq("id", user_id);
 
     if (error?.code) return error;

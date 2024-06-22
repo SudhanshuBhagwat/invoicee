@@ -47,6 +47,7 @@ export async function createCustomer(formData: FormData) {
     email: formData.get("email")?.toString(),
     company: formData.get("company")?.toString(),
     billing_address: formData.get("address")?.toString(),
+    gst_number: formData.get("gst")?.toString(),
     user_id: user?.id!,
   };
   const { error } = await supabase.from("customers").insert(rawFormData);

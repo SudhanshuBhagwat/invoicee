@@ -1,5 +1,3 @@
-import { Database } from "@/types/supabase";
-
 export interface UserData {
   id: string;
   providerId: string;
@@ -7,6 +5,7 @@ export interface UserData {
   email: string;
   company: string;
   mobile: string;
+  gst_number?: string;
 }
 
 export type IAmount = {
@@ -69,5 +68,6 @@ export interface Customer {
   user_id?: string | null;
   created_at?: string | null;
   billing_address?: string | null;
+  gst_number?: string | null;
   invoices?: any;
 }
