@@ -36,7 +36,10 @@ export async function getCustomers() {
   return customers;
 }
 
-export async function createCustomer(formData: FormData) {
+export async function createCustomer(
+  customerId: string | null | undefined,
+  formData: FormData
+) {
   const supabase = createClient();
   const user = await getCurrentUser(supabase);
 
@@ -50,9 +53,19 @@ export async function createCustomer(formData: FormData) {
     gst_number: formData.get("gst")?.toString(),
     user_id: user?.id!,
   };
-  const { error } = await supabase.from("customers").insert(rawFormData);
 
-  if (!error) {
+  let data;
+  if (customerId) {
+    data = await supabase
+      .from("customers")
+      .update(rawFormData)
+      .eq("id", customerId);
+  } else {
+    data = await supabase.from("customers").insert(rawFormData);
+  }
+
+  if (!data?.error) {
+    revalidatePath("/customers");
     redirect("/customers");
   }
 }
@@ -65,6 +78,7 @@ export async function deleteCustomer(customerId: string) {
     .eq("id", customerId);
   if (!error) {
     revalidatePath("/customers");
+    redirect("/customers");
   }
 }
 

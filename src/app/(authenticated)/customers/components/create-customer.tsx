@@ -8,10 +8,12 @@ export function CreateCustomer({
 }: {
   initialData?: Customer | null;
 }) {
+  const createOrUpdateCustomer = createCustomer.bind(null, initialData?.id);
+
   return (
     <div className="mt-8">
       <form
-        action={createCustomer}
+        action={createOrUpdateCustomer}
         id="customer-form"
         className="w-full grid grid-cols-2 gap-4"
       >

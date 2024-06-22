@@ -13,6 +13,7 @@ import { columns } from "./components/columns";
 import { CreateCustomer } from "./components/create-customer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import CreateCustomerButton from "./components/create-customer-button";
 
 export default async function Page({
   searchParams,
@@ -32,15 +33,7 @@ export default async function Page({
           </div>
         </div>
         <div className="flex gap-2">
-          <Link
-            href={"/customers?open=true"}
-            className="cursor-pointer gap-2 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-3 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background"
-          >
-            <span className="flex gap-2 items-center">
-              <PlusCircle className="h-3.5 w-3.5" />
-              Add Customer
-            </span>
-          </Link>
+          <CreateCustomerButton />
         </div>
       </div>
       <div className="rounded-md border mt-6">
