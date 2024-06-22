@@ -1,11 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { AccountForm } from "../components/account-form";
-import { getCurrentUser } from "@/services/database";
-import { createClient } from "@/utils/supabase/server";
 
 export default async function SettingsAccountPage() {
-  const user = await getCurrentUser(createClient());
-
   return (
     <div className="space-y-6">
       <div>
@@ -16,7 +12,7 @@ export default async function SettingsAccountPage() {
         </p>
       </div>
       <Separator />
-      <AccountForm user={user} />
+      <AccountForm />
     </div>
   );
 }

@@ -15,9 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UserData } from "@/types/types";
+import { useUser } from "@/lib/provider";
 import { updateUser } from "@/services/user/update-user";
-import Spinner from "@/components/ui/Spinner";
 
 const accountFormSchema = z.object({
   name: z
@@ -57,7 +56,8 @@ const accountFormSchema = z.object({
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
-export function AccountForm({ user }: { user: UserData | null }) {
+export function AccountForm() {
+  const user = useUser();
   const defaultValues: Partial<AccountFormValues> = {
     name: user?.name,
     company: user?.company,

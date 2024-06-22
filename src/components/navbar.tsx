@@ -1,6 +1,5 @@
 "use client";
 
-import { User } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import {
@@ -13,11 +12,13 @@ import {
 } from "./ui/dropdown";
 import Image from "next/image";
 import { createBrowserClient } from "@/utils/supabase/client";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import AppIcon from "./icons/app";
 import NavLink from "./nav-link";
+import { useUser } from "@/lib/provider";
 
-export default function Nav({ user }: { user?: User }) {
+export default function Navbar() {
+  const user = useUser();
   const navigation = useRouter();
 
   async function handleSignOut() {
@@ -49,7 +50,7 @@ export default function Nav({ user }: { user?: User }) {
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
                 <Image
-                  src={user?.user_metadata.avatar_url}
+                  src={user.avatar_url}
                   className="rounded-full select-none"
                   width={34}
                   height={34}

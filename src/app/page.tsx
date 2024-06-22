@@ -1,13 +1,9 @@
-import Nav from "@/components/nav";
-import { createClient } from "@/utils/supabase/server";
+import Navbar from "@/components/navbar";
 
 export default async function Page() {
-  const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
-
   return (
-    <div className={``}>
-      <Nav user={data.user!} />
+    <div>
+      <Navbar />
       <main className="px-4">HomePage</main>
     </div>
   );

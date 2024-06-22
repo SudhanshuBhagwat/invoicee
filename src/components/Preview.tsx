@@ -5,17 +5,18 @@ import { calculateTotalAmount } from "@/utils/utils";
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import { Item, UserData } from "@/types/types";
+import { Item } from "@/types/types";
 import { Button } from "./ui/button";
 import { PrinterIcon } from "lucide-react";
+import { useUser } from "@/lib/provider";
 
 interface Props {
   isSaved?: boolean;
-  user: UserData;
 }
 
-export default function Preview({ isSaved = false, user }: Props) {
+export default function Preview({ isSaved = false }: Props) {
   const componentRef = useRef<HTMLDivElement>(null);
+  const user = useUser();
   const quotation = store((state) => state.quotation);
   const settings = store((state) => state.settings);
 
@@ -52,10 +53,10 @@ export default function Preview({ isSaved = false, user }: Props) {
         <div className="flex justify-between mt-10">
           <div className="space-y-1">
             <h2 className="text-lg font-bold">Company:</h2>
-            <p>{user.name}</p>
-            <p>{user.company}</p>
-            <p>{user.mobile}</p>
-            <p>{user.email}</p>
+            <p>{user?.name}</p>
+            <p>{user?.company}</p>
+            <p>{user?.mobile}</p>
+            <p>{user?.email}</p>
           </div>
           <div className="space-y-1 text-right">
             <h2 className="text-lg font-bold">Customer:</h2>

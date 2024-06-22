@@ -24,6 +24,7 @@ import {
 import { ClientSelector } from "./client-selector";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/lib/provider";
 
 export const QUOTATION_DATABASE = "quotation";
 
@@ -31,19 +32,14 @@ interface FormProps {
   type: Entity;
   initial: IQuotation;
   children?: ReactNode;
-  user: UserData;
   customers: Customer[];
 }
 
 const entity = [{ name: "Quotation" }, { name: "Invoice" }] as const;
 
-export default function Form({
-  initial,
-  user,
-  children,
-  customers,
-}: FormProps) {
+export default function Form({ initial, children, customers }: FormProps) {
   const { pending: isPending } = useFormStatus();
+  const user = useUser();
 
   useEffect(() => {
     setState(initial);
@@ -68,7 +64,7 @@ export default function Form({
           <Button
             size="sm"
             onClick={async () => {
-              await createInvoice(quotation, user.id);
+              await createInvoice(quotation, user?.id!);
             }}
           >
             {isPending ? (
