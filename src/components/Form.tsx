@@ -7,7 +7,7 @@ import Spinner from "@/components/ui/Spinner";
 import DetailsInput from "./DetailsInput";
 import { Label } from "./ui/label";
 import { format, parseISO } from "date-fns";
-import { Customer, IQuotation, UserData } from "@/types/types";
+import { Customer, IQuotation, Status, UserData } from "@/types/types";
 import { Entity, createInvoice } from "@/services/database";
 import { useFormStatus } from "react-dom";
 import { Button } from "./ui/button";
@@ -59,6 +59,7 @@ export default function Form({
   function handleFieldChange(value: string, id: string) {
     updateField(id, value);
   }
+
   return (
     <div>
       <div id="details" className="space-y-4">
@@ -75,7 +76,7 @@ export default function Form({
             ) : (
               <span className="flex items-center">
                 <SaveIcon className="h-4 w-4 mr-2" />
-                {quotation.id ? "Update" : "Save"}
+                {initial.id ? "Update" : "Save"}
               </span>
             )}
           </Button>
@@ -87,7 +88,7 @@ export default function Form({
               label="Number"
               id="number"
               onInputChange={(value: string, id: string) => updateNumber(value)}
-              value={quotation.number}
+              defaultValue={initial.number}
             />
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="date">Due Date</Label>
@@ -99,15 +100,14 @@ export default function Form({
                 onChange={(e) => {
                   updateDate(format(parseISO(e.target.value), "yyyy-MM-dd"));
                 }}
-                value={format(quotation.date || new Date(), "yyyy-MM-dd")}
+                defaultValue={format(initial.date || new Date(), "yyyy-MM-dd")}
               />
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="status">Status</Label>
               <Select
                 name="status"
-                defaultValue="0"
-                value={String(quotation.status)}
+                defaultValue={String(initial.status)}
                 onValueChange={(value) => handleFieldChange(value, "status")}
               >
                 <SelectTrigger className="w-[180px] h-9">
