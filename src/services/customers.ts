@@ -60,7 +60,7 @@ export async function createCustomer(formData: FormData) {
 export async function deleteCustomer(customerId: string) {
   const supabase = await createClient();
   const { error } = await supabase
-    .from("invoices")
+    .from("customers")
     .delete()
     .eq("id", customerId);
   if (!error) {

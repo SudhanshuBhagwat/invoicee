@@ -72,6 +72,7 @@ export function DataTableRowActions({
             <AlertDialogAction
               onClick={async () => {
                 await deleteAction();
+                setIsOpen(false);
               }}
             >
               Delete
