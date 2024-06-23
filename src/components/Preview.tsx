@@ -9,6 +9,7 @@ import { Item } from "@/types/types";
 import { Button } from "./ui/button";
 import { PrinterIcon } from "lucide-react";
 import { useUser } from "@/lib/provider";
+import { getAmount } from "@/lib/utils";
 
 interface Props {
   isSaved?: boolean;
@@ -127,20 +128,12 @@ export default function Preview({ isSaved = false }: Props) {
                                   rowSpan={item.amount.length}
                                   className="p-2 text-sm text-gray-800 whitespace-nowrap"
                                 >
-                                  {new Intl.NumberFormat("en-IN", {
-                                    maximumFractionDigits: 2,
-                                    style: "currency",
-                                    currency: "INR",
-                                  }).format(totalSum)}
+                                  {getAmount(totalSum)}
                                 </td>
                               ) : null
                             ) : (
                               <td className="p-2 text-sm text-gray-800 whitespace-nowrap">
-                                {new Intl.NumberFormat("en-IN", {
-                                  maximumFractionDigits: 2,
-                                  style: "currency",
-                                  currency: "INR",
-                                }).format(
+                                {getAmount(
                                   Number(
                                     quotation?.items![idx].amount[index].value
                                   )
@@ -157,11 +150,7 @@ export default function Preview({ isSaved = false }: Props) {
                           Total:
                         </td>
                         <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
-                          {new Intl.NumberFormat("en-IN", {
-                            maximumFractionDigits: 2,
-                            style: "currency",
-                            currency: "INR",
-                          }).format(Number(totalAmount))}
+                          {getAmount(Number(totalAmount))}
                         </td>
                       </tr>
                     )}

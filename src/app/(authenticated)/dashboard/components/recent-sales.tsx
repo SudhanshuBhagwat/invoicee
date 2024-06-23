@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getAmount } from "@/lib/utils";
 import getInvoicesForMonth from "@/services/invoice/get-invoices-for-month";
 
 export async function RecentSales() {
@@ -45,11 +46,7 @@ export async function RecentSales() {
                   </p>
                 </div>
                 <div className="ml-auto font-medium">
-                  +
-                  {new Intl.NumberFormat("en-In", {
-                    style: "currency",
-                    currency: "INR",
-                  }).format(Number(invoice.amount))}
+                  +{getAmount(Number(invoice.amount))}
                 </div>
               </div>
             ))}

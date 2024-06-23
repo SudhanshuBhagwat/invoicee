@@ -3,7 +3,7 @@
 import { DataTableRowActions } from "@/components/data-table-row-actions";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DEFAULT_DATE_FORMAT } from "@/lib/utils";
+import { DEFAULT_DATE_FORMAT, getAmount } from "@/lib/utils";
 import { deleteCustomer } from "@/services/customers";
 import { Customer, Status } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -66,19 +66,11 @@ export const columns: ColumnDef<Customer>[] = [
   },
   {
     accessorKey: "Total Amount",
-    cell: ({ row }) =>
-      new Intl.NumberFormat("en-In", {
-        style: "currency",
-        currency: "INR",
-      }).format(row.original.invoices.totalRevenue),
+    cell: ({ row }) => getAmount(row.original.invoices.totalRevenue),
   },
   {
     accessorKey: "Amount Due",
-    cell: ({ row }) =>
-      new Intl.NumberFormat("en-In", {
-        style: "currency",
-        currency: "INR",
-      }).format(row.original.invoices.amountDue),
+    cell: ({ row }) => getAmount(row.original.invoices.amountDue),
   },
   {
     accessorKey: "Due Date",

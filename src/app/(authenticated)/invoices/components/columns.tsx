@@ -3,6 +3,7 @@
 import { DataTableRowActions } from "@/components/data-table-row-actions";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { getAmount } from "@/lib/utils";
 import { deleteInvoice } from "@/services/database";
 import { IQuotation, Status } from "@/types/types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -61,11 +62,7 @@ export const columns: ColumnDef<IQuotation>[] = [
   },
   {
     accessorKey: "Amount",
-    cell: ({ row }) =>
-      new Intl.NumberFormat("en-In", {
-        style: "currency",
-        currency: "INR",
-      }).format(row.original.amount),
+    cell: ({ row }) => getAmount(row.original.amount),
   },
   {
     id: "actions",

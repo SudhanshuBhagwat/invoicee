@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getAmount } from "@/lib/utils";
 import getTotalRevenue from "@/services/invoice/get-total-revenue";
 
 export default async function RevenueCard() {
@@ -22,12 +23,7 @@ export default async function RevenueCard() {
         </svg>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">
-          {new Intl.NumberFormat("en-In", {
-            style: "currency",
-            currency: "INR",
-          }).format(Number(amount))}
-        </div>
+        <div className="text-2xl font-bold">{getAmount(Number(amount))}</div>
         <p className="text-xs text-muted-foreground">+20.1% from last month</p>
       </CardContent>
     </Card>

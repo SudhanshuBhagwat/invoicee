@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getAmount } from "@/lib/utils";
 import getUnpaidInvoiceAmount from "@/services/invoice/get-unpaid-invoice-amount";
 
 export default async function UnpaidInvoiceAmount() {
@@ -23,10 +24,7 @@ export default async function UnpaidInvoiceAmount() {
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">
-          {new Intl.NumberFormat("en-In", {
-            style: "currency",
-            currency: "INR",
-          }).format(Number(unpaidInvoiceAmount))}
+          {getAmount(Number(unpaidInvoiceAmount))}
         </div>
         <p className="text-xs text-muted-foreground">+201 since last hour</p>
       </CardContent>
