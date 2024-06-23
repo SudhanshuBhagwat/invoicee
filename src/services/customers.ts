@@ -38,6 +38,7 @@ export async function getCustomers() {
 
 export async function createCustomer(
   customerId: string | null | undefined,
+  pathname: string,
   formData: FormData
 ) {
   const supabase = createClient();
@@ -65,8 +66,8 @@ export async function createCustomer(
   }
 
   if (!data?.error) {
-    revalidatePath("/customers");
-    redirect("/customers");
+    revalidatePath(pathname);
+    redirect(pathname);
   }
 }
 

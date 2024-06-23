@@ -7,7 +7,7 @@ import Spinner from "@/components/ui/Spinner";
 import DetailsInput from "./DetailsInput";
 import { Label } from "./ui/label";
 import { format, parseISO } from "date-fns";
-import { Customer, IQuotation, Status, UserData } from "@/types/types";
+import { Customer, IQuotation } from "@/types/types";
 import { Entity, createInvoice } from "@/services/database";
 import { useFormStatus } from "react-dom";
 import { Button } from "./ui/button";
@@ -22,8 +22,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { ClientSelector } from "./client-selector";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useUser } from "@/lib/provider";
 
 export const QUOTATION_DATABASE = "quotation";
@@ -50,7 +49,7 @@ export default function Form({ initial, children, customers }: FormProps) {
   const updateField = store((state) => state.updateField);
   const updateNumber = store((state) => state.updateNumber);
   const updateDate = store((state) => state.updateDate);
-  const pathname = usePathname();
+  const router = useRouter();
 
   function handleFieldChange(value: string, id: string) {
     updateField(id, value);
@@ -174,15 +173,15 @@ export default function Form({ initial, children, customers }: FormProps) {
                   }
                 />
               </div>
-              <Link
-                href={pathname + "?addCustomer=true"}
+              <Button
+                onClick={() => router.push("?addCustomer=true")}
                 className="cursor-pointer gap-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-3 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background col-span-2"
               >
                 <span className="flex gap-2 items-center">
                   <PlusCircle className="h-3.5 w-3.5" />
                   Quick Add Customer
                 </span>
-              </Link>
+              </Button>
             </div>
           </fieldset>
           {children}

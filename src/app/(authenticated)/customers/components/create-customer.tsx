@@ -2,13 +2,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createCustomer } from "@/services/customers";
 import { Customer } from "@/types/types";
+import { usePathname } from "next/navigation";
 
 export function CreateCustomer({
   initialData,
 }: {
   initialData?: Customer | null;
 }) {
-  const createOrUpdateCustomer = createCustomer.bind(null, initialData?.id);
+  const pathname = usePathname();
+  const createOrUpdateCustomer = createCustomer.bind(
+    null,
+    initialData?.id,
+    pathname
+  );
 
   return (
     <div className="mt-8">
