@@ -13,8 +13,15 @@ import { ArrowUpRight, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
+import { Customer } from "@/types/types";
 
-export default function CreateCustomerSheet({ isOpen }: { isOpen: boolean }) {
+export default function CreateCustomerSheet({
+  isOpen,
+  initial,
+}: {
+  isOpen: boolean;
+  initial?: Customer | null;
+}) {
   const pathname = usePathname();
 
   return (
@@ -37,7 +44,7 @@ export default function CreateCustomerSheet({ isOpen }: { isOpen: boolean }) {
             Full Page View
           </Link>
         </SheetHeader>
-        <CreateCustomer />
+        <CreateCustomer initialData={initial} />
         <SheetFooter className="mt-6">
           <Link
             href={pathname}

@@ -162,8 +162,8 @@ export default function Form({ initial, children, customers }: FormProps) {
             <legend className="-ml-1 px-1 text-sm font-medium">
               Quotation To:
             </legend>
-            <div className="grid grid-cols-5 gap-4">
-              <div className="grid col-span-3">
+            <div className="grid grid-cols-8 gap-4">
+              <div className="grid col-span-4">
                 <ClientSelector
                   customers={customers}
                   customer={
@@ -173,6 +173,17 @@ export default function Form({ initial, children, customers }: FormProps) {
                   }
                 />
               </div>
+              <Button
+                onClick={() =>
+                  router.push(`?addCustomer=${quotation.customer_id}`)
+                }
+                className="cursor-pointer gap-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-3 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background col-span-2"
+              >
+                <span className="flex gap-2 items-center">
+                  <PlusCircle className="h-3.5 w-3.5" />
+                  Quick Edit Customer
+                </span>
+              </Button>
               <Button
                 onClick={() => router.push("?addCustomer=true")}
                 className="cursor-pointer gap-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-3 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background col-span-2"
