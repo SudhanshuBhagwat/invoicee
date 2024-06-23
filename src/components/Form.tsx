@@ -34,8 +34,6 @@ interface FormProps {
   customers: Customer[];
 }
 
-const entity = [{ name: "Quotation" }, { name: "Invoice" }] as const;
-
 export default function Form({ initial, children, customers }: FormProps) {
   const { pending: isPending } = useFormStatus();
   const user = useUser();
@@ -160,7 +158,7 @@ export default function Form({ initial, children, customers }: FormProps) {
             className="grid gap-6 rounded-lg border p-4"
           >
             <legend className="-ml-1 px-1 text-sm font-medium">
-              Quotation To:
+              Quotation To
             </legend>
             <div className="grid grid-cols-8 gap-4">
               <div className="grid col-span-4">

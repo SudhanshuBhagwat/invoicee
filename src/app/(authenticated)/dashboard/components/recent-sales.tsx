@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import getInvoicesForMonth from "@/services/invoice/get-invoices-for-month";
 
 export async function RecentSales() {
@@ -49,6 +50,43 @@ export async function RecentSales() {
                     style: "currency",
                     currency: "INR",
                   }).format(Number(invoice.amount))}
+                </div>
+              </div>
+            ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+export async function RecentSalesSkeleton() {
+  return (
+    <Card className="col-span-3">
+      <CardHeader>
+        <CardTitle>Recent Sales</CardTitle>
+        <CardDescription>
+          Loading your recent sales for the month
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-8">
+          {Array(5)
+            .fill(null)
+            .map((_, index) => (
+              <div className="flex items-center" key={index}>
+                <Avatar className="h-9 w-9">
+                  <AvatarFallback></AvatarFallback>
+                </Avatar>
+                <div className="ml-4 space-y-1">
+                  <p className="text-sm font-medium leading-none">
+                    <Skeleton className="w-20 h-5" />
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    <Skeleton className="w-36 h-4" />
+                  </p>
+                </div>
+                <div className="ml-auto font-medium">
+                  <Skeleton className="w-24 h-6" />
                 </div>
               </div>
             ))}

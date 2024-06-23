@@ -12,10 +12,9 @@ import { Suspense } from "react";
 import CustomerCount from "./components/customer-count";
 import InvoiceCount from "./components/invoice-count";
 import { Overview, OverviewSkeleton } from "./components/overview";
-import { RecentSales } from "./components/recent-sales";
+import { RecentSales, RecentSalesSkeleton } from "./components/recent-sales";
 import RevenueCard from "./components/revenue-card";
 import UnpaidInvoiceAmount from "./components/unpaid-invoice-count";
-import Spinner from "@/components/ui/Spinner";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -67,7 +66,7 @@ export default async function DashboardPage() {
                     </Suspense>
                   </CardContent>
                 </Card>
-                <Suspense fallback={<Spinner />}>
+                <Suspense fallback={<RecentSalesSkeleton />}>
                   <RecentSales />
                 </Suspense>
               </div>
