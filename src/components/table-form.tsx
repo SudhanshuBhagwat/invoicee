@@ -1,11 +1,12 @@
 "use client";
 
 import store from "@/store/store";
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Input } from "./ui/input";
 import { Item } from "@/types/types";
 import { Checkbox } from "./ui/checkbox";
 import { PlusIcon } from "lucide-react";
+import DetailsInput from "./DetailsInput";
 
 export default function TableForm() {
   const {
@@ -16,11 +17,9 @@ export default function TableForm() {
     updateItem,
     settings,
     updateSetting,
+    updateTaxPercent,
+    updateDiscountPercent,
   } = store();
-
-  function handleSettingChange(event: ChangeEvent<HTMLInputElement>) {
-    updateSetting(event.target.id, Boolean(event.target.checked));
-  }
 
   function handleInputChange(id: string, key: keyof Item, value: string) {
     updateItem(id, key, value);
@@ -178,6 +177,26 @@ export default function TableForm() {
               </tr>
             </tbody>
           </table>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <DetailsInput
+            label="Tax %"
+            id="taxPercent"
+            type="number"
+            onInputChange={(value) => {
+              updateTaxPercent(Number(value));
+            }}
+            defaultValue={quotation.taxPercent}
+          />
+          <DetailsInput
+            label="Discount %"
+            id="discountPercent"
+            type="number"
+            onInputChange={(value) => {
+              updateDiscountPercent(Number(value));
+            }}
+            defaultValue={quotation.discountPercent}
+          />
         </div>
       </fieldset>
     </div>

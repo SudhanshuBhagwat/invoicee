@@ -37,6 +37,8 @@ export type IQuotation = {
   status: Status;
   customer_id: string | null;
   customer: Customer | null;
+  taxPercent: number;
+  discountPercent: number;
 };
 
 export enum Status {

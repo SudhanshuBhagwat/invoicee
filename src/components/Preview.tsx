@@ -24,9 +24,15 @@ export default function Preview({ isSaved = false }: Props) {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const totalAmount: number = calculateTotalAmount(quotation);
+  const subTotalAmount: number = calculateTotalAmount(quotation);
   const contentState = convertFromRaw(quotation.notes);
   const editorState = EditorState.createWithContent(contentState);
+  const taxableAmount =
+    (subTotalAmount * Number(quotation.taxPercent || 0)) / 100;
+  const discountAmount =
+    (subTotalAmount * Number(quotation.discountPercent || 0)) / 100;
+
+  const totalAmount = subTotalAmount + taxableAmount - discountAmount;
 
   return (
     <div className="h-full w-full px-4">
@@ -143,6 +149,33 @@ export default function Preview({ isSaved = false }: Props) {
                           </tr>
                         ));
                       })}
+                    <tr>
+                      <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
+                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                        Sub total:
+                      </td>
+                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                        {getAmount(Number(subTotalAmount))}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
+                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                        Tax {quotation.taxPercent}%:
+                      </td>
+                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                        {getAmount(Number(taxableAmount))}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
+                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                        Discount {quotation.discountPercent}%:
+                      </td>
+                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                        {getAmount(Number(discountAmount))}
+                      </td>
+                    </tr>
                     {settings.showSum && (
                       <tr>
                         <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>

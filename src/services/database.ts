@@ -33,6 +33,8 @@ export async function getInvoiceByID(id: string) {
     status: invoice![0].status,
     customer_id: invoice![0].customer_id,
     customer: invoice![0].customers,
+    taxPercent: invoice![0].tax_percentage || 0,
+    discountPercent: invoice![0].discount_percentage || 0,
   };
 }
 
@@ -58,6 +60,8 @@ export async function getInvoices() {
       status: invoice.status,
       customer_id: invoice.customer_id,
       customer: invoice.customers,
+      discountPercent: invoice.discount_percentage || 0,
+      taxPercent: invoice.tax_percentage || 0,
     });
   }
 
@@ -95,6 +99,8 @@ export async function createInvoice(quotation: IQuotation, userId: string) {
     created_by_id: userId,
     status: quotation.status,
     customer_id: quotation.customer_id,
+    tax_percentage: quotation.taxPercent,
+    discount_percentage: quotation.discountPercent,
   };
 
   let result;

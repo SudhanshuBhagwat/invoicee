@@ -34,92 +34,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      _prisma_migrations: {
-        Row: {
-          applied_steps_count: number
-          checksum: string
-          finished_at: string | null
-          id: string
-          logs: string | null
-          migration_name: string
-          rolled_back_at: string | null
-          started_at: string
-        }
-        Insert: {
-          applied_steps_count?: number
-          checksum: string
-          finished_at?: string | null
-          id: string
-          logs?: string | null
-          migration_name: string
-          rolled_back_at?: string | null
-          started_at?: string
-        }
-        Update: {
-          applied_steps_count?: number
-          checksum?: string
-          finished_at?: string | null
-          id?: string
-          logs?: string | null
-          migration_name?: string
-          rolled_back_at?: string | null
-          started_at?: string
-        }
-        Relationships: []
-      }
-      Account: {
-        Row: {
-          access_token: string | null
-          expires_at: number | null
-          id: string
-          id_token: string | null
-          provider: string
-          providerAccountId: string
-          refresh_token: string | null
-          scope: string | null
-          session_state: string | null
-          token_type: string | null
-          type: string
-          userId: string
-        }
-        Insert: {
-          access_token?: string | null
-          expires_at?: number | null
-          id: string
-          id_token?: string | null
-          provider: string
-          providerAccountId: string
-          refresh_token?: string | null
-          scope?: string | null
-          session_state?: string | null
-          token_type?: string | null
-          type: string
-          userId: string
-        }
-        Update: {
-          access_token?: string | null
-          expires_at?: number | null
-          id?: string
-          id_token?: string | null
-          provider?: string
-          providerAccountId?: string
-          refresh_token?: string | null
-          scope?: string | null
-          session_state?: string | null
-          token_type?: string | null
-          type?: string
-          userId?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "Account_userId_fkey"
-            columns: ["userId"]
-            isOneToOne: false
-            referencedRelation: "User"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       customers: {
         Row: {
           billing_address: string
@@ -166,11 +80,13 @@ export type Database = {
           created_by_id: string
           customer_id: string | null
           date: string
+          discount_percentage: number | null
           id: string
           items: string
           notes: string | null
           quote_number: number
           status: number
+          tax_percentage: number | null
         }
         Insert: {
           amount?: number
@@ -178,11 +94,13 @@ export type Database = {
           created_by_id: string
           customer_id?: string | null
           date?: string
+          discount_percentage?: number | null
           id?: string
           items: string
           notes?: string | null
           quote_number: number
           status?: number
+          tax_percentage?: number | null
         }
         Update: {
           amount?: number
@@ -190,11 +108,13 @@ export type Database = {
           created_by_id?: string
           customer_id?: string | null
           date?: string
+          discount_percentage?: number | null
           id?: string
           items?: string
           notes?: string | null
           quote_number?: number
           status?: number
+          tax_percentage?: number | null
         }
         Relationships: [
           {
@@ -207,35 +127,6 @@ export type Database = {
           {
             foreignKeyName: "invoices_created_by_id_fkey"
             columns: ["created_by_id"]
-            isOneToOne: false
-            referencedRelation: "User"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      Session: {
-        Row: {
-          expires: string
-          id: string
-          sessionToken: string
-          userId: string
-        }
-        Insert: {
-          expires: string
-          id: string
-          sessionToken: string
-          userId: string
-        }
-        Update: {
-          expires?: string
-          id?: string
-          sessionToken?: string
-          userId?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "Session_userId_fkey"
-            columns: ["userId"]
             isOneToOne: false
             referencedRelation: "User"
             referencedColumns: ["id"]
@@ -278,24 +169,6 @@ export type Database = {
           name?: string | null
           notes?: string | null
           provider_id?: string | null
-        }
-        Relationships: []
-      }
-      VerificationToken: {
-        Row: {
-          expires: string
-          identifier: string
-          token: string
-        }
-        Insert: {
-          expires: string
-          identifier: string
-          token: string
-        }
-        Update: {
-          expires?: string
-          identifier?: string
-          token?: string
         }
         Relationships: []
       }

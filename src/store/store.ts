@@ -62,6 +62,8 @@ export const INITIAL_STATE: IQuotation = {
   items: [],
   amount: 0,
   number: "0",
+  taxPercent: 0,
+  discountPercent: 0,
 };
 
 export interface Settings {
@@ -78,6 +80,8 @@ interface Store {
   updateNote: (note: any) => void;
   updateField(id: string, value: string): void;
   updateNumber(number: string): void;
+  updateTaxPercent(amount: number): void;
+  updateDiscountPercent(amount: number): void;
   updateDate(date: string): void;
   addItem: () => void;
   addCategory: (id: string) => void;
@@ -129,6 +133,20 @@ const store = create<Store>((set, get) => ({
     set(
       produce((state) => {
         state.quotation.notes = note;
+      })
+    );
+  },
+  updateTaxPercent(amount: number) {
+    set(
+      produce((state) => {
+        state.quotation.taxPercent = amount;
+      })
+    );
+  },
+  updateDiscountPercent(amount: number) {
+    set(
+      produce((state) => {
+        state.quotation.discountPercent = amount;
       })
     );
   },
