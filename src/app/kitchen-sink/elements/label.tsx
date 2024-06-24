@@ -13,6 +13,6 @@ export const LabelElement: FormElement = {
   designerBtnElement: {
     label: "Text Field",
   },
-  designerComponent: () => <div>Label Designer</div>,
+  designerComponent: () => <span>Label Designer</span>,
   sidebarComponent: () => <div>Label Sidebar</div>,
 };

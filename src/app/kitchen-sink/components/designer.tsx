@@ -31,6 +31,7 @@ export default function Designer() {
       const droppingSidebarBtnOverDesignerDropArea =
         isDesignerBtnElement && isDroppingOverDesignerDropArea;
 
+      console.log(event);
       if (droppingSidebarBtnOverDesignerDropArea) {
         const type = active.data?.current?.type;
         const newElement = FormElements[type as ElementsType].construct(v4());

@@ -19,7 +19,7 @@ function SidebarBtnElement({ formElement }: { formElement: FormElement }) {
       ref={draggable.setNodeRef}
       variant={"outline"}
       className={cn(
-        "flex flex-col gap-2 h-[120px] w-[120px] cursor-grab",
+        "flex flex-col gap-2 cursor-grab",
         draggable.isDragging && "ring-2 ring-primary"
       )}
       {...draggable.listeners}
@@ -38,10 +38,7 @@ export function SidebarBtnElementDragOverlay({
   const { label } = formElement.designerBtnElement;
 
   return (
-    <Button
-      variant={"outline"}
-      className="flex flex-col gap-2 h-[120px] w-[120px] cursor-grab"
-    >
+    <Button variant={"outline"} className="flex flex-col gap-2 cursor-grab">
       <p className="text-xs">{label}</p>
     </Button>
   );
