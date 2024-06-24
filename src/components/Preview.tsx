@@ -78,31 +78,31 @@ export default function Preview({ isSaved = false }: Props) {
           </div>
           <div className="overflow-x-auto mt-6 w-full">
             <div className="inline-block min-w-full py-2 align-middle">
-              <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5">
-                <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-gray-50">
+              <div className="overflow-hidden ring-1 ring-black ring-opacity-5">
+                <table className="min-w-full divide-y divide-primary border border-primary">
+                  <thead className="bg-primary">
                     <tr>
                       <th
                         scope="col"
-                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-primary-foreground sm:pl-6"
                       >
                         Items
                       </th>
                       <th
                         scope="col"
-                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-primary-foreground"
                       >
                         Category
                       </th>
                       <th
                         scope="col"
-                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 w-40"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-primary-foreground w-40"
                       >
                         Amount
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-white divide-y divide-primary">
                     {quotation.items &&
                       quotation.items.map((item: Item, idx: number) => {
                         const totalSum = item.amount
@@ -112,10 +112,10 @@ export default function Preview({ isSaved = false }: Props) {
                           <tr key={`${item.id}-${category.id}-${index}`}>
                             {index === 0 && (
                               <td
-                                className="text-lg p-3 pl-4 pr-3 border-r border-gray-200 font-medium text-gray-900 whitespace-nowrap sm:pl-6"
+                                className="text-lg p-1 pl-4 pr-3 border-r border-primary font-medium text-gray-900 whitespace-nowrap sm:pl-6"
                                 rowSpan={item.category.length}
                               >
-                                <div className="flex flex-col space-y-2">
+                                <div className="flex flex-col space-y-1">
                                   <span>{item.name}</span>
                                   {item.description && (
                                     <span className="text-sm text-gray-400">
@@ -125,7 +125,7 @@ export default function Preview({ isSaved = false }: Props) {
                                 </div>
                               </td>
                             )}
-                            <td className="p-2 text-sm text-gray-800 whitespace-nowrap border-r border-gray-200">
+                            <td className="p-2 text-sm text-gray-800 whitespace-nowrap border-r border-primary">
                               {category.value}
                             </td>
                             {settings.showSumForCategory ? (
