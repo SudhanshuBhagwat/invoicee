@@ -31,7 +31,7 @@ export default function Navbar() {
 
   return (
     <header className="w-full sticky top-0 flex h-16 items-center justify-between gap-4 border-b bg-background px-4 md:px-6">
-      <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+      <nav className="gap-3 text-lg font-medium flex flex-row items-center sm:gap-5 sm:text-sm lg:gap-6">
         <h1 className="flex items-center gap-2 text-lg font-semibold md:text-base select-none">
           <AppIcon />
           Invoicee
@@ -44,7 +44,7 @@ export default function Navbar() {
           </>
         )}
       </nav>
-      <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+      <div className="w-full flex items-center justify-end gap-4 md:ml-auto md:gap-2 lg:gap-4">
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

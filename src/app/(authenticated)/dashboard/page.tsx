@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default async function DashboardPage() {
   return (
     <>
-      <div className="hidden flex-col md:flex">
+      <div className="flex-col">
         <div className="space-y-4">
           <div className="flex items-center justify-between space-y-2">
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
@@ -41,7 +41,7 @@ export default async function DashboardPage() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <Suspense fallback={<CardSkeleton />}>
                   <RevenueCard />
                 </Suspense>
@@ -55,7 +55,7 @@ export default async function DashboardPage() {
                   <UnpaidInvoiceAmount />
                 </Suspense>
               </div>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
                   <CardHeader>
                     <CardTitle>Overview</CardTitle>

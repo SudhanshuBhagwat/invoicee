@@ -24,7 +24,7 @@ export default async function Page({
   }
 
   return (
-    <div className={`grid grid-cols-2 gap-4 divide-x-2`}>
+    <div className={`lg:grid lg:grid-cols-2 lg:divide-x-2 gap-4 flex flex-col`}>
       <Form initial={quotation} type={"invoice"} customers={customers}>
         <TableForm />
         <NotesEditor notes={quotation?.notes} />

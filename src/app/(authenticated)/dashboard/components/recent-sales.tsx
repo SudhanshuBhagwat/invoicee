@@ -14,7 +14,7 @@ export async function RecentSales() {
   const invoicesForMonth = await getInvoicesForMonth();
 
   return (
-    <Card className="col-span-3">
+    <Card className="col-span-4 lg:col-span-3">
       <CardHeader>
         <CardTitle>Recent Sales</CardTitle>
         <CardDescription>

@@ -35,7 +35,7 @@ export default function Preview({ isSaved = false }: Props) {
   const totalAmount = subTotalAmount + taxableAmount - discountAmount;
 
   return (
-    <div className="h-full w-full px-4">
+    <div className="h-full w-full lg:px-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Preview</h2>
         {isSaved && (
