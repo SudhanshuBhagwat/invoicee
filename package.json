@@ -10,7 +10,8 @@
     "gen-types": "supabase gen types typescript --local > src/types/supabase.ts",
     "db-push": "supabase db push",
     "db-pull": "supabase db pull",
-    "migrate": "supabase migrations up"
+    "migrate": "supabase migrations up",
+    "generate": "drizzle-kit generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
@@ -35,13 +36,16 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
+    "dotenv": "^16.4.5",
     "draft-convert": "^2.1.13",
     "draft-js": "^0.11.7",
+    "drizzle-orm": "^0.31.2",
     "immer": "^10.1.1",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.378.0",
     "next": "14.2.3",
     "postcss": "^8.4.38",
+    "postgres": "^3.4.4",
     "react": "18.3.1",
     "react-aria-components": "1.2.0",
     "react-day-picker": "^8.10.1",
@@ -74,6 +78,7 @@
     "@types/react-dom": "18.3.0",
     "@types/react-draft-wysiwyg": "^1.13.8",
     "@types/sanitize-html": "^2.11.0",
-    "@types/uuid": "^9.0.8"
+    "@types/uuid": "^9.0.8",
+    "drizzle-kit": "^0.22.8"
   }
 }
