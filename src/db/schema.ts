@@ -5,6 +5,7 @@ import {
   timestamp,
   numeric,
   integer,
+  foreignKey,
 } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("User", {
@@ -17,24 +18,37 @@ export const usersTable = pgTable("User", {
   gst_number: text("gst_number"),
 });
 
-export const invoicesTable = pgTable("invoices", {
-  id: uuid("id").primaryKey(),
-  created_at: timestamp("created_id").defaultNow(),
-  created_by_id: text("created_by_id")
-    .notNull()
-    .references(() => usersTable.id, { onDelete: "cascade" }),
-  date: timestamp("date"),
-  amount: numeric("amount"),
-  quote_number: numeric("quote_number"),
-  items: text("items"),
-  notes: text("notes"),
-  status: integer("status"),
-  customer_id: uuid("customer_id").references(() => customersTable.id, {
-    onDelete: "cascade",
-  }),
-  tax_percentage: numeric("tax_percentage"),
-  discount_percentage: numeric("discount_percentage"),
-});
+export const invoicesTable = pgTable(
+  "invoices",
+  {
+    id: uuid("id").primaryKey(),
+    created_at: timestamp("created_id").defaultNow(),
+    created_by_id: text("created_by_id").notNull(),
+    date: timestamp("date"),
+    amount: numeric("amount"),
+    quote_number: numeric("quote_number"),
+    items: text("items"),
+    notes: text("notes"),
+    status: integer("status"),
+    customer_id: uuid("customer_id"),
+    tax_percentage: numeric("tax_percentage"),
+    discount_percentage: numeric("discount_percentage"),
+  },
+  (table) => {
+    return {
+      customerReference: foreignKey({
+        columns: [table.customer_id],
+        foreignColumns: [customersTable.id],
+        name: "fk_customer_id",
+      }),
+      userReference: foreignKey({
+        columns: [table.created_by_id],
+        foreignColumns: [usersTable.id],
+        name: "invoices_created_by_id_fkey",
+      }),
+    };
+  }
+);
 
 export const customersTable = pgTable("customers", {
   id: uuid("id").primaryKey(),

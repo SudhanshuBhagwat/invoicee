@@ -8,9 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "gen-types": "supabase gen types typescript --local > src/types/supabase.ts",
-    "db-push": "supabase db push",
+    "db-push": "supabase db push --include-all",
     "db-pull": "supabase db pull",
-    "migrate": "supabase migrations up",
+    "migrate": "supabase migrations up --include-all",
     "generate": "drizzle-kit generate"
   },
   "dependencies": {
