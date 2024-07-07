@@ -1,3 +1,4 @@
+import { getSupabaseUser } from "@/services/database";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { redirect } from "next/navigation";
 import { NextResponse, type NextRequest } from "next/server";
@@ -55,7 +56,8 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  const { error } = await supabase.auth.getUser();
+  const { error } = await getSupabaseUser(supabase);
+;
 
   if (!error && !request.nextUrl.pathname.startsWith("/signin")) {
     return redirect("/signin");

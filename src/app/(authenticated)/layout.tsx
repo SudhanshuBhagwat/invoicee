@@ -3,7 +3,7 @@ import { Toaster } from "react-hot-toast";
 import { createClient } from "@/utils/supabase/server";
 import Navbar from "@/components/navbar";
 import UserContextProvider from "@/lib/provider";
-import { getCurrentUser } from "@/services/database";
+import { getCurrentUser, getSupabaseUser } from "@/services/database";
 
 export default async function Layout({
   children,
@@ -11,7 +11,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
+  const { data } = await getSupabaseUser(supabase);
   const user = await getCurrentUser(supabase);
 
   if (!user) return null;

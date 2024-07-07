@@ -8,6 +8,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { DEFAULT_DATE_FORMAT } from "@/lib/utils";
+import { cache } from "react";
 
 export type Entity = "quotation" | "invoice";
 
@@ -68,22 +69,23 @@ export async function getInvoices() {
   return invoices;
 }
 
-export async function getCurrentUser(
-  client: SupabaseClient
-): Promise<UserData | null> {
-  const user = await client.auth.getUser();
-  const { data, error } = await client
-    .from("User")
-    .select("*")
-    .eq("provider_id", user.data.user?.id!)
-    .single();
+export const getSupabaseUser = cache(async (client: SupabaseClient) => {
+  return await client.auth.getUser();
+});
 
-  if (!error) {
+export const getCurrentUser = cache(
+  async (client: SupabaseClient): Promise<UserData | null> => {
+    const user = await getSupabaseUser(client);
+    const { data } = await client
+      .from("User")
+      .select("*")
+      .eq("provider_id", user.data.user?.id!)
+      .single()
+      .throwOnError();
+
     return data;
   }
-
-  return null;
-}
+);
 
 export async function createInvoice(quotation: IQuotation, userId: string) {
   const supabase = await createClient();

@@ -50,30 +50,31 @@ export default function Preview({ isSaved = false }: Props) {
           ref={componentRef}
           className="bg-white overflow-auto p-8 pb-6 rounded shadow-md h-[1120px]"
         >
+          <p className="text-2xl font-bold tracking-wide mb-6">INVOICE</p>
           <div className="text-right">
             <p className="font-bold">
               No: <span className="font-normal">{quotation.number}</span>
             </p>
             <p className="font-bold">
-              Date: <span className="font-normal">{quotation.date}</span>
+              Due Date: <span className="font-normal">{quotation.date}</span>
             </p>
           </div>
           <div className="flex justify-between mt-10">
             <div className="space-y-1">
-              <h2 className="text-lg font-bold">Company:</h2>
+              <h2 className="text-lg font-semibold text-gray-400">Company:</h2>
+              <p className="font-bold">{user?.company}</p>
               <p>{user?.name}</p>
-              <p>{user?.company}</p>
-              <p>{user?.mobile}</p>
               <p>{user?.email}</p>
+              <p>Phone: {user?.mobile}</p>
             </div>
             <div className="space-y-1 text-right">
-              <h2 className="text-lg font-bold">Customer:</h2>
+              <h2 className="text-lg font-semibold text-gray-400">Customer:</h2>
+              <p className="font-bold">{quotation.customer?.company}</p>
               <p>
                 {quotation.customer?.first_name} {quotation.customer?.last_name}
               </p>
-              <p>{quotation.customer?.company}</p>
-              <p>{quotation.customer?.mobile}</p>
               <p>{quotation.customer?.email}</p>
+              <p>Phone: {quotation.customer?.mobile}</p>
             </div>
           </div>
           <div className="overflow-x-auto mt-6 w-full">
@@ -200,30 +201,6 @@ export default function Preview({ isSaved = false }: Props) {
               readOnly={true}
               onChange={() => {}}
             />
-            {/* <ul className="list-disc ml-4">
-              <li className="">
-                All of the above are going to be provided in the following 2
-                resolutions:
-                <ul className="list-square ml-4">
-                  <li>2560 x 1440 resolution.</li>
-                </ul>
-              </li>
-              <li className="">
-                The completion time for walkthrough is <strong>8 to 10</strong>{" "}
-                working days.
-              </li>
-              <li className="">
-                The completion time for 3D Rendering is <strong>2 to 3</strong>{" "}
-                working days (Interior/Exterior).
-              </li>
-              <li className="">
-                Please note that <strong>30% advance</strong> payment is required.
-              </li>
-              <li className="">
-                Thank you for considering our services. If you have any questions
-                or concerns, please feel free to contact us.
-              </li>
-            </ul> */}
           </div>
         </div>
       </div>
