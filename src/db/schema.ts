@@ -22,7 +22,7 @@ export const invoicesTable = pgTable(
   "invoices",
   {
     id: uuid("id").primaryKey(),
-    created_at: timestamp("created_id").defaultNow(),
+    created_at: timestamp("created_at").defaultNow(),
     created_by_id: text("created_by_id").notNull(),
     date: timestamp("date"),
     amount: numeric("amount"),
@@ -57,7 +57,7 @@ export const customersTable = pgTable("customers", {
   email: text("email"),
   mobile: text("mobile"),
   company: text("company"),
-  created_at: timestamp("created_id").defaultNow(),
+  created_at: timestamp("created_at").defaultNow(),
   user_id: text("user_id").notNull(),
   billing_address: text("billing_address"),
   gst_number: text("gst_number"),

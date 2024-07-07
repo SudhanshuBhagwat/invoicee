@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS "customers" (
 	"email" text,
 	"mobile" text,
 	"company" text,
-	"created_id" timestamp DEFAULT now(),
+	"created_at" timestamp DEFAULT now(),
 	"user_id" text NOT NULL,
 	"billing_address" text,
 	"gst_number" text
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS "customers" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "invoices" (
 	"id" uuid PRIMARY KEY NOT NULL,
-	"created_id" timestamp DEFAULT now(),
+	"created_at" timestamp DEFAULT now(),
 	"created_by_id" text NOT NULL,
 	"date" timestamp,
 	"amount" numeric,
