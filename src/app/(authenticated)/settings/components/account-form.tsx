@@ -51,7 +51,8 @@ const accountFormSchema = z.object({
     })
     .max(15, {
       message: "GST Number must not be longer than 15 characters.",
-    }),
+    })
+    .nullable(),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
@@ -172,7 +173,9 @@ export function AccountForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Update account</Button>
+        <Button type="submit">
+          {form.formState.isSubmitting ? "Updating Account" : "Update account"}
+        </Button>
       </form>
     </Form>
   );

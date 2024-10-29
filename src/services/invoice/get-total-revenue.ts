@@ -1,22 +1,17 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
-import { getCurrentUser } from "../database";
+import { auth } from "@/auth";
+import { db } from "@/db";
+import { invoicesTable, users } from "@/db/schema";
+import { eq, sum } from "drizzle-orm";
 
 export default async function getTotalRevenue() {
-  const supabase = createClient();
-  const user = await getCurrentUser(supabase);
+  const session = await auth();
 
-  const { data, error } = await supabase
-    .from("invoices")
-    .select("amount.sum()")
-    .eq("created_by_id", user?.id!)
-    .returns<{ sum: string }[]>()
-    .single();
+  const amount = await db
+    .select({ sum: sum(invoicesTable.amount) })
+    .from(invoicesTable)
+    .where(eq(invoicesTable.created_by_id, session?.user?.id!));
 
-  if (error) {
-    console.error(error);
-  }
-
-  return data?.sum;
+  return amount[0].sum;
 }

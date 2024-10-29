@@ -79,6 +79,7 @@ interface Store {
   updateCustomer: (customer: Customer) => void;
   updateNote: (note: any) => void;
   updateField(id: string, value: string): void;
+  updateStatus(status: string): void;
   updateNumber(number: string): void;
   updateTaxPercent(amount: number): void;
   updateDiscountPercent(amount: number): void;
@@ -157,6 +158,12 @@ const store = create<Store>((set, get) => ({
       })
     );
   },
+  updateStatus: (status: string) =>
+    set(
+      produce((state) => {
+        state.quotation.status = status;
+      })
+    ),
   updateNumber: (number: string) =>
     set(
       produce((state) => {

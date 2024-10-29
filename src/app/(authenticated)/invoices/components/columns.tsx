@@ -42,7 +42,7 @@ export const columns: ColumnDef<IQuotation>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "Status",
+    accessorKey: "status",
     cell: ({ row }) => {
       return <Badge variant="outline">{Status[row.original.status]}</Badge>;
     },

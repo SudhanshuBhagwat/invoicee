@@ -46,6 +46,7 @@ export default function Form({ initial, children, customers }: FormProps) {
   const quotation = store((state) => state.quotation);
   const updateField = store((state) => state.updateField);
   const updateNumber = store((state) => state.updateNumber);
+  const updateStatus = store((state) => state.updateStatus);
   const updateDate = store((state) => state.updateDate);
   const router = useRouter();
 
@@ -101,7 +102,7 @@ export default function Form({ initial, children, customers }: FormProps) {
               <Select
                 name="status"
                 defaultValue={String(initial.status)}
-                onValueChange={(value) => handleFieldChange(value, "status")}
+                onValueChange={(value) => updateStatus(value)}
               >
                 <SelectTrigger className="w-[180px] h-9">
                   <SelectValue placeholder="Select a status" />

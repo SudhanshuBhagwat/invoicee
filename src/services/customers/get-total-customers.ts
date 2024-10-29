@@ -1,21 +1,17 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
-import { getCurrentUser } from "../database";
+import { auth } from "@/auth";
+import { db } from "@/db";
+import { customersTable } from "@/db/schema";
+import { count, eq } from "drizzle-orm";
 
 export default async function getTotalCustomers() {
-  const supabase = createClient();
-  const user = await getCurrentUser(supabase);
+  const session = await auth();
 
-  const { data, error } = await supabase
-    .from("customers")
-    .select("id.count()")
-    .eq("user_id", user?.id!)
-    .single();
+  const customerCount = await db
+    .select({ sum: count() })
+    .from(customersTable)
+    .where(eq(customersTable.user_id, session?.user?.id!));
 
-  if (error) {
-    console.error(error);
-  }
-
-  return data;
+  return customerCount[0].sum;
 }

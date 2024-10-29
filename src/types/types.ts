@@ -1,10 +1,10 @@
 export interface UserData {
   id: string;
-  providerId: string;
+  providerId?: string;
   name: string;
   email: string;
-  company: string;
-  mobile: string;
+  company?: string;
+  mobile?: string;
   gst_number?: string;
 }
 
@@ -30,7 +30,7 @@ export type IQuotation = {
   id: string;
   details?: IDetails | null;
   items?: Item[] | null;
-  date: string;
+  date: string | null;
   notes?: any;
   amount: number;
   number: string;

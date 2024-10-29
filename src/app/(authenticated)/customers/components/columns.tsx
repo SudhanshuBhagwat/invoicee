@@ -54,16 +54,16 @@ export const columns: ColumnDef<Customer>[] = [
         ? row.original.invoices.totalInvoices
         : "-",
   },
-  {
-    accessorKey: "Status",
-    cell: ({ row }) => {
-      return (
-        <Badge variant="outline">
-          {Status[row.original.invoices.amountDue > 0 ? 1 : 2]}
-        </Badge>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "status",
+  //   cell: ({ row }) => {
+  //     return (
+  //       <Badge variant="outline">
+  //         {Status[row.original.invoices.amountDue > 0 ? 1 : 2]}
+  //       </Badge>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "Total Amount",
     cell: ({ row }) => getAmount(row.original.invoices.totalRevenue),
@@ -72,16 +72,16 @@ export const columns: ColumnDef<Customer>[] = [
     accessorKey: "Amount Due",
     cell: ({ row }) => getAmount(row.original.invoices.amountDue),
   },
-  {
-    accessorKey: "Due Date",
-    cell: ({ row }) =>
-      row.original.invoices.firstInvoiceDate
-        ? format(
-            new Date(row.original.invoices.firstInvoiceDate),
-            DEFAULT_DATE_FORMAT
-          )
-        : "-",
-  },
+  // {
+  //   accessorKey: "Due Date",
+  //   cell: ({ row }) =>
+  //     row.original.invoices.firstInvoiceDate
+  //       ? format(
+  //           new Date(row.original.invoices.firstInvoiceDate),
+  //           DEFAULT_DATE_FORMAT
+  //         )
+  //       : "-",
+  // },
   {
     id: "actions",
     cell: ({ row }) => (

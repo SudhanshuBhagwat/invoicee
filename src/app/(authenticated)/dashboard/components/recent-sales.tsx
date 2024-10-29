@@ -12,6 +12,7 @@ import getInvoicesForMonth from "@/services/invoice/get-invoices-for-month";
 
 export async function RecentSales() {
   const invoicesForMonth = await getInvoicesForMonth();
+  console.log({ invoicesForMonth });
 
   return (
     <Card className="col-span-4 lg:col-span-3">

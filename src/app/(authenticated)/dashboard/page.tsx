@@ -25,6 +25,7 @@ export default async function DashboardPage() {
   return (
     <>
       <div className="flex-col">
+        Hello World
         <div className="space-y-4">
           <div className="flex items-center justify-between space-y-2">
             <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
@@ -55,7 +56,7 @@ export default async function DashboardPage() {
                   <UnpaidInvoiceAmount />
                 </Suspense>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-7">
+              {/* <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
                   <CardHeader>
                     <CardTitle>Overview</CardTitle>
@@ -69,7 +70,7 @@ export default async function DashboardPage() {
                 <Suspense fallback={<RecentSalesSkeleton />}>
                   <RecentSales />
                 </Suspense>
-              </div>
+              </div> */}
             </TabsContent>
           </Tabs>
         </div>

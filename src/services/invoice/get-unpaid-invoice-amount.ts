@@ -1,24 +1,20 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
-import { getCurrentUser } from "../database";
+import { auth } from "@/auth";
+import { db } from "@/db";
+import { invoicesTable } from "@/db/schema";
+import { count, sql } from "drizzle-orm";
 
 export default async function getUnpaidInvoiceAmount() {
-  const supabase = createClient();
+  const session = await auth();
 
-  const user = await getCurrentUser(supabase);
+  const unpaidInvoiceAmount = await db
+    .select({ sum: count() })
+    .from(invoicesTable)
+    .where(
+      sql`${invoicesTable.status} != 2 AND ${invoicesTable.created_by_id} = ${session?.user?.id}`
+    );
+  console.log({ unpaidInvoiceAmount });
 
-  const { data, error } = await supabase
-    .from("invoices")
-    .select("amount.sum()")
-    .neq("status", "2")
-    .eq("created_by_id", user?.id!)
-    .returns<{ sum: string }[]>()
-    .single();
-
-  if (error) {
-    return error;
-  }
-
-  return data?.sum;
+  return unpaidInvoiceAmount[0].sum;
 }

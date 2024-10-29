@@ -11,22 +11,21 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown";
 import Image from "next/image";
-import { createBrowserClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import AppIcon from "./icons/app";
 import NavLink from "./nav-link";
 import { useUser } from "@/lib/provider";
+// import { signOut } from "@/auth";
 
 export default function Navbar() {
   const user = useUser();
   const navigation = useRouter();
 
   async function handleSignOut() {
-    const supabase = createBrowserClient();
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-      navigation.replace("/signin");
-    }
+    // const { error } = await signOut();
+    // if (!error) {
+    //   navigation.replace("/signin");
+    // }
   }
 
   return (

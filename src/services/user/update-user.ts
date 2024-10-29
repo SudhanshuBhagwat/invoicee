@@ -1,6 +1,9 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export const updateUser = async ({
   email,
@@ -15,18 +18,15 @@ export const updateUser = async ({
   mobile: string;
   company: string;
   user_id: string;
-  gst_number: string;
+  gst_number?: string | null;
 }) => {
-  const supabase = createClient();
-
   try {
-    const { data, error } = await supabase
-      .from("User")
-      .update({ email, name, mobile, company, gst_number })
-      .eq("id", user_id);
+    const data = await db
+      .update(users)
+      .set({ email, name, mobile, company, gst_number })
+      .where(eq(users.id, user_id));
 
-    if (error?.code) return error;
-
+    revalidatePath("/settings/account");
     return data;
   } catch (error: any) {
     console.error(error);

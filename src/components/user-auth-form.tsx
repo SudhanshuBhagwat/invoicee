@@ -7,9 +7,9 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import Spinner from "./ui/Spinner";
-import { GithubIcon } from "lucide-react";
 import GoogleIcon from "./icons/Google";
 import supabase from "@/lib/supabase";
+import { signIn } from "@/services/database";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -33,7 +33,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           access_type: "offline",
           prompt: "consent",
         },
-        redirectTo: `${origin}/auth/callback`,
+        redirectTo: `${location.origin}/auth/callback`,
       },
     });
   }
@@ -72,14 +72,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button
-        variant="outline"
-        type="button"
-        onClick={signInWithGoogle}
-        disabled={isLoading}
-      >
-        {isLoading ? <Spinner /> : <GoogleIcon />} Google
-      </Button>
+      <form action={signIn}>
+        <Button variant="outline" type="submit" disabled={isLoading}>
+          {isLoading ? <Spinner /> : <GoogleIcon />} Google
+        </Button>
+      </form>
     </div>
   );
 }

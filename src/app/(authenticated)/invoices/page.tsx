@@ -26,7 +26,7 @@ export default async function Page() {
           </Link>
         </div>
       </div>
-      <div className="rounded-md border mt-6">
+      <div className="mt-6">
         <DataTable columns={columns} data={invoices} />
       </div>
     </div>

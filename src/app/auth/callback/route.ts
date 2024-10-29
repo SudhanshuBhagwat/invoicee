@@ -7,8 +7,6 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   let origin_url = origin;
   const code = searchParams.get("code");
-  // if "next" is in param, use it as the redirect URL
-  const next = searchParams.get("next") ?? "/";
 
   if (process.env.NODE_ENV === "development") {
     origin_url = "http://127.0.0.1:3000";

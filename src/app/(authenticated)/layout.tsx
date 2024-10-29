@@ -1,31 +1,31 @@
-import React from "react";
-import { Toaster } from "react-hot-toast";
-import { createClient } from "@/utils/supabase/server";
+import { auth } from "@/auth";
 import Navbar from "@/components/navbar";
 import UserContextProvider from "@/lib/provider";
-import { getCurrentUser, getSupabaseUser } from "@/services/database";
+import React from "react";
+import { Toaster } from "react-hot-toast";
 
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createClient();
-  const { data } = await getSupabaseUser(supabase);
-  const user = await getCurrentUser(supabase);
+  const session = await auth();
 
-  if (!user) return null;
+  if (!session?.user) return null;
 
   return (
-    <UserContextProvider
-      user={{
-        ...user,
-        avatar_url: data.user?.user_metadata.avatar_url,
-      }}
-    >
-      <Navbar />
-      <main className="mx-6 py-2">{children}</main>
-      <Toaster />
-    </UserContextProvider>
+    <>
+      <UserContextProvider
+        //@ts-ignore
+        user={{
+          ...session.user,
+          avatar_url: session.user.image!,
+        }}
+      >
+        <Navbar />
+        <main className="mx-6 py-2">{children}</main>
+        <Toaster />
+      </UserContextProvider>
+    </>
   );
 }
