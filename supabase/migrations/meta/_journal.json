@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1720335574468,
-      "tag": "0000_slim_wendell_rand",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1720338552439,
-      "tag": "0001_nebulous_phantom_reporter",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1727517613453,
-      "tag": "0002_chunky_namorita",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1727518545787,
-      "tag": "0003_far_synch",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1727519429452,
-      "tag": "0004_aromatic_northstar",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1727519576598,
-      "tag": "0005_oval_rachel_grey",
+      "when": 1730270014866,
+      "tag": "0000_huge_wind_dancer",
       "breakpoints": true
     }
   ]

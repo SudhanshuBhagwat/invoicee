@@ -42,7 +42,7 @@ export default async function DashboardPage() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <Suspense fallback={<CardSkeleton />}>
                   <RevenueCard />
                 </Suspense>
@@ -52,9 +52,9 @@ export default async function DashboardPage() {
                 <Suspense fallback={<CardSkeleton />}>
                   <CustomerCount />
                 </Suspense>
-                <Suspense fallback={<CardSkeleton />}>
+                {/* <Suspense fallback={<CardSkeleton />}>
                   <UnpaidInvoiceAmount />
-                </Suspense>
+                </Suspense> */}
               </div>
               {/* <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
