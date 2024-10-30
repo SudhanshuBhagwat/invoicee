@@ -33,3 +33,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 });
+
+export async function handleSignOut() {
+  await signOut({
+    redirectTo: "/",
+  });
+}

@@ -1,33 +1,8 @@
-"use client";
-
-import Link from "next/link";
-import { Button } from "./ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./ui/dropdown";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { signOut } from "@/auth";
 import AppIcon from "./icons/app";
 import NavLink from "./nav-link";
-import { useUser } from "@/lib/provider";
-// import { signOut } from "@/auth";
 
-export default function Navbar() {
-  const user = useUser();
-  const navigation = useRouter();
-
-  async function handleSignOut() {
-    // const { error } = await signOut();
-    // if (!error) {
-    //   navigation.replace("/signin");
-    // }
-  }
-
+export default async function Navbar() {
   return (
     <header className="w-full sticky top-0 flex h-16 items-center justify-between gap-4 border-b bg-background px-4 md:px-6">
       <nav className="gap-3 text-lg font-medium flex flex-row items-center sm:gap-5 sm:text-sm lg:gap-6">
@@ -35,51 +10,35 @@ export default function Navbar() {
           <AppIcon />
           Invoicee
         </h1>
-        {user && (
-          <>
-            <NavLink href={"/dashboard"} name="Dashboard" />
-            <NavLink href={"/invoices"} name="Invoices" />
-            <NavLink href={"/customers"} name="Customers" />
-          </>
-        )}
+        <>
+          <NavLink href={"/dashboard"} name="Dashboard" />
+          <NavLink href={"/invoices"} name="Invoices" />
+          <NavLink href={"/customers"} name="Customers" />
+        </>
       </nav>
       <div className="w-full flex items-center justify-end gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        {user ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <Image
-                  src={user.avatar_url}
-                  className="rounded-full select-none"
-                  width={34}
-                  height={34}
-                  alt="User Image"
-                />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => navigation.push("/settings/account")}
-              >
-                Settings
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleSignOut}>
-                Logout
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <Link
-            href="/signin"
-            className="text-muted-foreground transition-colors hover:text-foreground"
+        <div className="flex items-center gap-6">
+          <NavLink href={"/settings/account"} name="Account" />
+          <form
+            action={async () => {
+              "use server";
+              await signOut({
+                redirectTo: "/",
+              });
+            }}
           >
-            Signin
-          </Link>
-        )}
+            <button className="text-sm font-medium transition-colors text-muted-foreground">
+              Logout
+            </button>
+          </form>
+          {/* <Image
+              src={user.avatar_url}
+              className="rounded-full select-none"
+              width={34}
+              height={34}
+              alt="User Image"
+            /> */}
+        </div>
       </div>
     </header>
   );
