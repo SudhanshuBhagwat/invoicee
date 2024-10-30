@@ -52,7 +52,7 @@ const accountFormSchema = z.object({
     .max(15, {
       message: "GST Number must not be longer than 15 characters.",
     })
-    .nullable(),
+    .default(""),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
