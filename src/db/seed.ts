@@ -46,7 +46,7 @@ async function createInvoices() {
       customer_id: customers[Math.round(Math.random() * customers.length)],
       id: v4(),
       amount: `${Math.round(Math.random() * 50000)}`,
-      date: new Date(),
+      date: new Date().toISOString(),
       items: JSON.stringify([]),
       notes: JSON.stringify([]),
       status: 0,
@@ -58,6 +58,6 @@ async function createInvoices() {
   }
 }
 
-(async () => {
-  await main();
-})();
+// (async () => {
+//   await main();
+// })();
