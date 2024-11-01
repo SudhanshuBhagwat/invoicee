@@ -17,8 +17,9 @@ export default async function Page({
   const quotation = await getInvoiceByID(params.invoiceId);
   const customers = await getCustomers();
   const customerId = searchParams["addCustomer"];
-  // const customer = customerId ? await getCustomerById(String(customerId)) : {};
-  let customer;
+  const customer =
+    customerId === "true" ? {} : await getCustomerById(String(customerId));
+  console.log({ customer });
 
   if (!quotation) {
     redirect("/dashboard");

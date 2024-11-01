@@ -80,7 +80,9 @@ export function CreateCustomer({
           />
         </div>
         <div className="grid col-span-2 w-full gap-1.5">
-          <Label htmlFor="gst">GST Number</Label>
+          <Label htmlFor="gst">
+            GST Number <span className="text-xs text-gray-500">(Optional)</span>
+          </Label>
           <Input
             type="text"
             name="gst"

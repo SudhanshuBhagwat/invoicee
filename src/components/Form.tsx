@@ -173,6 +173,7 @@ export default function Form({ initial, children, customers }: FormProps) {
                 />
               </div>
               <Button
+                disabled={!(!!initial.customer || !!quotation.customer)}
                 onClick={() =>
                   router.push(`?addCustomer=${quotation.customer_id}`)
                 }
@@ -180,7 +181,7 @@ export default function Form({ initial, children, customers }: FormProps) {
               >
                 <span className="flex gap-2 items-center">
                   <PlusCircle className="h-3.5 w-3.5" />
-                  Quick Edit Customer
+                  Edit Customer
                 </span>
               </Button>
               <Button
@@ -189,7 +190,7 @@ export default function Form({ initial, children, customers }: FormProps) {
               >
                 <span className="flex gap-2 items-center">
                   <PlusCircle className="h-3.5 w-3.5" />
-                  Quick Add Customer
+                  Add Customer
                 </span>
               </Button>
             </div>

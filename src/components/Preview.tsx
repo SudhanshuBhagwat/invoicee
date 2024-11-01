@@ -65,7 +65,7 @@ export default function Preview({ isSaved = false }: Props) {
               <p className="font-bold">{user?.company}</p>
               <p>{user?.name}</p>
               <p>{user?.email}</p>
-              <p>Phone: {user?.mobile}</p>
+              {user?.mobile && <p>Phone: {user?.mobile}</p>}
             </div>
             <div className="space-y-1 text-right">
               <h2 className="text-lg font-semibold text-gray-400">Customer:</h2>
@@ -74,7 +74,9 @@ export default function Preview({ isSaved = false }: Props) {
                 {quotation.customer?.first_name} {quotation.customer?.last_name}
               </p>
               <p>{quotation.customer?.email}</p>
-              <p>Phone: {quotation.customer?.mobile}</p>
+              {quotation?.customer?.mobile && (
+                <p>Phone: {quotation.customer?.mobile}</p>
+              )}
             </div>
           </div>
           <div className="overflow-x-auto mt-6 w-full">
@@ -159,24 +161,32 @@ export default function Preview({ isSaved = false }: Props) {
                         {getAmount(Number(subTotalAmount))}
                       </td>
                     </tr>
-                    <tr>
-                      <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
-                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
-                        Tax {quotation.taxPercent}%:
-                      </td>
-                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
-                        {getAmount(Number(taxableAmount))}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
-                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
-                        Discount {quotation.discountPercent}%:
-                      </td>
-                      <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
-                        {getAmount(Number(discountAmount))}
-                      </td>
-                    </tr>
+                    {quotation.taxPercent ? (
+                      <tr>
+                        <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
+                        <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                          Tax {quotation.taxPercent}%:
+                        </td>
+                        <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                          {getAmount(Number(taxableAmount))}
+                        </td>
+                      </tr>
+                    ) : (
+                      <></>
+                    )}
+                    {quotation.discountPercent ? (
+                      <tr>
+                        <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>
+                        <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                          Discount {quotation.discountPercent}%:
+                        </td>
+                        <td className="p-3 text-md font-bold text-gray-800 whitespace-nowrap">
+                          {getAmount(Number(discountAmount))}
+                        </td>
+                      </tr>
+                    ) : (
+                      <></>
+                    )}
                     {settings.showSum && (
                       <tr>
                         <td className="py-3 pl-4 pr-3 text-md font-medium text-gray-900 whitespace-nowrap flex flex-col sm:pl-6"></td>

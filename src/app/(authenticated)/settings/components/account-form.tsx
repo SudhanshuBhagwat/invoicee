@@ -44,15 +44,15 @@ const accountFormSchema = z.object({
     .max(10, {
       message: "Mobile must not be longer than 10 characters.",
     }),
-  gst_number: z
-    .string()
-    .min(15, {
-      message: "GST Number must be at least 15 characters.",
-    })
-    .max(15, {
-      message: "GST Number must not be longer than 15 characters.",
-    })
-    .default(""),
+  // gst_number: z
+  //   .string()
+  //   .min(15, {
+  //     message: "GST Number must be at least 15 characters.",
+  //   })
+  //   .max(15, {
+  //     message: "GST Number must not be longer than 15 characters.",
+  //   })
+  //   .optional(),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
@@ -64,7 +64,7 @@ export function AccountForm() {
     company: user?.company,
     email: user?.email,
     mobile: user?.mobile,
-    gst_number: user?.gst_number,
+    // gst_number: user?.gst_number || "",
   };
 
   const form = useForm<AccountFormValues>({
@@ -156,7 +156,7 @@ export function AccountForm() {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="gst_number"
           render={({ field }) => (
@@ -172,7 +172,7 @@ export function AccountForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <Button type="submit">
           {form.formState.isSubmitting ? "Updating Account" : "Update account"}
         </Button>

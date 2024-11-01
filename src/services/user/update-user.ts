@@ -11,7 +11,7 @@ export const updateUser = async ({
   mobile,
   company,
   user_id,
-  gst_number,
+  gst_number = "",
 }: {
   email: string;
   name: string;
