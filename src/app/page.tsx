@@ -15,7 +15,7 @@ export default async function Page() {
         <div className="w-full flex items-center justify-end gap-4 md:ml-auto md:gap-2 lg:gap-4">
           <Link
             href="/"
-            className="text-muted-foreground transition-colors hover:text-foreground bg-emerald-400 text-black px-4 py-2 rounded-full"
+            className="transition-colors hover:text-foreground bg-emerald-400 text-black px-4 py-2 rounded-full"
           >
             Contact Us
           </Link>
@@ -34,7 +34,7 @@ export default async function Page() {
         </p>
         <Link
           href={"/signin"}
-          className="items-center flex gap-2 font-semibold text-muted-foreground transition-colors hover:text-foreground bg-emerald-400 text-black px-8 py-4 rounded-full mt-8"
+          className="items-center flex gap-2 font-semibold transition-colors bg-emerald-400 text-black px-8 py-4 rounded-full mt-8"
         >
           Get Started <ArrowRight className="text-black inline" />
         </Link>
