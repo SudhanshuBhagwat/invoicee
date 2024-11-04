@@ -11,7 +11,8 @@
     "db-push": "supabase db push --include-all",
     "db-pull": "supabase db pull",
     "migrate": "supabase migrations up --include-all",
-    "generate": "drizzle-kit generate"
+    "generate": "drizzle-kit generate",
+    "db-seed": "node -r esbuild-register src/db/seed.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.5.3",
@@ -43,6 +44,7 @@
     "draft-convert": "^2.1.13",
     "draft-js": "^0.11.7",
     "drizzle-orm": "^0.31.2",
+    "esbuild-register": "^3.6.0",
     "immer": "^10.1.1",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.378.0",

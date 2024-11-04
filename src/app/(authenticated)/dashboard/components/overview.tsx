@@ -2,7 +2,6 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { getAmount } from "@/lib/utils";
-import { format } from "date-fns";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 export function Overview({
@@ -19,7 +18,7 @@ export function Overview({
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value) => format(value, "MMM")}
+          tickFormatter={(value) => value}
         />
         <YAxis
           stroke="#888888"

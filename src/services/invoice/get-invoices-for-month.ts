@@ -1,26 +1,25 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { auth } from "@/auth";
+import { db } from "@/db";
 import { endOfMonth, format, startOfMonth } from "date-fns";
-import { getCurrentUser } from "../database";
 
 export default async function getInvoicesForMonth() {
-  const supabase = createClient();
+  const session = await auth();
   const start = format(startOfMonth(new Date()), "yyyy-MM-dd");
   const end = format(endOfMonth(new Date()), "yyyy-MM-dd");
-  const user = await getCurrentUser(supabase);
-  console.log({ end, user });
 
-  const { data, error } = await supabase
-    .from("invoices")
-    .select("amount, customers(id, first_name, last_name, email)")
-    .gt("created_at", start)
-    .lt("created_at", end)
-    .eq("created_by_id", user?.id!);
+  const invoices = await db.query.invoicesTable.findMany({
+    where: (invoices, { between, and, eq }) =>
+      and(
+        between(invoices.date, start, end),
+        eq(invoices.created_by_id, session?.user?.id!)
+      ),
+    with: {
+      customers: true,
+    },
+    orderBy: (invoices, { desc }) => [desc(invoices.amount)],
+  });
 
-  if (error) {
-    console.error(error);
-  }
-
-  return data;
+  return invoices;
 }

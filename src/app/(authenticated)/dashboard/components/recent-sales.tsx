@@ -12,7 +12,6 @@ import getInvoicesForMonth from "@/services/invoice/get-invoices-for-month";
 
 export async function RecentSales() {
   const invoicesForMonth = await getInvoicesForMonth();
-  console.log({ invoicesForMonth });
 
   return (
     <Card className="col-span-4 lg:col-span-3">
@@ -25,7 +24,7 @@ export async function RecentSales() {
       <CardContent>
         <div className="space-y-8">
           {invoicesForMonth &&
-            invoicesForMonth.map((invoice) => (
+            invoicesForMonth.splice(0, 5).map((invoice) => (
               <div className="flex items-center" key={invoice.customers?.id}>
                 <Avatar className="h-9 w-9">
                   <AvatarFallback>

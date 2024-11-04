@@ -55,7 +55,7 @@ export default async function DashboardPage() {
                   <UnpaidInvoiceAmount />
                 </Suspense> */}
               </div>
-              {/* <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-7">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-7">
                 <Card className="col-span-4">
                   <CardHeader>
                     <CardTitle>Overview</CardTitle>
@@ -69,7 +69,7 @@ export default async function DashboardPage() {
                 <Suspense fallback={<RecentSalesSkeleton />}>
                   <RecentSales />
                 </Suspense>
-              </div> */}
+              </div>
             </TabsContent>
           </Tabs>
         </div>
