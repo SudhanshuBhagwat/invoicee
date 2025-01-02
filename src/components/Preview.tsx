@@ -48,7 +48,7 @@ export default function Preview({ isSaved = false }: Props) {
       <div className="">
         <div
           ref={componentRef}
-          className="bg-white overflow-auto p-8 pb-6 rounded shadow-md h-[1120px]"
+          className="bg-white overflow-auto p-8 pb-6 rounded shadow-md print:w-[210mm] print:h-[297mm] mx-auto print:shadow-none"
         >
           <p className="text-2xl font-bold tracking-wide mb-6">INVOICE</p>
           <div className="text-right">
