@@ -53,7 +53,10 @@ export default function Preview({ isSaved = false }: Props) {
           <p className="text-2xl font-bold tracking-wide mb-6">INVOICE</p>
           <div className="text-right">
             <p className="font-bold">
-              No: <span className="font-normal">{quotation.number}</span>
+              No:{" "}
+              <span className="font-normal">
+                {String(quotation.number).padStart(5, "0")}
+              </span>
             </p>
             <p className="font-bold">
               Due Date: <span className="font-normal">{quotation.date}</span>
